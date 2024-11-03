@@ -7,7 +7,7 @@ import { Head } from '@inertiajs/react';
 import PatientsTable from "@/components/PatientsTable.jsx";
 import Modal from "@/components/Modal.jsx";
 import AddPatientForm from "@/components/Patients/AddPatientForm.jsx";
-import {Button, Typography} from "@material-tailwind/react";
+import { Button, Card, CardBody, CardHeader, Input, Typography } from "@material-tailwind/react";
 import {GenericModal} from "@/components/GenericModal.jsx";
 import alertify from "alertifyjs";
 import useAddEntity from "@/hooks/useAddEntity.js";
@@ -24,38 +24,39 @@ const PatientIndex = ({ patients }) => {
 
     return (
         <AuthenticatedLayout>
-            <Head title="Patients" />
+            <Head title="Patients"/>
 
-            <div className="patients-container">
-                <div className="dentist-card">
-                    <img src={dentistInfo.image} alt="Dentist" className="dentist-image" />
-                    <div className="dentist-info">
-                        <h2>{dentistInfo.name}</h2>
-                        <p>{dentistInfo.specialization}</p>
-                    </div>
-                </div>
+            <div className="md:container md:mx-auto w-full max-w-10xl my-4">
+                        <div className="patients-container">
+                            {/*<div className="dentist-card">*/}
+                            {/*    <img src={dentistInfo.image} alt="Dentist" className="dentist-image" />*/}
+                            {/*    <div className="dentist-info">*/}
+                            {/*        <h2>{dentistInfo.name}</h2>*/}
+                            {/*        <p>{dentistInfo.specialization}</p>*/}
+                            {/*    </div>*/}
+                            {/*</div>*/}
 
-                <Button onClick={toggleModal}>Add Patient</Button>
-                <GenericModal
-                    open={open}
-                    onClose={toggleModal}
-                    title="Add Patient"
-                    confirm="Add Patient"
-                    cancel="Cancel"
-                    footer={false}
-                >
-                    <AddPatientForm toggleModal={toggleModal}/>
-                </GenericModal>
-                {/*<button onClick={addNewProduct} className="add-product-button">*/}
-                {/*    Добавить продукт*/}
-                {/*</button>*/}
+                            <Button onClick={toggleModal}>Add Patient</Button>
+                            <GenericModal
+                                open={open}
+                                onClose={toggleModal}
+                                title="Add Patient"
+                                confirm="Add Patient"
+                                cancel="Cancel"
+                                footer={false}
+                            >
+                                <AddPatientForm toggleModal={toggleModal}/>
+                            </GenericModal>
+                            {/*<button onClick={addNewProduct} className="add-product-button">*/}
+                            {/*    Добавить продукт*/}
+                            {/*</button>*/}
 
-                <PatientsTable patients={patients}/>
+                            <PatientsTable patients={patients}/>
 
+                        </div>
             </div>
-
         </AuthenticatedLayout>
-    );
+);
 };
 
 export default PatientIndex;

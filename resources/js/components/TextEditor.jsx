@@ -3,28 +3,26 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { Input } from "@material-tailwind/react"; // Подключаем стили
 
-const TextEditor = () => {
-    const [title, setTitle] = useState('Title');
+const TextEditor = ({contentText, setExternalContent}) => {
     const [content, setContent] = useState(''); // Состояние для хранения содержимого
     const quillRef = useRef(null); // Ссылка на редактор
 
-    // const handleChange = (value) => {
-    //     setContent(value);
-    // };
+    const handleChange = (value) => {
+        setContent(value);
+    };
     //
-    // useEffect(() => {
-    //     updateContent();
-    // }, [title]);
+    useEffect(() => {
+        setContent(contentText);
+    }, [contentText]);
+
+    useEffect(() => {
+        setExternalContent(content);
+    }, [content]);
+
     //
     // const updateContent = () => {
     //     const quill = quillRef.current.getEditor(); // Получаем экземпляр редактора
     //     const currentContent = quill.root.innerHTML; // Получаем текущее содержимое
-    //
-    //     // Убираем лишние <br> и оставляем только один в конце
-    //     const cleanedContent = currentContent.replace(/(<br>)+/g, '<br>').replace(/(<br>\s*)$/, '');
-    //
-    //     // Разделяем содержимое на строки по тегам <br>
-    //     const lines = cleanedContent.split(/(<br>|\n)/);
     //
     //     // Обновляем первую строку, если она существует
     //     if (lines.length > 0) {
@@ -53,35 +51,25 @@ const TextEditor = () => {
     // };
 
     return (
-        <div>
-            <Input
-                size="lg"
-                name="title"
-                variant="static"
-                style={{ borderColor: 'transparent', textAlign: 'center', fontSize: '40px' }}
-                value={title}
-                onChange={(e) => { setTitle(e.target.value) }}
-                color="blue-gray"
-                required
-            />
+        <div className="editor-container">
             <ReactQuill
-                ref={quillRef} // Привязываем ссылку к редактору
+                ref={quillRef}
                 value={content}
-                // onChange={handleChange}
-                // onKeyDown={handleKeyDown} // Обработка нажатий клавиш
+                onChange={handleChange}
                 modules={{
                     toolbar: [
-                        [{ 'header': [1, 2, false] }],
+                        [{'header': [1, 2, false]}],
                         ['bold', 'italic', 'underline', 'strike'],
-                        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-                        ['link', 'clean'], // Добавляем кнопку для очистки
+                        [{'list': 'ordered'}, {'list': 'bullet'}],
+                        ['link', 'clean']
                     ]
                 }}
                 formats={[
                     'header', 'bold', 'italic', 'underline', 'strike',
                     'list', 'bullet', 'link', 'image', 'align'
                 ]}
-                theme="snow" // Светлая тема
+                theme="snow"
+                className="react-quill"
             />
         </div>
     );

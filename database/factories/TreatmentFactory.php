@@ -20,7 +20,7 @@ class TreatmentFactory extends Factory
         return [
             'dentist_id' => 1,   // Assumes User model is used for dentists
             'patient_id' => 1, // Assumes Patient model exists
-            'title' => "Voluptatum quia tempore doldddd dore jbnhjg.", //$this->faker->sentence(3),
+            'title' => "Voluptatum quia tempore.", //$this->faker->sentence(3),
             'diagnosis' => $this->faker->paragraph,
             'treatment_plan' => $this->faker->paragraph,
             'amount' => $this->faker->randomFloat(2, 50, 1000),

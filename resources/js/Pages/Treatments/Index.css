@@ -1,0 +1,19 @@
+/* Add padding and margin for Diagnosis and Treatment Plan */
+.diagnosis-container, .treatment-plan-container {
+    padding: 15px;
+    margin: 10px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+}
+
+/* Style for the ReactQuill editor */
+.react-quill {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+body {
+    background-color: #f7f7f7;
+}

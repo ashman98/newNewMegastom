@@ -12,18 +12,18 @@
         "@tailwindcss/forms": "^0.5.3",
         "@types/react": "^18.3.12",
         "@types/react-dom": "^18.3.1",
-        "@vitejs/plugin-react": "^4.2.0",
+        "@vitejs/plugin-react": "^4.3.3",
         "alpinejs": "^3.4.2",
         "autoprefixer": "^10.4.20",
         "axios": "^1.7.7",
         "bootstrap": "^5.3.3",
         "concurrently": "^9.0.1",
         "laravel-datatables-vite": "^0.5.2",
-        "laravel-vite-plugin": "^1.0",
+        "laravel-vite-plugin": "^1.0.5",
         "postcss": "^8.4.47",
         "sass": "^1.56.1",
         "tailwindcss": "^3.4.14",
-        "vite": "^5.0"
+        "vite": "^5.4.10"
     },
     "dependencies": {
         "@emotion/react": "^11.13.3",
@@ -44,6 +44,8 @@
         "react-modal": "^3.16.1",
         "react-quill": "^2.0.0",
         "react-router-dom": "^6.27.0",
+        "react-slick": "^0.30.2",
+        "slick-carousel": "^1.8.1",
         "use-react-countries": "^2.0.1"
     },
     "resolutions": {
