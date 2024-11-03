@@ -1,0 +1,52 @@
+{
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "build": "vite build",
+        "dev": "vite"
+    },
+    "devDependencies": {
+        "@headlessui/react": "^2.2.0",
+        "@inertiajs/react": "^1.2.0",
+        "@popperjs/core": "^2.11.6",
+        "@tailwindcss/forms": "^0.5.3",
+        "@types/react": "^18.3.12",
+        "@types/react-dom": "^18.3.1",
+        "@vitejs/plugin-react": "^4.2.0",
+        "alpinejs": "^3.4.2",
+        "autoprefixer": "^10.4.20",
+        "axios": "^1.7.7",
+        "bootstrap": "^5.3.3",
+        "concurrently": "^9.0.1",
+        "laravel-datatables-vite": "^0.5.2",
+        "laravel-vite-plugin": "^1.0",
+        "postcss": "^8.4.47",
+        "sass": "^1.56.1",
+        "tailwindcss": "^3.4.14",
+        "vite": "^5.0"
+    },
+    "dependencies": {
+        "@emotion/react": "^11.13.3",
+        "@emotion/styled": "^11.13.0",
+        "@heroicons/react": "^2.1.5",
+        "@inertiajs/inertia": "^0.11.1",
+        "@inertiajs/inertia-react": "^0.8.1",
+        "@material-tailwind/react": "^2.1.10",
+        "ag-grid-community": "^32.3.0",
+        "ag-grid-react": "^32.3.0",
+        "alertifyjs": "^1.14.0",
+        "core-js": "3",
+        "dayjs": "^1.11.13",
+        "mdb-react-ui-kit": "^9.0.0",
+        "react": "^18.3.1",
+        "react-bootstrap": "^2.10.5",
+        "react-dom": "^18.3.1",
+        "react-modal": "^3.16.1",
+        "react-quill": "^2.0.0",
+        "react-router-dom": "^6.27.0",
+        "use-react-countries": "^2.0.1"
+    },
+    "resolutions": {
+        "axios": ">=0.28.0"
+    }
+}

@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+input {
+    /*border-color: transparent!important; !* or your desired default color *!*/
+    --tw-ring-shadow: none!important; /* remove ring shadow */
+}
+
+textarea {
+    /*border-color: transparent!important; !* or your desired default color *!*/
+    --tw-ring-shadow: none!important; /* remove ring shadow */
+}
+
+
+.alertify .ajs-dimmer {
+    z-index: 91981 !important;
+}
+
+.alertify .ajs-modal {
+    z-index: 91981 !important;
+}
+
+.alertify-notifier {
+    z-index: 91982 !important;
+}
