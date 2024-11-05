@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Patient extends Model
 {
     use HasFactory;
-    protected $fillable = ['name', 'surname', 'phone', 'city', 'address', 'active'];
+    protected $fillable = ['name', 'surname', 'phone', 'city', 'address', 'active','birthday','gender'];
 
 
     public function treatments(): HasMany

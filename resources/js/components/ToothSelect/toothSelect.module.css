@@ -1,0 +1,50 @@
+.tooth{
+    width: 40px; height: 60px;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    border: 1px solid #888a85;
+    border-radius: 4px;
+    margin: 4px;
+    transition: all 0.1s ease;
+    position: relative;
+}
+
+.toothSelected{
+    border: 2px solid #0275d8;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px -50px 36px -28px inset;
+}
+
+.tooth:hover{
+    cursor: pointer;
+    transform: translateY(-2px) translateX(-3px);
+    box-shadow: 5px 5px 2px 1px rgba(0, 0, 255, .2);
+}
+
+.toothText {
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    font-size: 10px;
+    color: #333;
+}
+
+.toothContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-content: center;
+    padding: 30px 0 0 0;
+}
+
+.selectedToothText {
+    color: red;
+}
+
+.gridContainer{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 15px;
+}
+

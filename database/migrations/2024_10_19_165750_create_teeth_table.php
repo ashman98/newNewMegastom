@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreign('treatment_id')
                 ->references('id')->on('treatments')->onDelete('cascade');
 
+            $table->string('title');
             $table->tinyInteger('tooth_number')->nullable();
 
             $table->tinyInteger('del_status')->default('0');

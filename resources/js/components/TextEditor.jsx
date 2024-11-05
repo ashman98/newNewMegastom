@@ -1,54 +1,46 @@
 import React, { useEffect, useRef, useState } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import { Input } from "@material-tailwind/react"; // Подключаем стили
+import { Input } from "@material-tailwind/react";
+import DOMPurify from 'dompurify'; // Import DOMPurify for sanitization
 
-const TextEditor = ({contentText, setExternalContent}) => {
-    const [content, setContent] = useState(''); // Состояние для хранения содержимого
-    const quillRef = useRef(null); // Ссылка на редактор
+const TextEditor = ({ contentText, setExternalContent, readOnly }) => {
+    const [content, setContent] = useState('');
+    const quillRef = useRef(null);
 
-    const handleChange = (value) => {
-        setContent(value);
-    };
-    //
     useEffect(() => {
-        setContent(contentText);
+        // Sanitize the content from the database before setting it
+        const sanitizedContent = DOMPurify.sanitize(contentText);
+
+        setContent(sanitizedContent);
     }, [contentText]);
 
     useEffect(() => {
         setExternalContent(content);
     }, [content]);
 
-    //
-    // const updateContent = () => {
-    //     const quill = quillRef.current.getEditor(); // Получаем экземпляр редактора
-    //     const currentContent = quill.root.innerHTML; // Получаем текущее содержимое
-    //
-    //     // Обновляем первую строку, если она существует
-    //     if (lines.length > 0) {
-    //         lines[0] = `<h1 style="text-align: center; font-weight: bold;">${title}</h1>`; // Обновляем первую строку заголовком
-    //     }
-    //
-    //     // Объединяем строки обратно в строку
-    //     const newContent = lines.join('');
-    //
-    //     // Устанавливаем новое содержимое в редактор и состояние
-    //     quill.root.innerHTML = newContent;
-    //     setContent(newContent); // Обновляем содержимое в состоянии
-    // };
-    //
-    // const handleKeyDown = (e) => {
-    //     // Предотвращаем добавление нового <br> при нажатии Enter
-    //     if (e.key === 'Enter') {
-    //         e.preventDefault();
-    //         const quill = quillRef.current.getEditor();
-    //         const range = quill.getSelection();
-    //         if (range) {
-    //             quill.insertText(range.index, '\n'); // Вставляем новую строку без <br>
-    //             quill.setSelection(range.index + 1); // Устанавливаем курсор на новую строку
-    //         }
-    //     }
-    // };
+    const handleChange = (value) => {
+        const textOnlyContent = value.replace(/<[^>]*>/g, '').trim();
+
+        // Check if the stripped content has at least one letter or number
+        if (!/[a-zA-Z0-9]/.test(textOnlyContent)) {
+            setContent(''); // Clear content if there's no meaningful text
+        }
+
+        setContent(value);
+    };
+
+    const formats = [
+        'header', 'bold', 'italic', 'underline', 'strike',
+        'list', 'bullet', 'link', 'image', 'align'
+    ];
+
+    const toolbar = readOnly ? false : [
+        [{ 'header': [1, 2, false] }],
+        ['bold', 'italic', 'underline', 'strike'],
+        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+        ['link', 'clean']
+    ];
 
     return (
         <div className="editor-container">
@@ -56,20 +48,13 @@ const TextEditor = ({contentText, setExternalContent}) => {
                 ref={quillRef}
                 value={content}
                 onChange={handleChange}
+                readOnly={readOnly}
                 modules={{
-                    toolbar: [
-                        [{'header': [1, 2, false]}],
-                        ['bold', 'italic', 'underline', 'strike'],
-                        [{'list': 'ordered'}, {'list': 'bullet'}],
-                        ['link', 'clean']
-                    ]
+                    toolbar: toolbar
                 }}
-                formats={[
-                    'header', 'bold', 'italic', 'underline', 'strike',
-                    'list', 'bullet', 'link', 'image', 'align'
-                ]}
+                formats={formats}
                 theme="snow"
-                className="react-quill"
+                className={`react-quill `}
             />
         </div>
     );

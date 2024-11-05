@@ -9,6 +9,7 @@ use App\Http\Requests\UpdatePatientRequest;
 use App\Models\Patient;
 use App\Models\Treatment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Yajra\DataTables\DataTables;
@@ -26,31 +27,40 @@ class PatientController extends Controller
         ]);
     }
 
+
     /**
      * Display the specified resource.
      */
     public function show(Patient $patient, Request $request)
     {
-        // Eager load treatments with the patient
-        $patient->load('treatments');
+        $authUser = Auth::user();
 
-        // Filter treatments based on request inputs
-        $query = $patient->treatments();
+        // Base query for treatments with eager loading of user and nested relationships
+        $treatmentsQuery = $patient->treatments()->orderBy('id', 'asc')->with('user');
 
+        // Apply filters based on request inputs
         if ($request->filled('title')) {
-            $query->where('title', 'like', '%' . $request->title . '%');
+            $treatmentsQuery->where('title', 'like', '%' . $request->title . '%');
         }
 
         if ($request->filled('start_date')) {
-            $query->where('treatment_plan_start_date', '>=', $request->start_date);
+            $treatmentsQuery->where('treatment_plan_start_date', '>=', $request->start_date);
         }
 
         if ($request->filled('end_date')) {
-            $query->where('treatment_plan_end_date', '<=', $request->end_date);
+            $treatmentsQuery->where('treatment_plan_end_date', '<=', $request->end_date);
         }
 
         // Paginate the filtered treatments
-        $treatments = $query->paginate(6);
+        $treatments = $treatmentsQuery->paginate(6);
+
+        // Hide 'amount' for treatments not owned by the authenticated user
+        $treatments->getCollection()->transform(function ($treatment) use ($authUser) {
+            if ($treatment->user->id !== $authUser->id) {
+                $treatment->setAttribute('amount', null);
+            }
+            return $treatment;
+        });
 
         return Inertia::render('Patients/Show', [
             'patient' => $patient,
@@ -62,33 +72,43 @@ class PatientController extends Controller
         ]);
     }
 
+
     /**
      * Получить лечения для указанного пациента.
      */
     public function getTreatments(Patient $patient, Request $request)
     {
-        // Eager load treatments with the patient
-        $patient->load('treatments');
+        $authUser = Auth::user();
 
-        // Фильтровать лечения на основе входных параметров запроса
-        $query = $patient->treatments();
+        // Base query for treatments with eager loading of user and nested relationships
+        $treatmentsQuery = $patient->treatments()->orderBy('id', 'asc')->with('user');
 
+        // Apply filters based on request inputs
         if ($request->filled('title')) {
-            $query->where('title', 'like', '%' . $request->title . '%');
+            $treatmentsQuery->where('title', 'like', '%' . $request->title . '%');
         }
 
         if ($request->filled('start_date')) {
-            $query->where('treatment_plan_start_date', '>=', $request->start_date);
+            $treatmentsQuery->where('treatment_plan_start_date', '>=', $request->start_date);
         }
 
         if ($request->filled('end_date')) {
-            $query->where('treatment_plan_end_date', '<=', $request->end_date);
+            $treatmentsQuery->where('treatment_plan_end_date', '<=', $request->end_date);
         }
 
-        // Пагинация отфильтрованных лечений
-        $treatments = $query->paginate(6);
+        // Paginate the filtered treatments
+        $treatments = $treatmentsQuery->paginate(6);
+
+        // Hide 'amount' for treatments not owned by the authenticated user
+        $treatments->getCollection()->transform(function ($treatment) use ($authUser) {
+            if ($treatment->user->id !== $authUser->id) {
+                $treatment->setAttribute('amount', null);
+            }
+            return $treatment;
+        });
 
         return response()->json([
+            'patient' => $patient,
             'treatments' => $treatments->items(),
             'pagination' => [
                 'current_page' => $treatments->currentPage(),
@@ -110,14 +130,9 @@ class PatientController extends Controller
         // Данные уже валидированы, так что можем просто создать пациента
         DB::beginTransaction();
     try{
-        $patient = Patient::create([
-            'name' => $request->name,
-            'surname' => $request->surname,
-            'phone' => $request->phone,
-            'date_of_birth' => $request->dateOfBirth,
-            'city' => $request->city,
-            'address' => $request->address,
-        ]);
+        $patient = Patient::create(
+            $request->validated()
+        );
         DB::commit();
 
             return response()->json([

@@ -1,5 +1,6 @@
 // resources/js/app.jsx
 // import 'mdb-react-ui-kit/dist/css/mdb.min.css';
+import './components/init.jsx';
 import '../css/app.css';
 import './bootstrap';
 import { createInertiaApp } from '@inertiajs/react';

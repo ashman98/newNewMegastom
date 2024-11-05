@@ -67,7 +67,6 @@ export default function PatientShow({ patient, treatments: initialTreatments }) 
     );
 
     const goToTreatmentPage = (id) => {
-        debugger
         // const patientId = event.data.id; // Access the patient ID
         console.log("Double-clicked Patient ID:", id); // Debugging
         if (id) {
@@ -123,106 +122,116 @@ export default function PatientShow({ patient, treatments: initialTreatments }) 
                         </div>
                     </div>
 
-                    {/* Filter Inputs */}
-                    <div className="flex flex-wrap -mx-4 mt-8">
-                        <div className="w-full md:w-1/3 px-4 mb-4">
-                            <Input
-                                label="Search Title"
-                                type="text"
-                                value={searchTitle}
-                                onChange={(e) => setSearchTitle(e.target.value)}
-                            />
-                        </div>
-                        <div className="w-full md:w-1/3 px-4 mb-4">
-                            <Input
-                                label="Start Date"
-                                type="date"
-                                value={startDate}
-                                onChange={(e) => setStartDate(e.target.value)}
-                            />
-                        </div>
-                        <div className="w-full md:w-1/3 px-4 mb-4">
-                            <Input
-                                label="End Date"
-                                type="date"
-                                value={endDate}
-                                onChange={(e) => setEndDate(e.target.value)}
-                            />
-                        </div>
-                    </div>
-
-                    {/* Treatments and Diagnosis Cards */}
-                    {loading ? (
-                        <Spinner />
-                    ) : (
-                        <div className="flex flex-wrap -mx-4 mt-8">
-                            {treatments.length > 0 ? (
-                                treatments.map((treatment, idx) => (
-                                    <div key={idx} className="w-full md:w-1/2 lg:w-1/3 px-4 mb-8">
-                                        <Card
-                                            className="shadow-lg hover:shadow-2xl transition-shadow duration-300 transform hover:scale-105">
-                                            <CardBody
-                                                style={{cursor: 'pointer'}}
-                                                onClick={() => goToTreatmentPage(treatment.id)}
-                                                className="rounded-lg border border-gray-200 p-6"
-                                            >
-                                                <Typography variant="h6" color="blue" className="mb-2">
-                                                    {treatment.title}
-                                                </Typography>
-                                                <Typography variant="small" color="gray" className="mb-2">
-                                                    <span
-                                                        className="font-semibold text-blue-gray-700">Diagnosis:</span> {treatment.diagnosis.length > 100 ? `${treatment.diagnosis.substring(0, 60)}...` : treatment.diagnosis}
-                                                </Typography>
-                                                <Typography variant="small" color="gray" className="mb-2">
-                                                    <span
-                                                        className="font-semibold text-blue-gray-700">Treatment Plan:</span> {treatment.treatment_plan.length > 100 ? `${treatment.treatment_plan.substring(0, 60)}...` : treatment.treatment_plan || 'N/A'}
-                                                </Typography>
-                                                <Typography variant="small" color="gray" className="mb-2">
-                                                    <span
-                                                        className="font-semibold text-blue-gray-700">Start Date:</span> {new Date(treatment.treatment_plan_start_date).toLocaleDateString()}
-                                                </Typography>
-                                                <Typography variant="small" color="gray" className="mb-2">
-                                                    <span
-                                                        className="font-semibold text-blue-gray-700">End Date:</span> {treatment.treatment_plan_end_date ? new Date(treatment.treatment_plan_end_date).toLocaleDateString() : 'Ongoing'}
-                                                </Typography>
-                                                <Typography variant="small" color="gray" className="mb-2">
-                                                    <span
-                                                        className="font-semibold text-blue-gray-700">Amount:</span> ${treatment.amount || 'N/A'}
-                                                </Typography>
-                                            </CardBody>
-                                        </Card>
-                                    </div>
-                                ))
-                            ) : (
-                                <Typography variant="small" color="gray" className="text-center w-full mt-4">
-                                    No treatments available for this patient.
-                                </Typography>
-                            )}
-                        </div>
-                    )}
-
-                    {/* Pagination Controls */}
-                    <div className="flex justify-center mt-4">
-                        <Button
-                            variant="outlined"
-                            color="blue"
-                            onClick={() => handlePageChange(Math.max(currentPage - 1, 1))}
-                            disabled={currentPage === 1}
-                        >
-                            Previous
-                        </Button>
-                        <Typography variant="small" color="gray" className="mx-4">
-                            Page {currentPage} of {pagination.last_page}
+                    <Card className='pb-8 pt-2 mt-5'>
+                        <Typography variant="h6" className="ml-5 text-blue-gray-700">
+                            Treatments
                         </Typography>
-                        <Button
-                            variant="outlined"
-                            color="blue"
-                            onClick={() => handlePageChange(Math.min(currentPage + 1, pagination.last_page))}
-                            disabled={currentPage === pagination.last_page}
-                        >
-                            Next
-                        </Button>
-                    </div>
+                        {/* Filter Inputs */}
+                        <CardHeader className='px-3 mt-0'>
+
+                            <div className="flex flex-wrap -mx-4 mt-8">
+                                <div className="w-full md:w-1/3 px-4 mb-4">
+                                    <Input
+                                        label="Search Title"
+                                        type="text"
+                                        value={searchTitle}
+                                        onChange={(e) => setSearchTitle(e.target.value)}
+                                    />
+                                </div>
+                                <div className="w-full md:w-1/3 px-4 mb-4">
+                                    <Input
+                                        label="Start Date"
+                                        type="date"
+                                        value={startDate}
+                                        onChange={(e) => setStartDate(e.target.value)}
+                                    />
+                                </div>
+                                <div className="w-full md:w-1/3 px-4 mb-4">
+                                    <Input
+                                        label="End Date"
+                                        type="date"
+                                        value={endDate}
+                                        onChange={(e) => setEndDate(e.target.value)}
+                                    />
+                                </div>
+                            </div>
+                        </CardHeader>
+
+                        <CardBody>
+                            {/* Treatments and Diagnosis Cards */}
+                            {loading ? (
+                                <Spinner />
+                            ) : (
+                                <div className="flex flex-wrap -mx-4 mt-8">
+                                    {treatments.length > 0 ? (
+                                        treatments.map((treatment, idx) => (
+                                            <div key={idx} className="w-full md:w-1/2 lg:w-1/3 px-4 mb-8">
+                                                <Card
+                                                    className="shadow-lg hover:shadow-2xl transition-shadow duration-300 transform hover:scale-105">
+                                                    <CardBody
+                                                        style={{cursor: 'pointer'}}
+                                                        onClick={() => goToTreatmentPage(treatment.id)}
+                                                        className="rounded-lg border border-gray-200 p-6"
+                                                    >
+                                                        <Typography variant="h6" color="blue" className="mb-2">
+                                                            {treatment.title}
+                                                        </Typography>
+                                                        <Typography variant="small" color="gray" className="mb-2">
+                                                            <span
+                                                                className="font-semibold text-blue-gray-700">Diagnosis:</span> {treatment.diagnosis && treatment.diagnosis.length > 100 ? `${treatment.diagnosis.substring(0, 60)}...` : treatment.diagnosis}
+                                                        </Typography>
+                                                        <Typography variant="small" color="gray" className="mb-2">
+                                                            <span
+                                                                className="font-semibold text-blue-gray-700">Treatment Plan:</span> {treatment.treatment_plan && treatment.treatment_plan.length > 100 ? `${treatment.treatment_plan.substring(0, 60)}...` : treatment.treatment_plan || 'N/A'}
+                                                        </Typography>
+                                                        <Typography variant="small" color="gray" className="mb-2">
+                                                            <span
+                                                                className="font-semibold text-blue-gray-700">Start Date:</span> {new Date(treatment.treatment_plan_start_date).toLocaleDateString()}
+                                                        </Typography>
+                                                        <Typography variant="small" color="gray" className="mb-2">
+                                                            <span
+                                                                className="font-semibold text-blue-gray-700">End Date:</span> {treatment.treatment_plan_end_date ? new Date(treatment.treatment_plan_end_date).toLocaleDateString() : 'Ongoing'}
+                                                        </Typography>
+                                                        <Typography variant="small" color="gray" className="mb-2">
+                                                            <span
+                                                                className="font-semibold text-blue-gray-700">Amount:</span> {treatment.amount ? `${treatment.amount}֏` : 'N/A'}
+                                                        </Typography>
+                                                    </CardBody>
+                                                </Card>
+                                            </div>
+                                        ))
+                                    ) : (
+                                        <Typography variant="small" color="gray" className="text-center w-full mt-4">
+                                            No treatments available for this patient.
+                                        </Typography>
+                                    )}
+                                </div>
+                            )}
+
+                            {/* Pagination Controls */}
+                            <div className="flex justify-center mt-4">
+                                <Button
+                                    variant="outlined"
+                                    color="blue"
+                                    onClick={() => handlePageChange(Math.max(currentPage - 1, 1))}
+                                    disabled={currentPage === 1}
+                                >
+                                    Previous
+                                </Button>
+                                <Typography variant="small" color="gray" className="mx-4">
+                                    Page {currentPage} of {pagination.last_page}
+                                </Typography>
+                                <Button
+                                    variant="outlined"
+                                    color="blue"
+                                    onClick={() => handlePageChange(Math.min(currentPage + 1, pagination.last_page))}
+                                    disabled={currentPage === pagination.last_page}
+                                >
+                                    Next
+                                </Button>
+                            </div>
+                        </CardBody>
+                    </Card>
                 </div>
             </section>
 
@@ -234,7 +243,7 @@ export default function PatientShow({ patient, treatments: initialTreatments }) 
                 cancel="Cancel"
                 footer={false}
             >
-                <AddTreatmentForm toggleModal={toggleModal}/>
+                <AddTreatmentForm toggleModal={toggleModal} patientID={patient.id}/>
             </GenericModal>
         </AuthenticatedLayout>
     );

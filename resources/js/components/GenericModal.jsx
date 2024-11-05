@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {
     Dialog,
     Card,
@@ -20,12 +20,27 @@ export function GenericModal({
                                  onCancel,
                                  footer= true,
                                  header = true }) {
+    // useEffect(() => {
+    //     if (open) {
+    //         // Add overflow to the body to make the main screen scrollable
+    //         document.body.style.overflowY = 'auto';
+    //     } else {
+    //         // Remove overflow when modal is closed
+    //         document.body.style.overflowY = 'auto';
+    //     }
+    //     return () => {
+    //         // Clean up the effect
+    //         document.body.style.overflowY = 'auto';
+    //     };
+    // }, [open]);
+
     return (
         <>
         <Dialog
             open={open}
             size={size || "md"}
             handler={onClose}
+            className="max-h-[100vh] overflow-y-auto custom-scrollbar"
         >
             {header ? (
             <DialogHeader>

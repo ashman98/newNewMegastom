@@ -20,7 +20,7 @@ export default function AddPatientForm({toggleModal}) {
         phone: '',
         city: '',
         address: '',
-        dateOfBirth: '',
+        birthday: '',
     });
 
     const getFormData  = () => {
@@ -39,7 +39,7 @@ export default function AddPatientForm({toggleModal}) {
         phone: false,
         city: false,
         address: false,
-        dateOfBirth: false,
+        birthday: false,
     });
 
     const handleChange = (e) => {
@@ -61,7 +61,7 @@ export default function AddPatientForm({toggleModal}) {
             phone: !formData.phone,
             city: !formData.city,
             address: !formData.address,
-            dateOfBirth: !formData.dateOfBirth,
+            birthday: !formData.birthday,
         };
         setErrors(newErrors);
         return Object.values(newErrors).every(x => !x);
@@ -79,7 +79,7 @@ export default function AddPatientForm({toggleModal}) {
                 phone: '',
                 city: '',
                 address: '',
-                dateOfBirth: '',
+                birthday: '',
             });
             toggleModal();
         } catch (err) {
@@ -140,8 +140,8 @@ export default function AddPatientForm({toggleModal}) {
                         type="date"
                         label="Date of Birth"
                         size="lg"
-                        name="dateOfBirth"
-                        value={formData.dateOfBirth}
+                        name="birthday"
+                        value={formData.birthday}
                         onChange={handleChange}
                     />
                 </div>

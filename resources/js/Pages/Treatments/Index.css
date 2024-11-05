@@ -17,3 +17,14 @@
 body {
     background-color: #f7f7f7;
 }
+
+
+.slick-arrow{
+    background-color: black;
+    border-radius: 15px;
+}
+
+.slick-arrow:focus{
+    background-color: black;
+    border-radius: 15px;
+}

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TreatmentController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -23,7 +24,10 @@ Route::get('/patients/{patient}', [PatientController::class, 'show'])->name('pat
 Route::post('/patients', [PatientController::class, 'store'])->name('patients.store')->middleware('throttle:10,1');;
 Route::get('/patients/{patient}/treatments', [PatientController::class, 'getTreatments'])
     ->name('patient.treatments');
-Route::get('/treatments/{treatment}', [\App\Http\Controllers\TreatmentController::class, 'show'])->name('treatments.show');
+Route::get('/treatments/{treatment}', [TreatmentController::class, 'show'])->name('treatments.show');
+Route::post('/treatments', [TreatmentController::class, 'store'])->name('treatments.store');
+
+Route::put('/treatments/{treatment}', [TreatmentController::class, 'update'])->name('treatments.update');
 
 
 Route::middleware('auth')->group(function () {

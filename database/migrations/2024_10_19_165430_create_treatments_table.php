@@ -22,7 +22,7 @@ return new class extends Migration
                 ->references('id')->on('patients')->onDelete('cascade');
 
             $table->string('title',40);
-            $table->text('diagnosis');
+            $table->text('diagnosis')->nullable();
             $table->text('treatment_plan')->nullable();
             $table->decimal('amount')->nullable();
             $table->tinyInteger('del_status')->default('0');

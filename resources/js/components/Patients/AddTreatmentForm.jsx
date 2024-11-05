@@ -11,13 +11,14 @@ import {
 } from "@material-tailwind/react";
 import alertify from 'alertifyjs'; // Make sure to install alertifyjs
 
-export default function AddTreatmentForm({toggleModal}) {
+export default function AddTreatmentForm({toggleModal, patientID}) {
     alertify.set('notifier', 'position', 'top-right');
 
     const [formData, setFormData] = useState({
         title: '',
         diagnosis: '',
-        treatmentPlanStartDate: '',
+        treatment_plan_start_date: '',
+        patient_id: patientID
     });
 
     const getFormData  = () => {
@@ -33,7 +34,8 @@ export default function AddTreatmentForm({toggleModal}) {
     const [errors, setErrors] = useState({
         title: false,
         diagnosis: false,
-        treatmentPlanStartDate: false,
+        treatment_plan_start_date: false,
+        patient_id: false
     });
 
     const handleChange = (e) => {
@@ -52,22 +54,22 @@ export default function AddTreatmentForm({toggleModal}) {
         const newErrors = {
             title: !formData.title,
             diagnosis: !formData.diagnosis,
-            treatmentPlanStartDate: !formData.treatmentPlanStartDate,
+            treatment_plan_start_date: !formData.treatmentPlanStartDate,
         };
         setErrors(newErrors);
         return Object.values(newErrors).every(x => !x);
     };
 
-    const { addEntity, isLoading, validationErrors } = useAddEntity('patients');
+    const { addEntity, isLoading, validationErrors } = useAddEntity('treatments');
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             await addEntity(formData);
-            alertify.success('Patient added successfully.');
+            alertify.success('Treatment added successfully.');
             setFormData({
                 title: '',
                 diagnosis: '',
-                treatmentPlanStartDate: '',
+                treatment_plan_start_date: '',
             });
             toggleModal();
         } catch (err) {
@@ -107,8 +109,8 @@ export default function AddTreatmentForm({toggleModal}) {
                         type="date"
                         label="Treatment plan start date"
                         size="lg"
-                        name="treatmentPlanStartDate"
-                        value={formData.treatmentPlanStartDate}
+                        name="treatment_plan_start_date"
+                        value={formData.treatment_plan_start_date}
                         onChange={handleChange}
                         color="blue-gray"
                     />
