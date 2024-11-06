@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 echo "Running composer"
 composer global require hirak/prestissimo
 composer install --no-dev --working-dir=/var/www/html
@@ -26,4 +27,10 @@ chmod -R 775 bootstrap/cache
 # Create a symbolic link for storage
 php artisan storage:link
 
+# Set permissions for public and other necessary directories (if needed)
+chmod -R 775 public
+chmod -R 775 resources
 
+# Install and build frontend assets
+yarn clean
+yarn build
