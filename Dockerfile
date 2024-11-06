@@ -8,15 +8,17 @@ RUN composer install --no-dev --optimize-autoloader
 RUN apk add --no-cache nodejs npm bash
 
 RUN npm install -g yarn
+RUN npm install -g vite
+
 
 
 # Run Yarn install to get JavaScript dependencies
 RUN yarn install --production
-RUN #vite build
+RUN vite build
 
-COPY scripts/00-laravel-deploy.sh /scripts/00-laravel-deploy.sh
-RUN chmod +x /scripts/00-laravel-deploy.sh
-RUN /scripts/00-laravel-deploy.sh
+#COPY scripts/00-laravel-deploy.sh /scripts/00-laravel-deploy.sh
+#RUN chmod +x /scripts/00-laravel-deploy.sh
+#RUN /scripts/00-laravel-deploy.sh
 
 # Установка переменных окружения
 ENV SKIP_COMPOSER 1
