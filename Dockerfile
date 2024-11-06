@@ -14,11 +14,7 @@ RUN yarn add vite
 # Установка всех зависимостей JavaScript
 RUN yarn install --production --frozen-lockfile
 
-
-
-# Run Yarn install to get JavaScript dependencies
-RUN yarn install --production
-RUN vite build
+RUN yarn build
 
 #COPY scripts/00-laravel-deploy.sh /scripts/00-laravel-deploy.sh
 #RUN chmod +x /scripts/00-laravel-deploy.sh
