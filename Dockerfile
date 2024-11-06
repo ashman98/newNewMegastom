@@ -5,8 +5,8 @@ COPY . .
 RUN composer clear-cache
 RUN composer install --no-dev --optimize-autoloader
 
-RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - && \
-    apk add --no-cache nodejs npm
+RUN apk add --no-cache nodejs npm bash
+
 RUN npm install -g yarn
 
 
