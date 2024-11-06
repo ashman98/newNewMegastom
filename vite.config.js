@@ -11,6 +11,6 @@ export default defineConfig({
         react(),
     ],
     build: {
-        outDir: 'public/build',
+        outDir: 'public/build',  // Папка для выходных файлов
     },
 });
