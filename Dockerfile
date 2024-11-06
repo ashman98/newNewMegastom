@@ -4,7 +4,9 @@ COPY . .
 # Install Composer and Yarn
 RUN composer clear-cache
 RUN composer install --no-dev --optimize-autoloader
-RUN apt-get update && apt-get install -y nodejs npm
+
+RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - && \
+    apk add --no-cache nodejs npm
 RUN npm install -g yarn
 
 
