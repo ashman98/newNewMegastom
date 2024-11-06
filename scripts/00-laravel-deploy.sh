@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 
 echo "Running composer"
-composer global require hirak/prestissimo
-composer install --no-dev --working-dir=/var/www/html
+composer install --no-dev --optimize-autoloader --working-dir=/var/www/html
 
 # Run migrations
 php artisan migrate --force
@@ -32,5 +31,5 @@ chmod -R 775 public
 chmod -R 775 resources
 
 # Install and build frontend assets
-yarn clean
-yarn build
+#yarn install --production
+#yarn build
