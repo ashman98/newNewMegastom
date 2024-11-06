@@ -8,7 +8,7 @@ import {
     Avatar,
     Input,
 } from "@material-tailwind/react";
-import AuthenticatedLayout from '@/layouts/AuthenticatedLayout';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from "@inertiajs/react";
 import { Inertia } from '@inertiajs/inertia';
 import axios from 'axios';

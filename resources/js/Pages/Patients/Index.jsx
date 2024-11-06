@@ -2,7 +2,7 @@
 
 import React, {useState} from 'react';
 
-import AuthenticatedLayout from '@/layouts/AuthenticatedLayout';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import PatientsTable from "@/components/PatientsTable.jsx";
 import Modal from "@/components/Modal.jsx";

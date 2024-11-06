@@ -1,5 +1,5 @@
 import React, {useEffect, useMemo, useState} from 'react';
-import AuthenticatedLayout from '@/layouts/AuthenticatedLayout';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import { Button, Card, CardBody, CardHeader, Input, Typography } from "@material-tailwind/react";
 import TextEditor from "@/components/TextEditor.jsx";
