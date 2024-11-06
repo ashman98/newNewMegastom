@@ -1,11 +1,12 @@
-FROM richarvey/nginx-php-fpm:1.7.2
+FROM richarvey/nginx-php-fpm:latest
 COPY . .
 
 # Install Composer and Yarn
+RUN composer clear-cache
 RUN composer install --no-dev --optimize-autoloader
+RUN apt-get update && apt-get install -y nodejs npm
 RUN npm install -g yarn
-# Run Composer install to get Laravel dependencies
-RUN composer install --no-dev --optimize-autoloader
+
 
 # Run Yarn install to get JavaScript dependencies
 RUN yarn install --production
