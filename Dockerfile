@@ -12,6 +12,9 @@ RUN npm install -g yarn
 RUN yarn install --frozen-lockfile
 RUN yarn build  # Команда для продакшен-сборки через Vite
 
+COPY init.sh /init.sh
+RUN chmod +x /init.sh
+
 # Установка переменных окружения
 ENV SKIP_COMPOSER 1
 ENV WEBROOT /var/www/html/public
