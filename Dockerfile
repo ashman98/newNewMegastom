@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y \
     libzip-dev \
     git \
     unzip \
-    libpq-dev \   # Добавьте этот пакет для PostgreSQL
+    libpq-dev \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install gd zip pdo pdo_pgsql
 
