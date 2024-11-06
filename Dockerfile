@@ -8,7 +8,11 @@ RUN composer install --no-dev --optimize-autoloader
 RUN apk add --no-cache nodejs npm bash
 
 RUN npm install -g yarn
-RUN npm install -g vite
+# Установка Vite локально
+RUN yarn add vite
+
+# Установка всех зависимостей JavaScript
+RUN yarn install --production --frozen-lockfile
 
 
 
