@@ -1,16 +1,5 @@
 FROM richarvey/nginx-php-fpm:1.7.2
-
-# Установка необходимых зависимостей
-RUN apt-get update && apt-get install -y \
-    libpng-dev \
-    libjpeg-dev \
-    libfreetype6-dev \
-    libzip-dev \
-    git \
-    unzip \
-    libpq-dev \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install gd zip pdo pdo_pgsql
+COPY . .
 
 # Установка переменных окружения
 ENV SKIP_COMPOSER 1
