@@ -12,7 +12,7 @@ RUN npm install -g yarn
 
 # Run Yarn install to get JavaScript dependencies
 RUN yarn install --production
-RUN yarn build
+RUN vite build
 
 # Установка переменных окружения
 ENV SKIP_COMPOSER 1
