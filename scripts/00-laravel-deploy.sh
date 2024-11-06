@@ -5,7 +5,7 @@ composer install --no-dev --optimize-autoloader --working-dir=/var/www/html
 
 # Run migrations
 php artisan migrate --force
-php artisan db:seed PatientSeeder
+php artisan db:seed --class=PatientSeeder --force
 echo 'Migrate success';
 
 # Clear and cache configuration
@@ -32,6 +32,5 @@ chmod -R 775 public
 chmod -R 775 resources
 
 # Install and build frontend assets
-npm install
 yarn install --frozen-lockfile
 yarn build
