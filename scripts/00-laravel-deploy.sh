@@ -31,5 +31,5 @@ chmod -R 775 public
 chmod -R 775 resources
 
 # Install and build frontend assets
-yarn install --production
+yarn install --frozen-lockfile
 yarn build
