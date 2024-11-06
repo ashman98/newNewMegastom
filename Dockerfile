@@ -1,6 +1,18 @@
 FROM richarvey/nginx-php-fpm:1.7.2
 COPY . .
 
+# Install Composer and Yarn
+RUN apt-get update && apt-get install -y libpng-dev libjpeg-dev libfreetype6-dev zip git curl gnupg
+RUN curl -sS https://getcomposer.org/installer | php
+RUN composer install --no-dev --optimize-autoloader
+RUN npm install -g yarn
+# Run Composer install to get Laravel dependencies
+RUN composer install --no-dev --optimize-autoloader
+
+# Run Yarn install to get JavaScript dependencies
+RUN yarn install --production
+RUN yarn build
+
 # Установка переменных окружения
 ENV SKIP_COMPOSER 1
 ENV WEBROOT /var/www/html/public
