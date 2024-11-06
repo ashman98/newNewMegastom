@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+echo "Running composer"
+composer global require hirak/prestissimo
+composer install --no-dev --working-dir=/var/www/html
+
+# Run migrations
+php artisan migrate --force
+php artisan db:seed PatientSeeder
+
+# Clear and cache configuration
+php artisan config:clear
+php artisan cache:clear
+php artisan route:clear
+php artisan view:clear
+
+# Generate new application key (if needed)
+php artisan key:generate
+
+# If you're using queues, make sure they are set up
+php artisan queue:restart
+
+# Set permissions for storage and cache folders
+chmod -R 775 storage
+chmod -R 775 bootstrap/cache
+
+# Create a symbolic link for storage
+php artisan storage:link
+
+

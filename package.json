@@ -3,6 +3,7 @@
     "type": "module",
     "scripts": {
         "build": "vite build",
+        "vercel-build": "yarn build && php artisan config:cache",
         "dev": "vite"
     },
     "devDependencies": {
@@ -48,7 +49,8 @@
         "react-router-dom": "^6.27.0",
         "react-slick": "^0.30.2",
         "slick-carousel": "^1.8.1",
-        "use-react-countries": "^2.0.1"
+        "use-react-countries": "^2.0.1",
+        "vercel": "^37.14.0"
     },
     "resolutions": {
         "axios": ">=0.28.0"
