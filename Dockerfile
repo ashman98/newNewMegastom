@@ -23,5 +23,12 @@ ENV APP_DEBUG false
 ENV LOG_CHANNEL stderr
 ENV COMPOSER_ALLOW_SUPERUSER 1
 
+ENV DB_CONNECTION pgsql
+ENV DB_HOST 'dpg-cslh3i3v2p9s7385rq80-a'
+ENV DB_PORT 5432
+ENV DB_DATABASE 'megastom'
+ENV DB_USERNAME 'megastom_user'
+ENV DB_PASSWORD 'OVqgpi1yhzMC527JGbGqwlNu2UlFyD7v'
+
 # Запуск стартового скрипта
 CMD ["/start.sh"]
