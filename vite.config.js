@@ -10,6 +10,11 @@ export default defineConfig({
         }),
         react(),
     ],
+    resolve: {
+        alias: {
+            '@': '/resources/js',  // Добавление алиаса для удобных импортов
+        },
+    },
     build: {
         outDir: 'public/build',  // Папка для выходных файлов
     },
