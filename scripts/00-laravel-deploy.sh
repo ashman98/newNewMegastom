@@ -6,6 +6,7 @@ composer install --no-dev --optimize-autoloader --working-dir=/var/www/html
 # Run migrations
 php artisan migrate --force
 php artisan db:seed PatientSeeder
+echo 'Migrate success';
 
 # Clear and cache configuration
 php artisan config:clear
@@ -14,7 +15,7 @@ php artisan route:clear
 php artisan view:clear
 
 # Generate new application key (if needed)
-php artisan key:generate
+#php artisan key:generate
 
 # If you're using queues, make sure they are set up
 php artisan queue:restart
@@ -31,5 +32,6 @@ chmod -R 775 public
 chmod -R 775 resources
 
 # Install and build frontend assets
+npm install
 yarn install --frozen-lockfile
 yarn build
