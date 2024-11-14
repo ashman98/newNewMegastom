@@ -146,7 +146,7 @@ export default function AddPatientForm({toggleModal}) {
                     />
                 </div>
                 <Button type="submit" className="mt-6" fullWidth loading={isLoading}>
-                    Add
+                    Ավելացնել
                 </Button>
             </form>
         </div>

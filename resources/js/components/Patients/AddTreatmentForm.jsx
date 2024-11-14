@@ -11,7 +11,7 @@ import {
 } from "@material-tailwind/react";
 import alertify from 'alertifyjs'; // Make sure to install alertifyjs
 
-export default function AddTreatmentForm({toggleModal, patientID}) {
+export default function AddTreatmentForm({toggleModal, patientID, onNewTreatmentAdded }) {
     alertify.set('notifier', 'position', 'top-right');
 
     const [formData, setFormData] = useState({
@@ -50,27 +50,53 @@ export default function AddTreatmentForm({toggleModal, patientID}) {
         setAgreedToTerms(e.target.checked);
     };
 
+    const today = new Date().toISOString().split("T")[0];
+
+
     const validateForm = () => {
-        const newErrors = {
-            title: !formData.title,
-            diagnosis: !formData.diagnosis,
-            treatment_plan_start_date: !formData.treatmentPlanStartDate,
-        };
+        const newErrors = {};
+
+        if (!formData.title) {
+            newErrors.title = "Title is required.";
+        } else if (formData.title.length > 40) {
+            newErrors.title = "Title cannot exceed 40 characters.";
+        }
+
+        if (!formData.treatment_plan_start_date) {
+            newErrors.treatment_plan_start_date = "Treatment plan start date is required.";
+        } else {
+            const startDate = new Date(formData.treatment_plan_start_date);
+
+            if (startDate < today) {
+                newErrors.treatment_plan_start_date = "Treatment plan start date cannot be in the past.";
+            }
+        }
+
         setErrors(newErrors);
-        return Object.values(newErrors).every(x => !x);
+        return Object.keys(newErrors).length === 0; // Return true if there are no errors
     };
 
     const { addEntity, isLoading, validationErrors } = useAddEntity('treatments');
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (!validateForm()) {
+            // If form validation fails, do not proceed
+            console.warn("Validation failed, please check the form fields.");
+            return;
+        }
+
         try {
-            await addEntity(formData);
+            const t = await addEntity(formData);
             alertify.success('Treatment added successfully.');
             setFormData({
                 title: '',
                 diagnosis: '',
                 treatment_plan_start_date: '',
             });
+            if (onNewTreatmentAdded) {
+                onNewTreatmentAdded();
+            }
             toggleModal();
         } catch (err) {
             console.error('Submission failed:', err);
@@ -87,40 +113,49 @@ export default function AddTreatmentForm({toggleModal, patientID}) {
             {/*)}*/}
             <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96" onSubmit={handleSubmit}>
                 <div className="mb-1 flex flex-col gap-6">
-                    <Input
-                        label="Title"
-                        size="lg"
-                        name="title"
-                        value={formData.title}
-                        onChange={handleChange}
-                        color="blue-gray"
-                    />
-                    <Textarea
-                        color="blue-gray"
-                        label="Diagnosis"
-                        size="lg"
-                        name="diagnosis"
-                        value={formData.diagnosis}
-                        onChange={handleChange}
+                    <div>
+                        <Input
+                            label="Title"
+                            size="lg"
+                            name="title"
+                            value={formData.title}
+                            onChange={handleChange}
+                            color="gray"
+                        />
+                        {errors.title && <p className="error-message">{errors.title}</p>}
+                    </div>
+                    <div>
+                        <Textarea
+                            color="gray"
+                            label="Diagnosis"
+                            size="lg"
+                            name="diagnosis"
+                            value={formData.diagnosis}
+                            onChange={handleChange}
 
 
-                    />
-                    <Input
-                        type="date"
-                        label="Treatment plan start date"
-                        size="lg"
-                        name="treatment_plan_start_date"
-                        value={formData.treatment_plan_start_date}
-                        onChange={handleChange}
-                        color="blue-gray"
-                    />
+                        />
+                    </div>
+                    <div>
+                        <Input
+                            type="date"
+                            label="Treatment plan start date"
+                            size="lg"
+                            name="treatment_plan_start_date"
+                            value={formData.treatment_plan_start_date}
+                            onChange={handleChange}
+                            color="gray"
+                            // min={today}
+                        />
+                        {errors.treatment_plan_start_date && <p className="error-message">{errors.treatment_plan_start_date}</p>}
+                    </div>
                 </div>
                 <Button
                     type="submit"
                     className="mt-6"
                     fullWidth
 
-                    variant="gradient" color="blue"
+                    variant="gradient" color="gray"
                     loading={isLoading}>
                     Add
                 </Button>

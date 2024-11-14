@@ -10,6 +10,18 @@
     position: relative;
 }
 
+.errorTooth{
+    width: 40px; height: 60px;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    border: 1px solid rgb(244 67 54);
+    border-radius: 4px;
+    margin: 4px;
+    transition: all 0.1s ease;
+    position: relative;
+}
+
 .toothSelected{
     border: 2px solid #0275d8;
     box-shadow: rgba(0, 0, 0, 0.35) 0px -50px 36px -28px inset;

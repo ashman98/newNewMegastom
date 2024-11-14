@@ -92,3 +92,104 @@
 /*.highlight-row {*/
 /*    background-color: #ffe0b2; !* Light orange background for highlight *!*/
 /*}*/
+
+/* Container for the page size selector and pagination controls */
+.custom-pagination-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-top: 1px solid #e0e0e0;
+    background-color: #f4f4f4;
+}
+
+/* Styling the page size selector */
+.page-size-selector {
+    display: flex;
+    align-items: center;
+}
+
+.page-size-selector label {
+    margin-right: 8px;
+    font-size: 14px;
+    color: #666;
+}
+
+.page-size-selector select {
+    border: 1px solid #ccc;
+    background-color: #fff;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+}
+
+/* Pagination controls styling */
+/*.pagination-controls {*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*}*/
+
+/*.pagination-controls button {*/
+/*    background-color: #007bff;*/
+/*    color: white;*/
+/*    border: none;*/
+/*    padding: 5px 10px;*/
+/*    margin: 0 5px;*/
+/*    border-radius: 4px;*/
+/*    cursor: pointer;*/
+/*    font-size: 14px;*/
+/*    transition: background-color 0.2s ease;*/
+/*}*/
+
+.pagination-controls button:disabled {
+    background-color: #e0e0e0;
+    color: #aaa;
+    cursor: not-allowed;
+}
+
+.pagination-controls button:not(:disabled):hover {
+    background-color: #0056b3;
+}
+
+.pagination-controls span {
+    font-size: 14px;
+    color: #333;
+}
+
+/* Loading overlay container */
+.loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+/* Spinner inside loading overlay */
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-top-color: #007bff;
+    border-radius: 50%;
+    animation: spin 1s ease infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.loading-overlay span {
+    margin-top: 10px;
+    font-size: 16px;
+    color: #333;
+}

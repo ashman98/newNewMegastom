@@ -44,7 +44,7 @@ export function GenericModal({
         >
             {header ? (
             <DialogHeader>
-                <Typography variant="h4" color="blue-gray">
+                <Typography variant="h4" color="gray">
                     {title}
                 </Typography>
             </DialogHeader>

@@ -18,8 +18,8 @@ class TreatmentFactory extends Factory
         $endDate = $this->faker->optional()->dateTimeBetween($startDate, '+6 months');
 
         return [
-            'dentist_id' => 1,   // Assumes User model is used for dentists
-            'patient_id' => 1, // Assumes Patient model exists
+            'dentist_id' => User::factory(), // Dynamically create a dentist User
+            'patient_id' => Patient::factory(), // Dynamically create a Patient
             'title' => "Voluptatum quia tempore.", //$this->faker->sentence(3),
             'diagnosis' => $this->faker->paragraph,
             'treatment_plan' => $this->faker->paragraph,

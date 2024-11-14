@@ -12,7 +12,7 @@ import 'slick-carousel/slick/slick-theme.css';
 
 
 
-const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
+const appName = import.meta.env.VITE_APP_NAME || 'Megastom';
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,

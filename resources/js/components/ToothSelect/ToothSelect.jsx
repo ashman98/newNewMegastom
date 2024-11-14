@@ -2,22 +2,30 @@ import React, { useEffect, useMemo, useState } from 'react';
 import styles from './toothSelect.module.css';
 import {Spinner, Switch, Typography} from "@material-tailwind/react"; // Keep this if you have custom styles
 
-const ToothSelect = () => {
+const ToothSelect = ({isOwner, setToothNumber, toothNumber, errors}) => {
     const [selectedTooths, setSelectedTooths] = useState([]);
-    const [tooths, setTooths] = useState([]);
+    const [toothImages, setToothImages] = useState([]);
     const [forChild, setForChild] = useState(false);
     const [selectedToothNumber, setSelectedToothNumberLocal] = useState(51); // Local state instead of Redux
-    const [xRayImages, setXRayImages] = useState([]);
     const [isLoading, setIsLoading ] = useState(false);
+
+    useEffect(()=>{
+        if(toothNumber){
+            if(!toothImages.includes(toothNumber)){
+                setForChild(!forChild);
+            }
+            setSelectedToothNumberLocal(toothNumber);
+        }
+    },[toothNumber])
 
     useEffect(() => {
         if (forChild) {
-            setTooths([
+            setToothImages([
                 55, 54, 53, 52, 51, 61, 62, 63, 64, 65,
                 85, 84, 83, 82, 81, 71, 72, 73, 74, 75
             ]);
         } else {
-            setTooths([
+            setToothImages([
                 18, 17, 16, 15, 14, 13, 12, 11, 21, 22, 23, 24, 25, 26, 27, 28,
                 48, 47, 46, 45, 44, 43, 42, 41, 31, 32, 33, 34, 35, 36, 37, 38
             ]);
@@ -25,16 +33,20 @@ const ToothSelect = () => {
         setIsLoading(false);
     }, [forChild]);
 
+    useEffect(()=>{
+        setToothNumber(selectedToothNumber);
+    }, [selectedToothNumber])
+
 
     const baseUrl = `https://megastom.loc/storage/tooths/`;
 
     const allToothImages = useMemo(() => {
         const images = {};
-        tooths.forEach(toothNumber => {
+        toothImages.forEach(toothNumber => {
             images[toothNumber] = `${baseUrl}${toothNumber}.png`; // Construct the image URL
         });
         return images;
-    }, [tooths, baseUrl]);
+    }, [toothImages]);
 
     return (
         <div className={`${styles.toothContainer} p-4`}>
@@ -47,21 +59,22 @@ const ToothSelect = () => {
                 <Switch
                     label={
                         <div className='flex text-center flex-col'>
-                            <Typography color="blue-gray" className="font-medium">
-                                {forChild ? "Երեխաներ" : "Մեծահասակներ"}
+                            <Typography color="gray" className="font-medium">
+                                {forChild ? "Երեխա" : "Մեծահասակ"}
                             </Typography>
                             <Typography variant="small" color="gray" style={{fontSize: 11}} className="font-normal">
                                 Փոխել կատեգորիան
                             </Typography>
                         </div>
                     }
-                    color="blue"
+                    color="gray"
                     defaultChecked={forChild}
                     onChange={(e) => {
                         setIsLoading(true);
                         setForChild(e.target.checked)
-                        setSelectedToothNumberLocal(0);
+                        setIsLoading(false);
                     }}
+                    checked={forChild}
                 />
             </div>
             <div
@@ -69,8 +82,8 @@ const ToothSelect = () => {
                 // style={{width: forChild ? '480px' : '768px'}}
             >
                 {
-                    tooths.map((toothNumber) => {
-                        const itemClasses = `${styles.tooth} ${selectedToothNumber === toothNumber ? styles.toothSelected : ''}`;
+                    toothImages.map((toothNumber) => {
+                        const itemClasses = `${!errors.tooth_number ? styles.tooth :  styles.errorTooth} ${selectedToothNumber === toothNumber ? styles.toothSelected : ''}`;
                         return (
                             <div key={toothNumber} className={`${styles.toothItem}`}>
                                 <div
@@ -81,7 +94,12 @@ const ToothSelect = () => {
                                         position: 'relative'
                                     }}
                                     title={`Tooth number ${toothNumber}`}
-                                    onClick={() => setSelectedToothNumberLocal(toothNumber)}
+                                    onClick={(e) => {
+                                        e.preventDefault();
+
+                                        isOwner && setSelectedToothNumberLocal(toothNumber);
+                                        errors.tooth_number = '';
+                                    }}
                                 >
                                     <strong
                                         className={`${styles.toothText} ${selectedToothNumber === toothNumber ? styles.selectedToothText : ''}`}>
@@ -93,6 +111,7 @@ const ToothSelect = () => {
                     })
                 }
             </div>
+            {errors.tooth_number && <p className="error-message">{errors.title}</p>}
             {/*<MultiImageUploader defaultImages={xRayImages}/> */}
         </div>
     );

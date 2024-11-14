@@ -6,6 +6,7 @@ const useEntity = (entityUrl) => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
     const [validationErrors, setValidationErrors] = useState([]);
+    const [responseData, setResponseData] = useState([]);
 
     const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
 
@@ -15,7 +16,6 @@ const useEntity = (entityUrl) => {
     };
 
     const handleError = (err) => {
-        debugger
         if (err.response && err.response.status === 422) {
             // Handle Laravel validation errors
             const errors = err.response.data.errors;
@@ -45,12 +45,12 @@ const useEntity = (entityUrl) => {
             const response = await axios.post(appConfig.appUrl + entityUrl, entityData, {
                 headers: {
                     'X-CSRF-TOKEN': csrfToken,
+                    'Content-Type': 'multipart/form-data',
                 },
             });
 
             return handleResponse(response);
         } catch (err) {
-            debugger
             handleError(err);
         } finally {
             setIsLoading(false);
@@ -58,6 +58,11 @@ const useEntity = (entityUrl) => {
     };
 
     const updateEntity = async (entityData) => {
+        const formData = new FormData();
+        Object.keys(entityData).forEach((key) => {
+            formData.append(key, entityData[key]);
+        });
+
         setIsLoading(true);
         setError(null);
         setValidationErrors({});

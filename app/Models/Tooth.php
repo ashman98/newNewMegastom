@@ -11,6 +11,14 @@ class Tooth extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'id',
+        'title',
+        'tooth_number',
+        'treatment_id',
+        'del_status'
+    ];
+
     public function treatment(): BelongsTo
     {
         return $this->belongsTo(Treatment::class);

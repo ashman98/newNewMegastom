@@ -69,3 +69,23 @@ body::-webkit-scrollbar-thumb:hover {
     background: #555 !important;
 }
 
+.error-message {
+    color: red;
+    font-size: 0.9em;
+    margin-top: 5px;
+}
+
+.slick-slide{
+    padding: 0 5px !important;
+}
+
+.slick-track{
+    padding: 0 2px !important;
+}
+
+.wrap-header .ag-header-cell-text{
+    white-space: normal;
+    line-height: 1.2;
+    text-align: start;
+    height: 30px
+}

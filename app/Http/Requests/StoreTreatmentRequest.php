@@ -40,7 +40,6 @@ class StoreTreatmentRequest extends FormRequest
             'patient_id.exists' => 'The selected patient does not exist in our records.',
             'title.required' => 'The title field is required.',
             'title.max' => 'The title may not be greater than 40 characters.', // Custom message for max rule on title
-//            'diagnosis.required' => 'Please provide a diagnosis.',
             'treatment_plan_start_date.required' => 'The start date for the treatment plan is required.',
             'treatment_plan_start_date.date' => 'The start date must be a valid date.',
             // Add other custom messages as needed

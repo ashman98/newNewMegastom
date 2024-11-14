@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('title',40);
             $table->text('diagnosis')->nullable();
             $table->text('treatment_plan')->nullable();
-            $table->decimal('amount')->nullable();
+            $table->decimal('amount')->default('00.00');
             $table->tinyInteger('del_status')->default('0');
             $table->timestamp('treatment_plan_start_date');
             $table->timestamp('treatment_plan_end_date')->nullable();

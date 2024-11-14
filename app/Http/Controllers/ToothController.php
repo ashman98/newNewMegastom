@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Tooth;
 use App\Http\Requests\StoreToothRequest;
 use App\Http\Requests\UpdateToothRequest;
+use App\Models\XRayImage;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ToothController extends Controller
 {
@@ -29,8 +33,44 @@ class ToothController extends Controller
      */
     public function store(StoreToothRequest $request)
     {
-        //
+        DB::beginTransaction();
+
+        try {
+            $data = [
+                'tooth_number' => $request->tooth_number,
+                'title' => $request->title,
+                'treatment_id' => $request->treatment_id,
+            ];
+
+            $tooth = Tooth::create($data);
+
+            $imagesData = [];
+            if ($request->has('images')) {
+                foreach ($request->file('images') as $image) {
+                    $path = Storage::disk('public')->put(XRayImage::getPathOfImage($data['treatment_id']), $image);
+                    $imagesData[] = [
+                        'path' => $path,
+                        'name' => 'X-ray image',
+                        'tooth_id' => $tooth->id,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ];
+                }
+                XRayImage::insert($imagesData);
+            }
+
+            DB::commit();
+            $tooth->load('xRayImages');
+            return response()->json([
+                'message' => 'Tooth record saved successfully',
+                'tooth' => $tooth
+            ], 201);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['error' => 'Failed to save tooth record', 'details' => $e->getMessage()], 500);
+        }
     }
+
 
     /**
      * Display the specified resource.
@@ -48,19 +88,119 @@ class ToothController extends Controller
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateToothRequest $request, Tooth $tooth)
     {
-        //
+        DB::beginTransaction();
+
+        try {
+            if ($tooth->del_status === 1){
+                throw new \Error('Tooth deleted!', 404);
+            }
+
+            $data = [
+                'tooth_number' => $request->tooth_number,
+                'title' => $request->title,
+                'treatment_id' => $request->treatment_id,
+            ];
+
+            // Update the main tooth data
+            $tooth->update($data);
+
+            // Retrieve existing images and filter based on incoming URLs
+            $existingImages = $tooth->xRayImages;
+            $baseUrl = 'https://megastom.loc/storage/';
+            // Separate incoming images as files and URLs
+            $fileImages = [];
+            $urlImages = [];
+
+            if ($request->has('images') && !empty($request->input('images'))) {
+                foreach ($request->input('images') as $image) {
+                    if (is_string($image) && filter_var($image, FILTER_VALIDATE_URL)) {
+                        // Strip base URL to get the relative path
+                        $relativePath = Str::replaceFirst($baseUrl, '', $image);
+                        $urlImages[] = $relativePath; // Add the relative path to URLs array
+                    }
+                }
+            }
+
+            // Delete only existing images that are not in the incoming URLs (by relative path)
+            foreach ($existingImages as $existingImage) {
+                if (!in_array($existingImage->path, $urlImages)) {
+                    Storage::disk('public')->delete($existingImage->path);
+                    $existingImage->delete();
+                }
+            }
+
+            if ($request->has('images') && !empty($request->file('images'))) {
+                $imagesData = [];
+                foreach ($request->file('images') as $file) {
+                    $path = Storage::disk('public')->put(XRayImage::getPathOfImage($data['treatment_id']), $file);
+
+                    if (!$path) {
+                        throw new \Exception('Failed to upload one of the images.');
+                    }
+
+                    $imagesData[] = [
+                        'path' => $path,
+                        'name' => 'X-ray image',
+                        'tooth_id' => $tooth->id,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ];
+                }
+
+                XRayImage::insert($imagesData);
+            }
+
+            DB::commit();
+            $tooth->refresh();
+
+            return response()->json([
+                'message' => 'Tooth record updated successfully',
+                'tooth' => $tooth
+            ], 200);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return response()->json([
+                'error' => 'Failed to update tooth record',
+                'details' => $e->getMessage()
+            ], 500);
+        }
     }
+
+
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Tooth $tooth)
     {
-        //
+        DB::beginTransaction();
+        try {
+                if ($tooth->del_status === 1){
+                    throw new \Error('Tooth deleted!', 404);
+                }
+
+                $xRayImages = $tooth->xRayImages;
+                foreach ($xRayImages as $xRayImage){
+                    $xRayImage->update(['del_status' => 1]);
+                }
+                $tooth->update(['del_status' => 1]);
+            DB::commit();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Пациент успешно Delted!',
+                'tooth_id' => $tooth->id,
+            ]);
+        }catch (\Exception $e){
+            DB::rollBack();
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ]);
+        }
     }
 }

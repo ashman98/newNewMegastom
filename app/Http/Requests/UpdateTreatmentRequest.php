@@ -42,7 +42,6 @@ class UpdateTreatmentRequest extends FormRequest
             'title.required' => 'Поле заголовка обязательно для заполнения.',
             'title.string' => 'Заголовок должен быть строкой.',
             'title.max' => 'Заголовок не может превышать 100 символов.',
-//            'diagnosis.required' => 'Поле диагноза обязательно для заполнения.',
             'diagnosis.string' => 'Диагноз должен быть строкой.',
             'treatment_plan.string' => 'План лечения должен быть строкой.',
             'amount.numeric' => 'Сумма должна быть числом.',

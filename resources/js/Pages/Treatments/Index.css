@@ -28,3 +28,9 @@ body {
     background-color: black;
     border-radius: 15px;
 }
+
+.delete_treatment{
+    position: absolute !important;
+    top: 8px !important;
+    right: 8px !important;
+}

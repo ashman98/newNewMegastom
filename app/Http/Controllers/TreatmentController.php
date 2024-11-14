@@ -47,7 +47,7 @@ class TreatmentController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Treatment add success!',
-                'treatment_id' => $treatment->id,
+                'treatment' => $treatment,
             ]);
 
         }catch (\Exception $e){
@@ -64,16 +64,22 @@ class TreatmentController extends Controller
      */
     public function show(Treatment $treatment)
     {
+        if ($treatment->del_status == 1) {
+            return redirect()->route('patients.index')->with('error', 'Patient is inactive.');
+        }
+
         $authUser = Auth::user();
+
         $treatment->load('user');
         $treatment->load('patient');
 
         $treatment->load(['teeth' => function ($query) {
-            $query->with('x_ray_images');
+            $query->where('del_status', 0) // Only load teeth where del status is 0
+            ->with('xRayImages');
         }]);
         $treatment->isOwner = $treatment->user->id === $authUser->id;
         if (!$treatment->isOwner){
-            $treatment->setAttribute('amount', null);//hide amount if is not owner user
+            $treatment->setAttribute('amount', '00.00');//hide amount if is not owner user
         }
 
         return Inertia::render('Treatments/Index', [
@@ -96,7 +102,12 @@ class TreatmentController extends Controller
     {
         DB::beginTransaction();
         try {
+            if ($treatment->del_status === 1){
+                throw new \Error('Treatment deleted!', 404);
+            }
+
             $authUser = Auth::user();
+
             $treatment->load('user');
 
             if ($treatment->user->id !== $authUser->id){
@@ -126,6 +137,34 @@ class TreatmentController extends Controller
      */
     public function destroy(Treatment $treatment)
     {
-        //
+        DB::beginTransaction();
+        try {
+                if ($treatment->del_status === 1){
+                    throw new \Error('Treatment deleted!', 404);
+                }
+
+                $teeth = $treatment->teeth;
+                foreach ($teeth as $tooth){
+                    $xRayImages = $tooth->xRayImages;
+                    foreach ($xRayImages as $xRayImage){
+                        $xRayImage->update(['del_status' => 1]);
+                    }
+                    $tooth->update(['del_status' => 1]);
+                }
+            $treatment->update(['del_status' => 1]);
+            DB::commit();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Пациент успешно Delted!',
+                'patient_id' => $treatment->id,
+            ]);
+        }catch (\Exception $e){
+            DB::rollBack();
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ]);
+        }
     }
 }
