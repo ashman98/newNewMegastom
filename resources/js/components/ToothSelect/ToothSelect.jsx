@@ -38,7 +38,7 @@ const ToothSelect = ({isOwner, setToothNumber, toothNumber, errors}) => {
     }, [selectedToothNumber])
 
 
-    const baseUrl = `https://megastom.lc/storage/tooths/`;
+    const baseUrl = `http://megastom.lc/storage/tooths/`;
 
     const allToothImages = useMemo(() => {
         const images = {};
