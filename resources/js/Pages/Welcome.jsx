@@ -19,7 +19,7 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                 <img
                     id="background"
                     className="absolute -left-0 bottom-[-15%]  w-full "
-                    src="https://megastom.lc/back.png"
+                    src="http://megastom.lc/back.png"
                     style={{top: "-400"}}
                 />
                 <div className="relative flex min-h-screen flex-col items-center justify-center selection:bg-[#FF2D20] selection:text-white">
