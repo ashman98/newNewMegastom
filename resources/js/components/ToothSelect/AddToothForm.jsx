@@ -44,8 +44,8 @@ export default function AddToothForm({isOwner, addNewToothData, updateToothData,
                 const updatedXrayImages = [...xRayImages];
 
                 selectedToothData.x_ray_images.forEach((img, index)=>{
-                    updatedImages[index] = ( `https://megastom.loc/storage/${img.path}`);
-                    updatedXrayImages[index] = ( `https://megastom.loc/storage/${img.path}`);
+                    updatedImages[index] = ( `https://megastom.lc/storage/${img.path}`);
+                    updatedXrayImages[index] = ( `https://megastom.lc/storage/${img.path}`);
                 })
                 setImages(updatedImages);
                 setXRayImages(updatedXrayImages);

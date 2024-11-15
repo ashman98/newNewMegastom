@@ -455,7 +455,7 @@ const TreatmentIndex = ({ treatment }) => {
                                                 toggleModal();
                                             }}>
                                                 <img
-                                                    src={tooth.x_ray_images?.[0]?.path ? `https://megastom.loc/storage/${tooth.x_ray_images[0].path}` : ''}
+                                                    src={tooth.x_ray_images?.[0]?.path ? `https://megastom.lc/storage/${tooth.x_ray_images[0].path}` : ''}
                                                     alt={`X-ray ${index + 1}`}
                                                     className="w-full h-full object-cover rounded-lg"
                                                 />
