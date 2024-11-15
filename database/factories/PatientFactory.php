@@ -23,8 +23,9 @@ class PatientFactory extends Factory
             'phone' => $this->faker->unique()->phoneNumber,
             'city' => $this->faker->city,
             'address' => $this->faker->address,
-            'active' => $this->faker->boolean,
-            'birthday' => Carbon::now(),
+            'birthday' => $this->faker->date('Y-m-d', '-18 years'), // Дата рождения (минимум 18 лет)
+            'gender' => $this->faker->randomElement(['male', 'female', 'non-binary', 'other']),
+            'active' => $this->faker->boolean(20),
         ];
     }
 }

@@ -21,24 +21,24 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
-        $password = Hash::make('admin');
-        $user = User::create(
-            [
-            'email' => "admin@admin.com",
-            'email_verified_at' => null,
-            'password' => $password,
-            'remember_token' => Str::random(10),
-            ]
-        );
-
-        $user->userInfo()->create([
-            'name' => 'Ash',
-            'surname' => 'sh',
-            'phone' => 'sh',
-            'city' => 'sh',
-            'address' => 'sh'
-        ]);
-
-        $user->assignRole(['Admin']);
+//        $password = Hash::make('admin');
+//        $user = User::create(
+//            [
+//            'email' => "admin@admin.com",
+//            'email_verified_at' => null,
+//            'password' => $password,
+//            'remember_token' => Str::random(10),
+//            ]
+//        );
+//
+//        $user->userInfo()->create([
+//            'name' => 'Ash',
+//            'surname' => 'sh',
+//            'phone' => 'sh',
+//            'city' => 'sh',
+//            'address' => 'sh'
+//        ]);
+//
+//        $user->assignRole(['Admin']);
     }
 }
