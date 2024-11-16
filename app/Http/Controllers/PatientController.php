@@ -173,6 +173,7 @@ class PatientController extends Controller
         // Paginate the filtered query
         $patients = $query->orderBy('id', 'desc')->paginate($pageSize);
 
+
         // Structure response with pagination details
         return response()->json([
             'patients' => $patients->items(),

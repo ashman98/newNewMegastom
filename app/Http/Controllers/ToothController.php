@@ -108,7 +108,7 @@ class ToothController extends Controller
 
             // Retrieve existing images and filter based on incoming URLs
             $existingImages = $tooth->xRayImages;
-            $baseUrl = 'http://megastom.lc/storage/';
+            $baseUrl = env('APP_URL').'storage/';
             // Separate incoming images as files and URLs
             $fileImages = [];
             $urlImages = [];

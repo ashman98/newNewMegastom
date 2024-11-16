@@ -111,7 +111,6 @@ const PatientsFilter = ({ onFilterChange }) => {
                             <Input
                                 label="Անուն"
                                 variant="outlined"
-                                fullWidth
                                 name="name"
                                 value={filters.name}
                                 onChange={handleChange}
@@ -122,7 +121,6 @@ const PatientsFilter = ({ onFilterChange }) => {
                             <Input
                                 label="Ազգանուն"
                                 variant="outlined"
-                                fullWidth
                                 name="surname"
                                 value={filters.surname}
                                 onChange={handleChange}
@@ -133,7 +131,6 @@ const PatientsFilter = ({ onFilterChange }) => {
                             <Input
                                 label="Հեռախոսահամար"
                                 variant="outlined"
-                                fullWidth
                                 name="phone"
                                 value={filters.phone}
                                 onChange={handleChange}
@@ -144,7 +141,6 @@ const PatientsFilter = ({ onFilterChange }) => {
                             <Input
                                 label="Քաղաք"
                                 variant="outlined"
-                                fullWidth
                                 name="city"
                                 value={filters.city}
                                 onChange={handleChange}
@@ -155,7 +151,6 @@ const PatientsFilter = ({ onFilterChange }) => {
                             <Input
                                 label="Հասե"
                                 variant="outlined"
-                                fullWidth
                                 name="address"
                                 value={filters.address}
                                 onChange={handleChange}
@@ -166,7 +161,6 @@ const PatientsFilter = ({ onFilterChange }) => {
                             <Input
                                 label="Ծննդյան ամսաթիվից"
                                 variant="outlined"
-                                fullWidth
                                 name="birthday_from"
                                 type="date"
                                 value={filters.birthday_from}
@@ -178,7 +172,6 @@ const PatientsFilter = ({ onFilterChange }) => {
                             <Input
                                 label="Ծննդյան ամսաթիվ մինչև"
                                 variant="outlined"
-                                fullWidth
                                 name="birthday_to"
                                 type="date"
                                 value={filters.birthday_to}

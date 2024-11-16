@@ -19,7 +19,7 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                 <img
                     id="background"
                     className="absolute -left-0 bottom-[-15%]  w-full "
-                    src="http://megastom.lc/back.png"
+                    src={`${import.meta.env.VITE_APP_URL}back.png`}
                     style={{top: "-400"}}
                 />
                 <div className="relative flex min-h-screen flex-col items-center justify-center selection:bg-[#FF2D20] selection:text-white">
@@ -60,7 +60,7 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                                     href={route('patients.index')}
                                     className="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
                                 >
-                                    <img src="http://megastom.lc/logo.png" alt="logo"
+                                    <img src={`${import.meta.env.VITE_APP_URL}logo.png`} alt="logo"
                                          style={{width: 300, cursor: 'pointer'}}/>
                                 </Link>
 

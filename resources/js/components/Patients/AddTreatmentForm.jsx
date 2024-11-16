@@ -115,7 +115,7 @@ export default function AddTreatmentForm({toggleModal, patientID, onNewTreatment
                 <div className="mb-1 flex flex-col gap-6">
                     <div>
                         <Input
-                            label="Title"
+                            label="Վերնագիր"
                             size="lg"
                             name="title"
                             value={formData.title}
@@ -127,7 +127,7 @@ export default function AddTreatmentForm({toggleModal, patientID, onNewTreatment
                     <div>
                         <Textarea
                             color="gray"
-                            label="Diagnosis"
+                            label="Ախտորոշում"
                             size="lg"
                             name="diagnosis"
                             value={formData.diagnosis}
@@ -139,7 +139,7 @@ export default function AddTreatmentForm({toggleModal, patientID, onNewTreatment
                     <div>
                         <Input
                             type="date"
-                            label="Treatment plan start date"
+                            label="Բուժման պլանի սկիզբ"
                             size="lg"
                             name="treatment_plan_start_date"
                             value={formData.treatment_plan_start_date}
@@ -153,7 +153,6 @@ export default function AddTreatmentForm({toggleModal, patientID, onNewTreatment
                 <Button
                     type="submit"
                     className="mt-6"
-                    fullWidth
 
                     variant="gradient" color="gray"
                     loading={isLoading}>

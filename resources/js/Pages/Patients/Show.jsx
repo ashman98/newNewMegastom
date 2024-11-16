@@ -180,11 +180,11 @@ export default function PatientShow({ patient }) {
                         <div className="w-full lg:w-2/3 px-4">
                             <Card>
                                 <CardBody>
-                                    {[{label: 'Full Name', value: `${patient.name} ${patient.surname}` },
-                                        { label: 'Birthday', value: patient.birthday || 'N/A' },
-                                        { label: 'Phone', value: patient.phone },
-                                        { label: 'City', value: patient.city },
-                                        { label: 'Address', value: 'Bay Area, San Francisco, CA' },
+                                    {[{label: 'Անուն Ազգանուն', value: `${patient.name} ${patient.surname}` },
+                                        { label: 'Ծննդյան տարթիվ', value: patient.birthday || 'N/A' },
+                                        { label: 'Հեռախոսահամր', value: patient.phone },
+                                        { label: 'Քաղաք', value: patient.city },
+                                        { label: 'Հացե', value: 'Bay Area, San Francisco, CA' },
                                     ].map((item, index) => (
                                         <div key={index} className="flex justify-between items-center py-2 border-b">
                                             <Typography variant="small" color="gray">{item.label}</Typography>
@@ -221,7 +221,7 @@ export default function PatientShow({ patient }) {
                             <div className="flex flex-wrap -mx-4 py-2">
                                 <div className="w-full md:w-1/3 px-4 mb-4">
                                     <Input
-                                        label="Search Title"
+                                        label="Որոնել բուժման անվանումը"
                                         type="text"
                                         value={searchTitle}
                                         onChange={(e) => setSearchTitle(e.target.value)}
@@ -229,7 +229,7 @@ export default function PatientShow({ patient }) {
                                 </div>
                                 <div className="w-full md:w-1/3 px-4 mb-4">
                                     <Input
-                                        label="Start Date"
+                                        label="Բուժման պլանի սկիզբ"
                                         type="date"
                                         value={startDate}
                                         onChange={(e) => setStartDate(e.target.value)}
@@ -237,7 +237,7 @@ export default function PatientShow({ patient }) {
                                 </div>
                                 <div className="w-full md:w-1/3 px-4 mb-4">
                                     <Input
-                                        label="End Date"
+                                        label="Բուժման պլանի ավարտ"
                                         type="date"
                                         value={endDate}
                                         onChange={(e) => setEndDate(e.target.value)}
@@ -254,7 +254,9 @@ export default function PatientShow({ patient }) {
                                 <div className="flex flex-wrap -mx-4 mt-8 ">
                                     {treatments && treatments.length > 0 ? (
                                         treatments.map((treatment, idx) => (
-                                            <div key={idx} className="w-full md:w-1/2 lg:w-1/3 px-4 mb-8 position-relative">
+                                            <>
+                                            <div key={idx}
+                                                 className="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 2xl:w-1/4 px-4 mb-8 position-relative">
 
                                                 <Card
                                                     className="shadow-lg hover:shadow-2xl transition-shadow duration-300 transform hover:scale-105">
@@ -263,34 +265,36 @@ export default function PatientShow({ patient }) {
                                                         className="rounded-lg border border-gray-200 p-6"
                                                     >
                                                         <div className='flex justify-between'>
-                                                            <Typography variant="h6" color="gray" className="mb-2 "  style={{cursor: 'pointer'}}
-                                                            onClick={() => goToTreatmentPage(treatment.id)}>
+                                                            <Typography variant="h6" color="blue-gray-900"
+                                                                        className="mb-2 " style={{cursor: 'pointer'}}
+                                                                        onClick={() => goToTreatmentPage(treatment.id)}>
                                                                 {treatment.title}
                                                             </Typography>
                                                             <IconButton
-                                                                    variant="outlined"
-                                                                    size="sm"
-                                                                    color='red'
-                                                                    className=''
-                                                                    placeholder='De'
-                                                                    onClick={(e)=>handleConfirm(e,'delete_treatment',treatment.id)}
-                                                                >
-                                                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                                                         viewBox="0 0 24 24" fill="currentColor"
-                                                                         className="size-5">
-                                                                        <path fillRule="evenodd"
-                                                                              d="M5.625 1.5H9a3.75 3.75 0 0 1 3.75 3.75v1.875c0 1.036.84 1.875 1.875 1.875H16.5a3.75 3.75 0 0 1 3.75 3.75v7.875c0 1.035-.84 1.875-1.875 1.875H5.625a1.875 1.875 0 0 1-1.875-1.875V3.375c0-1.036.84-1.875 1.875-1.875ZM9.75 14.25a.75.75 0 0 0 0 1.5H15a.75.75 0 0 0 0-1.5H9.75Z"
-                                                                              clipRule="evenodd"/>
-                                                                        <path
-                                                                            d="M14.25 5.25a5.23 5.23 0 0 0-1.279-3.434 9.768 9.768 0 0 1 6.963 6.963A5.23 5.23 0 0 0 16.5 7.5h-1.875a.375.375 0 0 1-.375-.375V5.25Z"/>
-                                                                    </svg>
-                                                                </IconButton>
+                                                                variant="outlined"
+                                                                size="sm"
+                                                                color='red'
+                                                                className=''
+                                                                placeholder='De'
+                                                                onClick={(e) => handleConfirm(e, 'delete_treatment', treatment.id)}
+                                                            >
+                                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                                     viewBox="0 0 24 24" fill="currentColor"
+                                                                     className="size-5">
+                                                                    <path fillRule="evenodd"
+                                                                          d="M5.625 1.5H9a3.75 3.75 0 0 1 3.75 3.75v1.875c0 1.036.84 1.875 1.875 1.875H16.5a3.75 3.75 0 0 1 3.75 3.75v7.875c0 1.035-.84 1.875-1.875 1.875H5.625a1.875 1.875 0 0 1-1.875-1.875V3.375c0-1.036.84-1.875 1.875-1.875ZM9.75 14.25a.75.75 0 0 0 0 1.5H15a.75.75 0 0 0 0-1.5H9.75Z"
+                                                                          clipRule="evenodd"/>
+                                                                    <path
+                                                                        d="M14.25 5.25a5.23 5.23 0 0 0-1.279-3.434 9.768 9.768 0 0 1 6.963 6.963A5.23 5.23 0 0 0 16.5 7.5h-1.875a.375.375 0 0 1-.375-.375V5.25Z"/>
+                                                                </svg>
+                                                            </IconButton>
                                                         </div>
 
-                                                        <div onClick={() => goToTreatmentPage(treatment.id)}  style={{cursor: 'pointer'}}>
+                                                        <div onClick={() => goToTreatmentPage(treatment.id)}
+                                                             style={{cursor: 'pointer'}}>
                                                             <Typography variant="small" color="gray" className="mb-2">
                                                                 <span
-                                                                    className="font-semibold text-blue-gray-700">Diagnosis: </span>
+                                                                    className="font-semibold text-blue-gray-500">Ախտորոշում: </span>
                                                                 {treatment.diagnosis ?
                                                                     treatment.diagnosis.replace(/<[^>]+>/g, '').length > 30
                                                                         ? `${treatment.diagnosis.replace(/<[^>]+>/g, '').substring(0, 30)}...`
@@ -299,7 +303,7 @@ export default function PatientShow({ patient }) {
                                                             </Typography>
                                                             <Typography variant="small" color="gray" className="mb-2">
                                                                 <span
-                                                                    className="font-semibold text-blue-gray-700">Treatment Plan: </span>
+                                                                    className="font-semibold text-blue-gray-500">Բուժման պլան: </span>
                                                                 {treatment.treatment_plan ?
                                                                     treatment.treatment_plan.replace(/<[^>]+>/g, '').length > 30
                                                                         ? `${treatment.treatment_plan.replace(/<[^>]+>/g, '').substring(0, 30)}...`
@@ -308,79 +312,82 @@ export default function PatientShow({ patient }) {
                                                             </Typography>
                                                             <Typography variant="small" color="gray" className="mb-2">
                                                                 <span
-                                                                    className="font-semibold text-blue-gray-700">Start Date:</span> {new Date(treatment.treatment_plan_start_date).toLocaleDateString()}
+                                                                    className="font-semibold text-blue-gray-500">Բուժման սկիզբ:</span> {new Date(treatment.treatment_plan_start_date).toLocaleDateString()}
                                                             </Typography>
                                                             <Typography variant="small" color="gray" className="mb-2">
                                                                 <span
-                                                                    className="font-semibold text-blue-gray-700">End Date:</span> {treatment.treatment_plan_end_date ? new Date(treatment.treatment_plan_end_date).toLocaleDateString() : 'Ongoing'}
+                                                                    className="font-semibold text-blue-gray-500">Բուժման ավարտ:</span> {treatment.treatment_plan_end_date ? new Date(treatment.treatment_plan_end_date).toLocaleDateString() : 'Ongoing'}
                                                             </Typography>
-                                                            <Typography variant="small" color="gray" className="mb-2">
-                                                                <span
-                                                                    className="font-semibold text-blue-gray-700">Amount:</span> {treatment.amount ? `${treatment.amount}֏` : 'N/A'}
-                                                            </Typography>
+                                                            {/*<Typography variant="small" color="gray" className="mb-2">*/}
+                                                            {/*    <span*/}
+                                                            {/*        className="font-semibold text-blue-gray-700">Amount:</span> {treatment.amount ? `${treatment.amount}֏` : 'N/A'}*/}
+                                                            {/*</Typography>*/}
                                                         </div>
 
                                                     </CardBody>
                                                 </Card>
                                             </div>
-                                        ))
-                                    ) : (
-                                        <Typography variant="small" color="gray" className="text-center w-full mt-4">
-                                            No treatments available for this patient.
-                                        </Typography>
-                                    )}
+                                            <div className="flex justify-center mt-4">
+                                                <Button
+                                                    variant="outlined"
+                                                    color="gray"
+                                                    onClick={() => handlePageChange(Math.max(currentPage - 1, 1))}
+                                                    disabled={currentPage === 1}
+                                                >
+                                                    Previous
+                                                </Button>
+                                                <Typography variant="small" color="gray" className="mx-4">
+                                                    Page {currentPage} of {pagination.last_page}
+                                                </Typography>
+                                                <Button
+                                                    variant="outlined"
+                                                    color="gray"
+                                                    onClick={() => handlePageChange(Math.min(currentPage + 1, pagination.last_page))}
+                                                    disabled={currentPage === pagination.last_page}
+                                                >
+                                                    Next
+                                                </Button>
+                                            </div>
+                                            </>
+                                            ))
+                                            ) : (
+                                            <Typography variant="small" color="gray"
+                                                        className="text-center w-full my-4">
+                                                Բուժումներ չկան։
+                                            </Typography>
+                                            )}
+                                            </div>
+                                        )}
+
+                                    {/* Pagination Controls */}
+                                </CardBody>
+                                </Card>
                                 </div>
-                            )}
+                                </section>
 
-                            {/* Pagination Controls */}
-                            <div className="flex justify-center mt-4">
-                                <Button
-                                    variant="outlined"
-                                    color="gray"
-                                    onClick={() => handlePageChange(Math.max(currentPage - 1, 1))}
-                                    disabled={currentPage === 1}
-                                >
-                                    Previous
-                                </Button>
-                                <Typography variant="small" color="gray" className="mx-4">
-                                    Page {currentPage} of {pagination.last_page}
-                                </Typography>
-                                <Button
-                                    variant="outlined"
-                                    color="gray"
-                                    onClick={() => handlePageChange(Math.min(currentPage + 1, pagination.last_page))}
-                                    disabled={currentPage === pagination.last_page}
-                                >
-                                    Next
-                                </Button>
-                            </div>
-                        </CardBody>
-                    </Card>
-                </div>
-            </section>
+                                <GenericModal
+                                open={open}
+                            onClose={toggleModal}
+                            title="Add Treatment"
+                            confirm="Add Treatment"
+                            cancel="Cancel"
+                            footer={false}
+                        >
+                            <AddTreatmentForm toggleModal={toggleModal} patientID={patient.id}
+                                              onNewTreatmentAdded={handleNewTreatmentAdded}/>
+                        </GenericModal>
+                        <ConfirmDialog
+                            open={openDialogConfirm}
+                            onClose={toggleDialogConfirm}
+                            onConfirm={setConfirmDelete}
+                            isLoading={deleteLoading}
+                            title={deleteType === 'delete_patient' ? 'Հեռացնել պացիենտին' : 'Հեռացնել բուժումը'}
+                        >
+                            <Typography className='text-center' style={{fontSize: 18}}>
+                                {deleteType === 'delete_patient' ? ' Ցանկանում ե՞ք հեռացնել պացիենտին։' : ' Ցանկանում ե՞ք հեռացնել բուժումը:'}
 
-            <GenericModal
-                open={open}
-                onClose={toggleModal}
-                title="Add Treatment"
-                confirm="Add Treatment"
-                cancel="Cancel"
-                footer={false}
-            >
-                <AddTreatmentForm toggleModal={toggleModal} patientID={patient.id} onNewTreatmentAdded ={handleNewTreatmentAdded}/>
-            </GenericModal>
-            <ConfirmDialog
-                open={openDialogConfirm}
-                onClose={toggleDialogConfirm}
-                onConfirm={setConfirmDelete}
-                isLoading={deleteLoading}
-                title={deleteType === 'patient_delete' ? 'Հեռացնել պացիենտին' : 'Հեռացնել բուժումը'}
-            >
-                <Typography className='text-center' style={{fontSize: 18}}>
-                    {deleteType === 'patient_delete' ? ' Ցանկանում ե՞ք հեռացնել պացիենտին։' : ' Ցանկանում ե՞ք հեռացնել բուժումը:'}
-
-                </Typography>
-            </ConfirmDialog>
+                            </Typography>
+                        </ConfirmDialog>
         </AuthenticatedLayout>
     );
 }

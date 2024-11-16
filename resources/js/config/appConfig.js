@@ -1,5 +1,5 @@
 const appConfig = {
-    appUrl: 'http://megastom.lc/',
+    appUrl: 'https://megastom.lc/',
 };
 
 export default appConfig;

@@ -10,7 +10,7 @@ import alertify from 'alertifyjs';
 import ToothSelect from "@/components/ToothSelect/ToothSelect.jsx";
 import {ImageModal} from "@/components/ImageModal.jsx"; // Make sure to install alertifyjs
 
-export default function AddToothForm({isOwner, addNewToothData, updateToothData, toggleModal, treatmentID, selectedToothData}) {
+export default function AddToothForm({bottomRef, isOwner, addNewToothData, updateToothData, toggleModal, treatmentID, selectedToothData}) {
     alertify.set('notifier', 'position', 'top-right');
 
     const [images, setImages] = useState([null, null, null]);
@@ -44,8 +44,8 @@ export default function AddToothForm({isOwner, addNewToothData, updateToothData,
                 const updatedXrayImages = [...xRayImages];
 
                 selectedToothData.x_ray_images.forEach((img, index)=>{
-                    updatedImages[index] = ( `http://megastom.lc/storage/${img.path}`);
-                    updatedXrayImages[index] = ( `http://megastom.lc/storage/${img.path}`);
+                    updatedImages[index] = ( `${import.meta.env.VITE_APP_URL}storage/${img.path}`);
+                    updatedXrayImages[index] = ( `${import.meta.env.VITE_APP_URL}storage/${img.path}`);
                 })
                 setImages(updatedImages);
                 setXRayImages(updatedXrayImages);
@@ -179,20 +179,21 @@ export default function AddToothForm({isOwner, addNewToothData, updateToothData,
         e.preventDefault();
         try {
             const t = await addEntity(entityData);
-            selectedToothData.id ?  updateToothData(t.tooth): addNewToothData(t.tooth);
+            selectedToothData.id ?  updateToothData(t.tooth) : addNewToothData(t.tooth);
             alertify.success('Patient added successfully.');
-            // setFormData({
-            //     tooth_number: '',
-            //     title: '',
-            //     images: '',
-            // });
-            toggleModal();
+
+            // Reset form data
             setToothNumber(false);
             setTitle('');
             setXRayImages([]);
+
+            // Scroll to the bottom of the page after submission
+
         } catch (err) {
             console.error('Submission failed:', err);
         } finally {
+            toggleModal();
+            bottomRef.current?.scrollIntoView({ behavior: 'smooth' }); // This will scroll to the bottom
         }
     };
 
@@ -204,12 +205,12 @@ export default function AddToothForm({isOwner, addNewToothData, updateToothData,
                         {!isOwner && (
                             <label className={isOwner ? 'text-gray-400' : ''}
                                    htmlFor="title">
-                                Title
+                                Վերնագիր
                             </label>
                         )}
                         <Input
                             id="title"
-                            label="Title"
+                            label="Վերնագիր"
                             size="lg"
                             name="title"
                             value={title}
@@ -248,7 +249,7 @@ export default function AddToothForm({isOwner, addNewToothData, updateToothData,
                                                       d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
                                             </svg>
                                             <p className="pt-1 text-sm tracking-wider text-gray-400 group-hover:text-gray-600">
-                                                Attach a file</p>
+                                                Վերբեռնել նկարը</p>
                                         </div>
                                         <input type="file"
                                                accept="image/*"
@@ -280,7 +281,7 @@ export default function AddToothForm({isOwner, addNewToothData, updateToothData,
                                                 //
                                                 // </Button>
                                                 <button
-                                                    // onClick={() => handleDeleteImage(index)}
+                                                    onClick={() => handleDeleteImage(index)}
                                                     className="absolute top-1 right-1 bg-red-600 text-white rounded-full p-1 hover:bg-red-700"
                                                     style={{width: '34px'}}
                                                 >
@@ -297,7 +298,7 @@ export default function AddToothForm({isOwner, addNewToothData, updateToothData,
             </div>
 
             {isOwner && (
-                <Button onClick={(e)=>handleSubmit(e)} type="submit" className="mt-6" fullWidth loading={isLoading}>
+                <Button onClick={(e)=>handleSubmit(e)} type="submit" className="mt-6" loading={isLoading}>
                     Save
                 </Button>
             )}

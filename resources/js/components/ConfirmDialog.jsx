@@ -26,11 +26,11 @@ export function ConfirmDialog({
     return (
         <>
             <Dialog open={open} handler={()=>!isLoading && onClose}  size={size || "md"}>
-                {isLoading && (
-                    <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center z-10">
-                        <Spinner className="h-16 w-16 text-gray-900/50" />
-                    </div>
-                )}
+                {/*{isLoading && (*/}
+                {/*    <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center z-10">*/}
+                {/*        <Spinner className="h-16 w-16 text-gray-900/50" />*/}
+                {/*    </div>*/}
+                {/*)}*/}
                 <DialogHeader>{title}</DialogHeader>
                 <DialogBody>
                     {children}
@@ -41,12 +41,14 @@ export function ConfirmDialog({
                         color="red"
                         className="mr-1"
                         onClick={()=>!isLoading && onClose()}
+                        disabled={isLoading}
                     >
                         <span>Չեղարկել</span>
                     </Button>
                     <Button variant="gradient" color="gray"
                             onClick={()=>{
                                 !isLoading && onConfirm(true)}}
+                            loading={isLoading}
                     >
                         <span>Հաստատել</span>
                     </Button>

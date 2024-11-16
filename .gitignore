@@ -25,3 +25,8 @@ yarn.lock
 /yarn.lock
 
 .vercel
+
+./.osp
+/.osp
+./.osp/
+/.osp/

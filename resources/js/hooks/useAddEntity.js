@@ -33,6 +33,7 @@ const useEntity = (entityUrl) => {
     };
 
     const addEntity = async (entityData) => {
+        debugger
         setIsLoading(true);
         setError(null);
         setValidationErrors({});
@@ -42,7 +43,7 @@ const useEntity = (entityUrl) => {
                 throw new Error('CSRF token not found in meta tags.');
             }
 
-            const response = await axios.post(appConfig.appUrl + entityUrl, entityData, {
+            const response = await axios.post(import.meta.env.VITE_APP_URL + entityUrl, entityData, {
                 headers: {
                     'X-CSRF-TOKEN': csrfToken,
                     'Content-Type': 'multipart/form-data',
@@ -72,7 +73,7 @@ const useEntity = (entityUrl) => {
                 throw new Error('CSRF token not found in meta tags.');
             }
 
-            const response = await axios.put(appConfig.appUrl + entityUrl, entityData, {
+            const response = await axios.put(import.meta.env.VITE_APP_URL + entityUrl, entityData, {
                 headers: {
                     'X-CSRF-TOKEN': csrfToken,
                 },
@@ -96,7 +97,7 @@ const useEntity = (entityUrl) => {
                 throw new Error('CSRF token not found in meta tags.');
             }
 
-            const response = await axios.patch(appConfig.appUrl + entityUrl, entityData, {
+            const response = await axios.patch(import.meta.env.VITE_APP_URL + entityUrl, entityData, {
                 headers: {
                     'X-CSRF-TOKEN': csrfToken,
                 },
@@ -120,7 +121,7 @@ const useEntity = (entityUrl) => {
                 throw new Error('CSRF token not found in meta tags.');
             }
 
-            const response = await axios.delete(appConfig.appUrl + entityUrl, {
+            const response = await axios.delete(import.meta.env.VITE_APP_URL + entityUrl, {
                 headers: {
                     'X-CSRF-TOKEN': csrfToken,
                 },
@@ -139,7 +140,7 @@ const useEntity = (entityUrl) => {
         setError(null);
 
         try {
-            const response = await axios.get(appConfig.appUrl + entityUrl, {
+            const response = await axios.get(import.meta.env.VITE_APP_URL + entityUrl, {
                 headers: {
                     'X-CSRF-TOKEN': csrfToken,
                 },

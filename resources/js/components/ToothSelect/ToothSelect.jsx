@@ -6,11 +6,12 @@ const ToothSelect = ({isOwner, setToothNumber, toothNumber, errors}) => {
     const [selectedTooths, setSelectedTooths] = useState([]);
     const [toothImages, setToothImages] = useState([]);
     const [forChild, setForChild] = useState(false);
-    const [selectedToothNumber, setSelectedToothNumberLocal] = useState(51); // Local state instead of Redux
+    const [selectedToothNumber, setSelectedToothNumberLocal] = useState(false); // Local state instead of Redux
     const [isLoading, setIsLoading ] = useState(false);
 
     useEffect(()=>{
         if(toothNumber){
+            debugger
             if(!toothImages.includes(toothNumber)){
                 setForChild(!forChild);
             }
@@ -34,11 +35,12 @@ const ToothSelect = ({isOwner, setToothNumber, toothNumber, errors}) => {
     }, [forChild]);
 
     useEffect(()=>{
-        setToothNumber(selectedToothNumber);
+        debugger
+        setToothNumber(+selectedToothNumber);
     }, [selectedToothNumber])
 
 
-    const baseUrl = `http://megastom.lc/storage/tooths/`;
+    const baseUrl = `${import.meta.env.VITE_APP_URL}storage/tooths/`;
 
     const allToothImages = useMemo(() => {
         const images = {};

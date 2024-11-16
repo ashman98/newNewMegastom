@@ -34,3 +34,17 @@ body {
     top: 8px !important;
     right: 8px !important;
 }
+
+.badge-block {
+    position: fixed !important;
+    right: 5px;
+    z-index: 999999;
+}
+
+.badge-block>div {
+    cursor:pointer !important;
+}
+
+.badge-block>div:hover {
+    cursor:pointer !important;
+}

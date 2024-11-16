@@ -31,7 +31,7 @@ const PatientsTable = ({filter}) => {
     const [loading, setLoading] = useState(false);
 
     const columnDefs = [
-        { headerName: "№", valueGetter: "node.rowIndex + 1", sortable: false, filter: false, width: 70 },
+        { headerName: "№", valueGetter: "node.rowIndex + 1", sortable: true, filter: false, width: 70 },
         { headerName: "ID", field: "id", hide: true },
         { headerName: "Անուն", field: "name", sortable: true, filter: false, width: 130 },
         { headerName: "Ազգանուն", field: "surname", sortable: true, filter: false, width: 140 },
@@ -52,9 +52,9 @@ const PatientsTable = ({filter}) => {
                 setPatients(response.data.patients);
                 setPagination(prev => ({
                     ...prev,
-                    currentPage: response.data.pagination.current_page,
-                    total: response.data.pagination.total,
-                    lastPage: response.data.pagination.last_page,
+                    currentPage: response.data.pagination?.current_page || 1,
+                    total: response.data.pagination?.total || 0,
+                    lastPage: response.data.pagination?.last_page || 1,
                 }));
             } catch (error) {
                 console.error("Ошибка при загрузке пациентов:", error);
@@ -66,12 +66,13 @@ const PatientsTable = ({filter}) => {
     );
 
     useEffect(() => {
+        debugger
         fetchPatients(pagination.currentPage, pagination.pageSize, filter);
     }, [pagination.currentPage, pagination.pageSize, fetchPatients ,filter]);
 
-    const onGridReady = (params) => {
-        params.api.paginationSetPageSize(pagination.pageSize);
-    };
+    // const onGridReady = (params) => {
+    //     params.api.setPaginationPageSize(pagination.pageSize);
+    // };
 
     const goToPatientPage = (event) => {
         const patientId = event.data.id;
@@ -111,7 +112,7 @@ const PatientsTable = ({filter}) => {
                 columnDefs={columnDefs}
                 localeText={userLocaleText}
                 paginationPageSize={pagination.pageSize}
-                onGridReady={onGridReady}
+                // onGridReady={onGridReady}
                 domLayout="autoHeight"
                 suppressHorizontalScroll={true}
                 onRowClicked={goToPatientPage}
@@ -121,7 +122,7 @@ const PatientsTable = ({filter}) => {
 
             <div className="custom-pagination-container">
                 <div className="w-30 max-w-sm min-w-[20px] flex gap-3 items-center ml-2">
-                    <label className="block mb-1 text-sm text-slate-800">Записей на странице:</label>
+                    <label className="block mb-1 text-sm text-slate-800">Պացիետների քանակը էջի վրա:</label>
                     <select
                         className="w-15 bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow-md appearance-none cursor-pointer"
                         onChange={(e) => handlePageSizeChange(parseInt(e.target.value, 10))}
@@ -170,7 +171,7 @@ const PatientsTable = ({filter}) => {
                         Նախկին
                     </Button>
 
-                    <span>Страница {pagination.currentPage} из {pagination.lastPage}</span>
+                    <span>Էջ {pagination.currentPage} - {pagination.lastPage}</span>
 
                     <Button
                         type="submit"
