@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Disease;
 use App\Http\Requests\StoreDiseaseRequest;
 use App\Http\Requests\UpdateDiseaseRequest;
+use Inertia\Inertia;
 
 class DiseaseController extends Controller
 {
@@ -13,7 +14,10 @@ class DiseaseController extends Controller
      */
     public function index()
     {
-        //
+        $disease= Disease::query()->paginate(10); // Properly paginate the query results
+        return Inertia::render('Disease/Index', [
+            'disease' => $disease->items(),
+        ]);
     }
 
     /**

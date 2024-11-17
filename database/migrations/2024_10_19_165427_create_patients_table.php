@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('city', 100); // City column (adjust length as needed)
             $table->string('address', 255); // Address column
             $table->date('birthday');
-            $table->enum('gender', ['male', 'female', 'non-binary', 'other'])->nullable();
+            $table->enum('gender', ['male', 'female']);
             $table->tinyInteger('active')->default('0');
             $table->timestamps();
         });

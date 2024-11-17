@@ -173,6 +173,14 @@ class PatientController extends Controller
         // Paginate the filtered query
         $patients = $query->orderBy('id', 'desc')->paginate($pageSize);
 
+        $patients->getCollection()->transform(function ($patient) {
+            if ($patient->gender === 'male') {
+                $patient->setAttribute('gender', "Արական");
+            }elseif ($patient->gender === 'female') {
+                $patient->setAttribute('gender', 'Իգական');
+            }
+            return $patient;
+        });
 
         // Structure response with pagination details
         return response()->json([

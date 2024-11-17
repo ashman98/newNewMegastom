@@ -24,7 +24,7 @@ class PatientFactory extends Factory
             'city' => $this->faker->city,
             'address' => $this->faker->address,
             'birthday' => $this->faker->date('Y-m-d', '-18 years'), // Дата рождения (минимум 18 лет)
-            'gender' => $this->faker->randomElement(['male', 'female', 'non-binary', 'other']),
+            'gender' => $this->faker->randomElement(['male', 'female']),
             'active' => $this->faker->boolean(20),
         ];
     }

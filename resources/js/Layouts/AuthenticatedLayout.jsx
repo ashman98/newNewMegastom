@@ -4,7 +4,8 @@ import NavLink from '@/components/NavLink';
 import ResponsiveNavLink from '@/components/ResponsiveNavLink';
 import { Link, usePage } from '@inertiajs/react';
 import { useState } from 'react';
-import Footer from '@/components/Footer'; // Import the Footer component
+import Footer from '@/components/Footer';
+import SidebarWithBurgerMenu from "@/components/SidebarWithBurgerMenu.jsx"; // Import the Footer component
 
 export default function AuthenticatedLayout({ header, children }) {
     const user = usePage().props.auth.user;
@@ -17,6 +18,7 @@ export default function AuthenticatedLayout({ header, children }) {
                     <div className="flex h-16 justify-between">
                         <div className="flex">
                             <div className="flex shrink-0 items-center">
+                                {/*<SidebarWithBurgerMenu />*/}
                                 <Link href="/">
                                     <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800" />
                                 </Link>
@@ -24,6 +26,8 @@ export default function AuthenticatedLayout({ header, children }) {
                             <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 {/*<NavLink href={route('dashboard')} active={route().current('dashboard')}>Dashboard</NavLink>*/}
                                 <NavLink href={route('patients.index')} active={route().current('patients.index')}>Պացիենտներ</NavLink>
+                                <NavLink href={route('diseases.index')} active={route().current('diseases.index')}>Հիվանդություններ</NavLink>
+
                             </div>
                         </div>
 

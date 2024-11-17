@@ -35,12 +35,10 @@ class User extends Authenticatable implements MustVerifyEmail
         'region',
         'city',
         'address',
-        'zip',
         'email_verified_at',
-        'email_verified_code',
-        'email_verification_expires_at',
         'remember_token',
-        'remember_token_expires_at'
+        'remember_token_expires_at',
+        'gender'
     ];
 
     /**
