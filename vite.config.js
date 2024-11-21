@@ -17,5 +17,16 @@ export default defineConfig({
     },
     build: {
         outDir: 'public/build',  // Папка для выходных файлов
+	manifest: true,
+        emptyOutDir: true,
+    },
+    server: {
+        host: '0.0.0.0', // Позволяет принимать подключения извне
+        port: 5173,
+        strictPort: true,
+        hmr: {
+            host: '91.205.196.253', // Ваш публичный IP
+            protocol: 'ws',
+        },
     },
 });
