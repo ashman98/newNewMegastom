@@ -30,3 +30,5 @@ yarn.lock
 /.osp
 ./.osp/
 /.osp/
+vite.config.js
+/vite.config.js

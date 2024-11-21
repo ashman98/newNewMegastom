@@ -40,7 +40,7 @@ const ToothSelect = ({isOwner, setToothNumber, toothNumber, errors}) => {
     }, [selectedToothNumber])
 
 
-    const baseUrl = `${import.meta.env.VITE_APP_URL}storage/tooths/`;
+    const baseUrl = `${import.meta.env.VITE_APP_URL}public/tooths/`;
 
     const allToothImages = useMemo(() => {
         const images = {};
