@@ -6,6 +6,7 @@ use App\Models\Tooth;
 use App\Http\Requests\StoreToothRequest;
 use App\Http\Requests\UpdateToothRequest;
 use App\Models\XRayImage;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -108,7 +109,7 @@ class ToothController extends Controller
 
             // Retrieve existing images and filter based on incoming URLs
             $existingImages = $tooth->xRayImages;
-            $baseUrl = env('APP_URL').'storage/';
+            $baseUrl = Config::get('services.app.url');
             // Separate incoming images as files and URLs
             $fileImages = [];
             $urlImages = [];

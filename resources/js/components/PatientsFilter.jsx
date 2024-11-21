@@ -8,6 +8,7 @@ import {
     Drawer,
     IconButton,
 } from '@material-tailwind/react';
+import useWindowSize from "@/hooks/useWindowSize.js";
 
 const PatientsFilter = ({ onFilterChange }) => {
     const [filters, setFilters] = useState({
@@ -22,6 +23,7 @@ const PatientsFilter = ({ onFilterChange }) => {
     });
 
     const [openTop, setOpenTop] = useState(false);
+
 
     const openDrawerTop = () => setOpenTop(true);
     const closeDrawerTop = () => setOpenTop(false);
@@ -78,8 +80,7 @@ const PatientsFilter = ({ onFilterChange }) => {
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
                     fill="currentColor"
-                    className="size-5"
-                >
+                    className="size-5">
                     <path
                         fillRule="evenodd"
                         d="M3.792 2.938A49.069 49.069 0 0 1 12 2.25c2.797 0 5.54.236 8.209.688a1.857 1.857 0 0 1 1.541 1.836v1.044a3 3 0 0 1-.879 2.121l-6.182 6.182a1.5 1.5 0 0 0-.439 1.061v2.927a3 3 0 0 1-1.658 2.684l-1.757.878A.75.75 0 0 1 9.75 21v-5.818a1.5 1.5 0 0 0-.44-1.06L3.13 7.938a3 3 0 0 1-.879-2.121V4.774c0-.897.64-1.683 1.542-1.836Z"
@@ -90,7 +91,7 @@ const PatientsFilter = ({ onFilterChange }) => {
 
             {/* Drawer */}
             <Drawer
-                placement="top"
+                placement="right"
                 open={openTop}
                 onClose={closeDrawerTop}
                 className="p-6 bg-white shadow-lg rounded-lg"
@@ -106,7 +107,8 @@ const PatientsFilter = ({ onFilterChange }) => {
                     </div>
 
                     <form onSubmit={handleSubmit} className="space-y-6">
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        {/*<div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4">*/}
+                        <div className='flex flex-col gap-3'>
                             {/* Name */}
                             <Input
                                 label="Անուն"
@@ -194,7 +196,7 @@ const PatientsFilter = ({ onFilterChange }) => {
                         </div>
 
                         {/* Action Buttons */}
-                        <div className="flex justify-end space-x-4 mt-6">
+                        <div className="flex justify-end flex-col space-x-4 mt-6">
                             <Button
                                 type="button"
                                 color="gray"

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Disease;
 use App\Http\Requests\StoreDiseaseRequest;
 use App\Http\Requests\UpdateDiseaseRequest;
+use App\Models\Patient;
 use Inertia\Inertia;
 
 class DiseaseController extends Controller
@@ -17,6 +18,28 @@ class DiseaseController extends Controller
         $disease= Disease::query()->paginate(10); // Properly paginate the query results
         return Inertia::render('Disease/Index', [
             'disease' => $disease->items(),
+        ]);
+    }
+
+    /**
+     * Получить лечения для указанного пациента.
+     */
+    public function getDiseases(Request $request)
+    {
+        $query = Disease::query();
+
+        $pageSize = (int) $request->input('pageSize', 10);
+
+        $diseases = $query->orderBy('id', 'desc')->paginate($pageSize);
+
+        return response()->json([
+            'diseases' => $diseases->items(),
+            'pagination' => [
+                'current_page' => $diseases->currentPage(),
+                'last_page' => $diseases->lastPage(),
+                'total' => $diseases->total(),
+                'per_page' => $diseases->perPage()
+            ]
         ]);
     }
 
