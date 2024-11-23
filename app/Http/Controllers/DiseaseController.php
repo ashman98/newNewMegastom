@@ -24,22 +24,12 @@ class DiseaseController extends Controller
     /**
      * Получить лечения для указанного пациента.
      */
-    public function getDiseases(Request $request)
+    public function getDiseases()
     {
-        $query = Disease::query();
-
-        $pageSize = (int) $request->input('pageSize', 10);
-
-        $diseases = $query->orderBy('id', 'desc')->paginate($pageSize);
+        $diseases = Disease::where('del_status', '=', 0)->get();
 
         return response()->json([
-            'diseases' => $diseases->items(),
-            'pagination' => [
-                'current_page' => $diseases->currentPage(),
-                'last_page' => $diseases->lastPage(),
-                'total' => $diseases->total(),
-                'per_page' => $diseases->perPage()
-            ]
+            $diseases->toArray(),
         ]);
     }
 

@@ -25,7 +25,8 @@ export default defineConfig({
         port: 5173,
         strictPort: true,
         hmr: {
-            host: '91.205.196.253', // Ваш публичный IP
+            host: 'localhost', // Ваш публичный IP
+            //91.205.196.253
             protocol: 'ws',
         },
     },

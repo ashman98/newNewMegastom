@@ -20,12 +20,16 @@ import {ConfirmDialog} from "@/components/ConfirmDialog.jsx";
 import useAddEntity from "@/hooks/useAddEntity.js";
 import alertify from "alertifyjs";
 
-export default function PatientShow({ patient }) {
+export default function PatientShow({ patient, patient_diseases }) {
     const [open, setOpen] = useState(false);
     const [openDialogConfirm, setOpenDialogConfirm] = useState(false);
     const [confirmDelete, setConfirmDelete] = useState(false);
     const [entityUrl, setEntityUrl] = useState('');
     const [deleteType, setDeleteType] = useState('');
+
+    useEffect(()=>{
+        console.log(patient_diseases);
+    },[patient_diseases])
 
 
     const toggleModal = () => setOpen((cur) => !cur);
@@ -65,7 +69,7 @@ export default function PatientShow({ patient }) {
                 setLoading(false);
             }
         }, 500),
-        [] // Dependencies: empty array, so it only re-creates the function on mount
+        [patient.id] // Dependencies: empty array, so it only re-creates the function on mount
     );
 
     // Fetch treatments when filters change, debounced
@@ -191,9 +195,13 @@ export default function PatientShow({ patient }) {
                                             <Typography variant="small" color="gray">{item.value}</Typography>
                                         </div>
                                     ))}
-                                    <div className="flex justify-between items-center py-2 border-b">
+                                    <div className="flex justify-between items-center py-2 border-b gap-12">
                                         <Typography variant="small" color="gray">{'Հիվանդություններ'}</Typography>
-                                        <Typography variant="small" color="gray">{'ascascaascasca | asdaascasca | asdacascasca | ascasca ascasca | ascasc'}</Typography>
+                                        <Typography variant="small" color="gray">
+                                            {patient_diseases.map((disease, index)=>{
+                                                return <span key={index}>{`${disease.title}${index!==patient_diseases.length-1?',':''} `}</span>
+                                            })}
+                                        </Typography>
                                     </div>
                                 </CardBody>
                             </Card>
@@ -356,10 +364,10 @@ export default function PatientShow({ patient }) {
                                     onClick={() => handlePageChange(Math.max(currentPage - 1, 1))}
                                     disabled={currentPage === 1}
                                 >
-                                    Previous
+                                    Նախորդ
                                 </Button>
                                 <Typography variant="small" color="gray" className="mx-4">
-                                    Page {currentPage} of {pagination.last_page}
+                                    Էջ {currentPage} - {pagination.last_page}
                                 </Typography>
                                 <Button
                                     variant="outlined"
@@ -367,7 +375,7 @@ export default function PatientShow({ patient }) {
                                     onClick={() => handlePageChange(Math.min(currentPage + 1, pagination.last_page))}
                                     disabled={currentPage === pagination.last_page}
                                 >
-                                    Next
+                                    Հաջորդ
                                 </Button>
                             </div>
                             )}
@@ -379,7 +387,7 @@ export default function PatientShow({ patient }) {
             <GenericModal
                 open={open}
                 onClose={toggleModal}
-                title="Add Treatment"
+                title="Ավելացնել բուժում"
                 confirm="Add Treatment"
                 cancel="Cancel"
                 footer={false}

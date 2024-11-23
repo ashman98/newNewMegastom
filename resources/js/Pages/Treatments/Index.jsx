@@ -557,7 +557,7 @@ const TreatmentIndex = ({ treatment }) => {
             <GenericModal
                 open={open}
                 onClose={closeModal}
-                title="Ավլեացնել ռենտգեն"
+                title={selectedToothData.id?"Խմբագրել ռենտգենը":"Ավլեացնել ռենտգեն"}
                 confirm="Add Patient"
                 cancel="Cancel"
                 footer={false}
