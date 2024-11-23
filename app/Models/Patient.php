@@ -26,6 +26,7 @@ class Patient extends Model
             'patient_diseases',
             'patient_id',
             'diseases_id'
-        );
+        ) ->withPivot('del_status')
+            ->wherePivot('del_status', 0);
     }
 }

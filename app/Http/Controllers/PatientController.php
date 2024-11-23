@@ -6,6 +6,7 @@ use App\DataTables\PatientsDataTable;
 use App\DataTables\UsersDataTable;
 use App\Http\Requests\StorePatientRequest;
 use App\Http\Requests\UpdatePatientRequest;
+use App\Models\Disease;
 use App\Models\Patient;
 use App\Models\Treatment;
 use Illuminate\Http\Request;
@@ -66,15 +67,27 @@ class PatientController extends Controller
             return $treatment;
         });
 
+        // Corrected disease query (filtered by del_status in the relationship itself)
+        $diseases = $patient->diseases; // Automatically applies the del_status filter
+
+        // Transform the diseases collection
+        $diseases->transform(function ($disease) {
+            $disease->setAttribute('value', $disease->name);
+            $disease->setAttribute('label', $disease->title);
+            return $disease;
+        });
+
         return Inertia::render('Patients/Show', [
             'patient' => $patient,
             'treatments' => $treatments->items(),
+            'patient_diseases' => $diseases->toArray(),
             'pagination' => [
                 'current_page' => $treatments->currentPage(),
                 'last_page' => $treatments->lastPage(),
             ],
         ]);
     }
+
 
 
     /**
@@ -167,6 +180,25 @@ class PatientController extends Controller
             $query->where('birthday', '<=', $birthdayTo);
         }
 
+        if ($request->input('isOwnPatient') === 'true'){
+            $query->whereHas('treatments', function ($query) {
+                $query->where('dentist_id', auth()->id()); // Only show treatments where dentist_id matches the logged-in user
+            });
+        }
+
+
+        $patientDiseases = $request->input('patient_diseases');
+        if (!empty($patientDiseases) && is_array($patientDiseases)) {
+            foreach ($patientDiseases as $disease) {
+                $diseaseName = $disease['value']; // Access each disease name
+
+                // Apply filter for each disease name
+                $query->whereHas('diseases', function ($query) use ($diseaseName) {
+                    $query->where('name', '=',$diseaseName);
+                });
+            }
+        }
+
         // Set default page size if not specified
         $pageSize = (int) $request->input('pageSize', 10);
 
@@ -206,13 +238,25 @@ class PatientController extends Controller
 
     public function store(StorePatientRequest $request)
     {
-        // Данные уже валидированы, так что можем просто создать пациента
         DB::beginTransaction();
-    try{
-        $patient = Patient::create(
-            $request->validated()
-        );
-        DB::commit();
+        try {
+            // Создание пациента
+            $patient = Patient::create($request->validated());
+
+            // Обработка заболеваний
+            if ($request->has('patient_diseases')) {
+                $diseaseValues = collect($request->input('patient_diseases'))
+                    ->pluck('value') // Извлекаем только значения (name)
+                    ->toArray();
+
+                // Получаем болезни по значениям из БД
+                $diseases = Disease::whereIn('name', $diseaseValues)->get();
+
+                // Привязываем болезни к пациенту
+                $patient->diseases()->attach($diseases->pluck('id'));
+            }
+
+            DB::commit();
 
             return response()->json([
                 'success' => true,
@@ -220,14 +264,13 @@ class PatientController extends Controller
                 'patient_id' => $patient->id,
             ]);
 
-    }catch (\Exception $e){
-        DB::rollBack();
-        return response()->json([
-            'success' => false,
-            'message' => $e->getMessage(),
-        ]);
-    }
-
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ]);
+        }
     }
 
     /**

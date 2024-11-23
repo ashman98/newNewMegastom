@@ -379,7 +379,7 @@ export default function PatientShow({ patient }) {
             <GenericModal
                 open={open}
                 onClose={toggleModal}
-                title="Add Treatment"
+                title="Ավելացնել բուժում"
                 confirm="Add Treatment"
                 cancel="Cancel"
                 footer={false}

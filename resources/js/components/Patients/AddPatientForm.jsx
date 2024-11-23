@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import useAddEntity from '../../hooks/useAddEntity.js'; // Specify the correct path to the hook
 import './AddPatinetForm.css';
 
@@ -7,12 +7,30 @@ import {
     Input,
     Option,
     Button,
-    Typography, Spinner, Select,
+    Typography, Spinner, Select as MatSelect
 } from "@material-tailwind/react";
-import alertify from 'alertifyjs'; // Make sure to install alertifyjs
+import alertify from 'alertifyjs';
+import axios from "axios";
+// import { MultiSelect } from 'primereact/multiselect';
+// import { Button as PrimeButton } from 'primereact/button';
+import Select from "react-select";
 
-export default function AddPatientForm({toggleModal}) {
+export default function AddPatientForm({toggleModal, diseases}) {
     alertify.set('notifier', 'position', 'top-right');
+    const [rendDiseases, setRendDiseases] = useState([]);
+
+    useEffect(()=>{
+        if (diseases.length > 0){
+
+
+            const rendDis = diseases.map((disease)=> {
+                debugger
+                return({ value: disease.name, label:  disease.title });
+            })
+            debugger
+            setRendDiseases(rendDis);
+        }
+    }, diseases)
 
     const [formData, setFormData] = useState({
         name: '',
@@ -21,8 +39,23 @@ export default function AddPatientForm({toggleModal}) {
         city: '',
         address: '',
         birthday: '',
-        gender: 'male'
+        gender: 'male',
+        patient_diseases: [],
     });
+
+
+    const [selectedDiseases, setSelectedDiseases] = useState([]);
+    const handleChangeDiseases = (selectedOptions) => {
+        setFormData({
+            ...formData,
+            ['patient_diseases']: selectedOptions,
+        });
+        setSelectedDiseases(selectedOptions);
+    };
+
+    const [loading, setLoading] = useState(false);
+
+
 
     const getFormData  = () => {
         return formData;
@@ -41,7 +74,9 @@ export default function AddPatientForm({toggleModal}) {
         city: false,
         address: false,
         birthday: false,
+        patient_diseases: false,
     });
+
 
     const handleChange = (name, value) => {
         console.log(value.length);
@@ -122,27 +157,27 @@ export default function AddPatientForm({toggleModal}) {
 
 
         if (!formData.name) {
-            newErrors.name = "Անուն դաշտը պարտադիր է:";
+            newErrors.name = "Պարտադիր է:";
         }
 
         if (!formData.surname) {
-            newErrors.surname = "Ազգանուն դաշտը պարտադիր է:";
+            newErrors.surname = "Պարտադիր է:";
         }
 
         if (!formData.phone) {
-            newErrors.phone = "Հեռախոսհամար դաշտը պարտադիր է:";
+            newErrors.phone = "Պարտադիր է:";
         }
 
         if (!formData.city) {
-            newErrors.city = "Քաղաք դաշտը պարտադիր է:";
+            newErrors.city = "Պարտադիր է:";
         }
 
         if (!formData.address) {
-            newErrors.address = "Հասցե դաշտը պարտադիր է:";
+            newErrors.address = "Պարտադիր է:";
         }
 
         if (!formData.birthday) {
-            newErrors.birthday = "Ծննդյան տարեթիվ դաշտը պարտադիր է:";
+            newErrors.birthday = "Պարտադիր է:";
         } else {
             const birthday = new Date(formData.birthday);
 
@@ -190,6 +225,7 @@ export default function AddPatientForm({toggleModal}) {
                 city: '',
                 address: '',
                 birthday: '',
+                patient_diseases: [],
             });
             toggleModal();
         } catch (err) {
@@ -200,38 +236,40 @@ export default function AddPatientForm({toggleModal}) {
 
     return (
         <div className="flex justify-center items-center h-full">
-            {/*{isLoading && (*/}
-            {/*    <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center z-10">*/}
-            {/*        <Spinner className="h-16 w-16 text-gray-900/50" />*/}
-            {/*    </div>*/}
-            {/*)}*/}
+            {loading?  (
+                <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center z-10">
+                    <Spinner className="h-16 w-16 text-gray-900/50" />
+                </div>
+            ) : (
             <form className=" mb-2 w-80 max-w-screen-lg sm:w-96" onSubmit={handleSubmit}>
                 <div className=" flex flex-col gap-3">
-                    <div>
-                        <Input
-                            label="Անուն"
-                            size="lg"
-                            name="name"
-                            value={formData.name}
-                            onChange={(e) => {
-                                handleChange(e.target.name, e.target.value)
-                            }}
-                            error={errors.name}
-                        />
-                        {errors.name && <p className="error-message">{errors.name}</p>}
-                    </div>
-                    <div>
-                        <Input
-                            label="Ազգանուն"
-                            size="lg"
-                            name="surname"
-                            value={formData.surname}
-                            onChange={(e) => {
-                                handleChange(e.target.name, e.target.value)
-                            }}
-                            error={errors.surname}
-                        />
-                        {errors.surname && <p className="error-message">{errors.surname}</p>}
+                    <div className="flex flex-row gap-3">
+                        <div>
+                            <Input
+                                label="Անուն"
+                                size="lg"
+                                name="name"
+                                value={formData.name}
+                                onChange={(e) => {
+                                    handleChange(e.target.name, e.target.value)
+                                }}
+                                error={errors.name}
+                            />
+                            {errors.name && <p className="error-message">{errors.name}</p>}
+                        </div>
+                        <div>
+                            <Input
+                                label="Ազգանուն"
+                                size="lg"
+                                name="surname"
+                                value={formData.surname}
+                                onChange={(e) => {
+                                    handleChange(e.target.name, e.target.value)
+                                }}
+                                error={errors.surname}
+                            />
+                            {errors.surname && <p className="error-message">{errors.surname}</p>}
+                        </div>
                     </div>
                     <div>
                         <Input
@@ -278,6 +316,7 @@ export default function AddPatientForm({toggleModal}) {
                             label="Ծննդյան տարեթիվ"
                             size="lg"
                             name="birthday"
+                            className='birthday'
                             value={formData.birthday}
                             max={today}
                             onChange={(e) => {
@@ -287,53 +326,66 @@ export default function AddPatientForm({toggleModal}) {
                         />
                         {errors.birthday && <p className="error-message">{errors.birthday}</p>}
                     </div>
-                        <Select size="md" label="Սեռ" animate={{
-                            mount: {y: 0},
-                            unmount: {y: 25},
-                        }}
-                                value={formData.gender}
-                                name='gender'
-                                onChange={(val) => {
-                                    handleChange('gender', val)
-                                }}
-                        >
-                            <Option value='male'>
-                                <div className='flex flex-row items-center gap-3'>
-                                    <svg width="20px" height="20px" viewBox="0 0 1024 1024"
-                                         xmlns="http://www.w3.org/2000/svg">
-                                        <path fill="#000000"
-                                              d="M399.5 849.5a225 225 0 1 0 0-450 225 225 0 0 0 0 450zm0 56.25a281.25 281.25 0 1 1 0-562.5 281.25 281.25 0 0 1 0 562.5zm253.125-787.5h225q28.125 0 28.125 28.125T877.625 174.5h-225q-28.125 0-28.125-28.125t28.125-28.125z"/>
-                                        <path fill="#000000"
-                                              d="M877.625 118.25q28.125 0 28.125 28.125v225q0 28.125-28.125 28.125T849.5 371.375v-225q0-28.125 28.125-28.125z"/>
-                                        <path fill="#000000"
-                                              d="M604.813 458.9 565.1 419.131l292.613-292.668 39.825 39.824z"/>
-                                    </svg>
-                                    <Typography className='' color='gray'>
-                                        Արական
-                                    </Typography>
-                                </div>
-                            </Option>
-                            <Option value={'female'}>
-                                <div className='flex flex-row items-center gap-3'>
-                                    <svg width="20px" height="20px" viewBox="0 0 1024 1024"
-                                         xmlns="http://www.w3.org/2000/svg">
-                                        <path fill="#000000"
-                                              d="M512 640a256 256 0 1 0 0-512 256 256 0 0 0 0 512zm0 64a320 320 0 1 1 0-640 320 320 0 0 1 0 640z"/>
-                                        <path fill="#000000"
-                                              d="M512 640q32 0 32 32v256q0 32-32 32t-32-32V672q0-32 32-32z"/>
-                                        <path fill="#000000" d="M352 800h320q32 0 32 32t-32 32H352q-32 0-32-32t32-32z"/>
-                                    </svg>
-                                    <Typography className='' color='gray'>
-                                        Իգական
-                                    </Typography>
-                                </div>
-                            </Option>
-                        </Select>
-                    </div>
-                    <Button type="submit" className="mt-6" fullWidth loading={isLoading}>
-                        Ավելացնել
-                    </Button>
-            </form>
+                    <MatSelect size="md" label="Սեռ" animate={{
+                        mount: {y: 0},
+                        unmount: {y: 25},
+                    }}
+                               value={formData.gender}
+                               name='gender'
+                               onChange={(val) => {
+                                   handleChange('gender', val)
+                               }}
+                    >
+                        <Option value='male'>
+                            <div className='flex flex-row items-center gap-3'>
+                                <svg width="20px" height="20px" viewBox="0 0 1024 1024"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <path fill="#000000"
+                                          d="M399.5 849.5a225 225 0 1 0 0-450 225 225 0 0 0 0 450zm0 56.25a281.25 281.25 0 1 1 0-562.5 281.25 281.25 0 0 1 0 562.5zm253.125-787.5h225q28.125 0 28.125 28.125T877.625 174.5h-225q-28.125 0-28.125-28.125t28.125-28.125z"/>
+                                    <path fill="#000000"
+                                          d="M877.625 118.25q28.125 0 28.125 28.125v225q0 28.125-28.125 28.125T849.5 371.375v-225q0-28.125 28.125-28.125z"/>
+                                    <path fill="#000000"
+                                          d="M604.813 458.9 565.1 419.131l292.613-292.668 39.825 39.824z"/>
+                                </svg>
+                                <Typography className='' color='gray'>
+                                    Արական
+                                </Typography>
+                            </div>
+                        </Option>
+                        <Option value={'female'}>
+                            <div className='flex flex-row items-center gap-3'>
+                                <svg width="20px" height="20px" viewBox="0 0 1024 1024"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <path fill="#000000"
+                                          d="M512 640a256 256 0 1 0 0-512 256 256 0 0 0 0 512zm0 64a320 320 0 1 1 0-640 320 320 0 0 1 0 640z"/>
+                                    <path fill="#000000"
+                                          d="M512 640q32 0 32 32v256q0 32-32 32t-32-32V672q0-32 32-32z"/>
+                                    <path fill="#000000" d="M352 800h320q32 0 32 32t-32 32H352q-32 0-32-32t32-32z"/>
+                                </svg>
+                                <Typography className='' color='gray'>
+                                    Իգական
+                                </Typography>
+                            </div>
+                        </Option>
+                    </MatSelect>
+                    {Array.isArray(rendDiseases) && rendDiseases.length > 0 && (
+                        <div className="w-full">
+                            <Select
+                                isMulti
+                                name="patient_diesases"
+                                options={rendDiseases}
+                                className="basic-multi-select"
+                                classNamePrefix="select"
+                                placeholder="Ընտրել հիվանդություններ"
+                                onChange={handleChangeDiseases}
+                            />
+                        </div>
+                    )}
+                </div>
+                <Button type="submit" className="mt-6" fullWidth loading={isLoading}>
+                    Ավելացնել
+                </Button>
+            </form>)}
         </div>
     );
 }

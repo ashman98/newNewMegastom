@@ -28,6 +28,11 @@ class StorePatientRequest extends FormRequest
             'birthday' => 'required|date', // Дата рождения
             'city' => 'required|string|max:100',
             'address' => 'required|string|max:255',
+            'gender' => 'string',
+            'patient_diseases' => 'array', // Поле должно быть массивом
+//            'patient_diseases.*.label' => 'required|string|max:255', // Каждый элемент должен иметь label
+//            'patient_diseases.*.value' => 'required|string|max:255',
+
         ];
     }
 
@@ -38,9 +43,13 @@ class StorePatientRequest extends FormRequest
             'surname.required' => 'Фамилия обязательна для заполнения.',
             'phone.required' => 'Телефон обязателен для заполнения.',
             'phone.unique' => 'Этот телефон уже зарегистрирован.',
-//            'dob.required' => 'Дата рождения обязательна для заполнения.',
+            'birthday.required' => 'Дата рождения обязательна для заполнения.',
             'city.required' => 'Город обязателен для заполнения.',
             'address.required' => 'Адрес обязателен для заполнения.',
+            'patient_diseases.array' => 'Поле заболеваний должно быть массивом.',
+            'patient_diseases.*.label.required' => 'Каждое заболевание должно иметь название (label).',
+            'patient_diseases.*.value.required' => 'Каждое заболевание должно иметь значение (value).',
+
         ];
     }
 }

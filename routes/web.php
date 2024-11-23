@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DiseaseController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ToothController;
@@ -25,7 +26,7 @@ Route::get('/dashboard', function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/diseases', [\App\Http\Controllers\DiseaseController::class, 'index'])->middleware(['auth', 'verified'])->name('diseases.index');
-    Route::get('/diseases/data', [PatientController::class, 'getDiseases'])->middleware(['auth', 'verified'])->name('diseases.data');
+    Route::get('/diseases/data', [DiseaseController::class, 'getDiseases'])->middleware(['auth', 'verified'])->name('diseases.data');
 
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

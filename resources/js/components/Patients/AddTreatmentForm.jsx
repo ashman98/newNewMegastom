@@ -152,11 +152,11 @@ export default function AddTreatmentForm({toggleModal, patientID, onNewTreatment
                 </div>
                 <Button
                     type="submit"
-                    className="mt-6"
+                    className="mt-6 w-full"
 
                     variant="gradient" color="gray"
                     loading={isLoading}>
-                    Add
+                    Ավելացնել
                 </Button>
             </form>
         </div>

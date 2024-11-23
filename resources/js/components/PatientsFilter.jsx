@@ -1,16 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect, useMemo} from 'react';
 import {
     Input,
     Button,
-    Select,
+    Select as MtSelect,
     Option,
     Typography,
     Drawer,
     IconButton,
+    Checkbox
 } from '@material-tailwind/react';
 import useWindowSize from "@/hooks/useWindowSize.js";
+import Select from "react-select";
 
-const PatientsFilter = ({ onFilterChange }) => {
+
+const PatientsFilter = ({ onFilterChange, diseases }) => {
     const [filters, setFilters] = useState({
         name: '',
         surname: '',
@@ -20,7 +23,29 @@ const PatientsFilter = ({ onFilterChange }) => {
         birthday_from: '',
         birthday_to: '',
         gender: '',
+        patient_diseases: [],
+        isOwnPatient: false,
+
     });
+
+    const [selectedDiseases, setSelectedDiseases] = useState([]);
+    const handleChangeDiseases = (selectedOptions) => {
+        setFilters({
+            ...filters,
+            ['patient_diseases']: selectedOptions,
+        });
+        setSelectedDiseases(selectedOptions);
+    };
+
+    const rendDiseases = useMemo(() => {
+        if (diseases && diseases.length > 0) {
+            return diseases.map((disease) => ({
+                value: disease.name,
+                label: disease.title,
+            }));
+        }
+        return [];
+    }, [diseases]);
 
     const [openTop, setOpenTop] = useState(false);
 
@@ -42,6 +67,12 @@ const PatientsFilter = ({ onFilterChange }) => {
             [name]: value,
         }));
     };
+    const handleChangeChecked = () => {
+        setFilters((prev) => ({
+            ...prev,
+            ['isOwnPatient']: !filters.isOwnPatient
+        }));
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -58,6 +89,9 @@ const PatientsFilter = ({ onFilterChange }) => {
             birthday_from: '',
             birthday_to: '',
             gender: '',
+            patient_diseases: [],
+            isOwnPatient: false,
+
         });
         onFilterChange({
             name: '',
@@ -68,6 +102,9 @@ const PatientsFilter = ({ onFilterChange }) => {
             birthday_from: '',
             birthday_to: '',
             gender: '',
+            patient_diseases: [],
+            isOwnPatient: false,
+
         });
     };
 
@@ -95,6 +132,7 @@ const PatientsFilter = ({ onFilterChange }) => {
                 open={openTop}
                 onClose={closeDrawerTop}
                 className="p-6 bg-white shadow-lg rounded-lg"
+                size={500}
             >
                 <div className="max-w-4xl mx-auto mt-4">
                     <div className="flex justify-between items-center mb-6">
@@ -110,46 +148,74 @@ const PatientsFilter = ({ onFilterChange }) => {
                         {/*<div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4">*/}
                         <div className='flex flex-col gap-3'>
                             {/* Name */}
-                            <Input
-                                label="Անուն"
-                                variant="outlined"
-                                name="name"
-                                value={filters.name}
-                                onChange={handleChange}
-                                className="bg-white rounded-lg"
-                            />
+                            <div className='flex w-full justify-start gap-2'>
+                                <Input
+                                    label="Անուն"
+                                    variant="outlined"
+                                    name="name"
+                                    value={filters.name}
+                                    onChange={handleChange}
+                                    className="bg-white rounded-lg w-1/4"  // 25% ширины
+                                />
 
-                            {/* Surname */}
-                            <Input
-                                label="Ազգանուն"
-                                variant="outlined"
-                                name="surname"
-                                value={filters.surname}
-                                onChange={handleChange}
-                                className="bg-white rounded-lg"
-                            />
+                                <Input
+                                    label="Ազգանուն"
+                                    variant="outlined"
+                                    name="surname"
+                                    value={filters.surname}
+                                    onChange={handleChange}
+                                    className="bg-white rounded-lg w-3/4"  // 75% ширины
+                                />
+                            </div>
 
                             {/* Phone */}
-                            <Input
-                                label="Հեռախոսահամար"
-                                variant="outlined"
-                                name="phone"
-                                value={filters.phone}
-                                onChange={handleChange}
-                                className="bg-white rounded-lg"
-                            />
+                            <div className='flex flex-row gap-2'>
+                                <Input
+                                    label="Հեռախոսահամար"
+                                    variant="outlined"
+                                    name="phone"
+                                    value={filters.phone}
+                                    onChange={handleChange}
+                                    className="bg-white rounded-lg"
+                                />
 
-                            {/* City */}
-                            <Input
-                                label="Քաղաք"
-                                variant="outlined"
-                                name="city"
-                                value={filters.city}
-                                onChange={handleChange}
-                                className="bg-white rounded-lg"
-                            />
+                                {/* City */}
+                                <Input
+                                    label="Քաղաք"
+                                    variant="outlined"
+                                    name="city"
+                                    value={filters.city}
+                                    onChange={handleChange}
+                                    className="bg-white rounded-lg"
+                                />
+                            </div>
 
                             {/* Address */}
+
+
+                            <div className='flex flex-row gap-2'>
+                                {/* Birthday Range - From */}
+                                <Input
+                                    label="Ծննդյան ամսաթիվից"
+                                    variant="outlined"
+                                    name="birthday_from"
+                                    type="date"
+                                    value={filters.birthday_from}
+                                    onChange={handleChange}
+                                    className="bg-white rounded-lg"
+                                />
+
+                                {/* Birthday Range - To */}
+                                <Input
+                                    label="Ծննդյան ամսաթիվ մինչև"
+                                    variant="outlined"
+                                    name="birthday_to"
+                                    type="date"
+                                    value={filters.birthday_to}
+                                    onChange={handleChange}
+                                    className="bg-white rounded-lg"
+                                />
+                            </div>
                             <Input
                                 label="Հասե"
                                 variant="outlined"
@@ -158,45 +224,49 @@ const PatientsFilter = ({ onFilterChange }) => {
                                 onChange={handleChange}
                                 className="bg-white rounded-lg"
                             />
-
-                            {/* Birthday Range - From */}
-                            <Input
-                                label="Ծննդյան ամսաթիվից"
-                                variant="outlined"
-                                name="birthday_from"
-                                type="date"
-                                value={filters.birthday_from}
-                                onChange={handleChange}
-                                className="bg-white rounded-lg"
-                            />
-
-                            {/* Birthday Range - To */}
-                            <Input
-                                label="Ծննդյան ամսաթիվ մինչև"
-                                variant="outlined"
-                                name="birthday_to"
-                                type="date"
-                                value={filters.birthday_to}
-                                onChange={handleChange}
-                                className="bg-white rounded-lg"
-                            />
-
                             {/* Gender */}
-                            <Select
+                            <MtSelect
                                 label="Ընտրեք սեռը"
                                 value={filters.gender}
                                 onChange={(value) =>
-                                    setFilters((prev) => ({ ...prev, gender: value }))
+                                    setFilters((prev) => ({...prev, gender: value}))
                                 }
                                 className="bg-white rounded-lg"
                             >
                                 <Option value="male">Արական</Option>
                                 <Option value="female">Իգական</Option>
-                            </Select>
+                            </MtSelect>
                         </div>
 
+                        {Array.isArray(rendDiseases) && rendDiseases.length > 0 && (
+                            <div className="w-full">
+                                <Select
+                                    isMulti
+                                    name="patient_diseases"
+                                    options={rendDiseases}
+                                    className="basic-multi-select"
+                                    classNamePrefix="select"
+                                    placeholder="Ընտրել հիվանդություններ"
+                                    onChange={handleChangeDiseases}
+                                />
+                            </div>
+                        )}
+
+                            <Checkbox
+                                name="isOwnPatient"
+                                label="Ցուցադրել միայն իմ հիվանդները"
+                                id="isOwnPatient"
+                                onChange={(e)=>
+                                {
+                                    // e.preventDefault();
+                                    handleChangeChecked();
+                                }}
+                                checked={filters.isOwnPatient}
+                            />
+
+
                         {/* Action Buttons */}
-                        <div className="flex justify-end flex-col space-x-4 mt-6">
+                        <div className="flex justify-end flex-row space-x-4 mt-6">
                             <Button
                                 type="button"
                                 color="gray"

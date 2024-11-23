@@ -10,7 +10,7 @@ import alertify from 'alertifyjs';
 import ToothSelect from "@/components/ToothSelect/ToothSelect.jsx";
 import {ImageModal} from "@/components/ImageModal.jsx"; // Make sure to install alertifyjs
 
-export default function AddToothForm({bottomRef, isOwner, addNewToothData, updateToothData, toggleModal, treatmentID, selectedToothData}) {
+export default function AddToothForm({setSelectedToothData,bottomRef, isOwner, addNewToothData, updateToothData, toggleModal, treatmentID, selectedToothData}) {
     alertify.set('notifier', 'position', 'top-right');
 
     const [images, setImages] = useState([null, null, null]);
@@ -298,8 +298,8 @@ export default function AddToothForm({bottomRef, isOwner, addNewToothData, updat
             </div>
 
             {isOwner && (
-                <Button onClick={(e)=>handleSubmit(e)} type="submit" className="mt-6" loading={isLoading}>
-                    Save
+                <Button onClick={(e)=>handleSubmit(e)} type="submit" className="mt-6 w-full" loading={isLoading}>
+                    {selectedToothData.id ?'Խմբագրել': 'Ավելացնել'}
                 </Button>
             )}
 
