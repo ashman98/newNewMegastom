@@ -10,11 +10,11 @@ export default defineConfig({
         }),
         react(),
     ],
-    // resolve: {
-    //     alias: {
-    //         '@': '/resources/js',  // Добавление алиаса для удобных импортов
-    //     },
-    // },
+    resolve: {
+        alias: {
+            '@': '/resources/js',  // Добавление алиаса для удобных импортов
+        },
+    },
     build: {
         outDir: 'public/build',  // Папка для выходных файлов
         manifest: true,
@@ -25,9 +25,12 @@ export default defineConfig({
         port: 5173,
         strictPort: true,
         hmr: {
-            host: 'localhost', // Ваш публичный IP
             //91.205.196.253
-            protocol: 'ws',
+            host: 'https://megastom.duckdns.org', // Ваш публичный IP
+            protocol: 'wss',
+        },
+	proxy: {
+            '/tooths': 'https://megastom.duckdns.org',  // Проксируем запросы на изображения
         },
     },
 });
