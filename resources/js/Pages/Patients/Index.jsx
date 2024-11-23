@@ -15,6 +15,7 @@ import './Index.css';
 import PatientsFilter from "../../components/PatientsFilter.jsx";
 import axios from "axios";
 import MultiSelect from "@/components/MultiSelect.jsx";
+import useWindowSize from "@/hooks/useWindowSize.js";
 
 const dentistInfo = {
     image: '/path/to/dentist-image.jpg', // Update with actual image path
@@ -26,6 +27,7 @@ const PatientIndex = ({ patients }) => {
     const [open, setOpen] = useState(false);
     const [filter, setFilter] = useState({});
     const [addPatientLoading, setAddPatientLoading] = useState(false);
+    const { width } = useWindowSize();
     const toggleModal = () => {
         if (!addPatientLoading){
             setOpen((cur) => !cur);
@@ -58,6 +60,7 @@ const PatientIndex = ({ patients }) => {
         <AuthenticatedLayout>
             <Head title="Patients"/>
 
+
             <div className="md:container md:mx-auto w-full max-w-10xl my-4">
                 <div className="patients-container">
                     <div className='flex justify-between mb-3'>
@@ -70,6 +73,7 @@ const PatientIndex = ({ patients }) => {
                             </svg>
                             Նոր պացիենտ
                         </Button>
+                        <Typography className='font-bold'>{width}</Typography>
                         <PatientsFilter onFilterChange={setFilter} diseases={diseases}/>
                     </div>
 

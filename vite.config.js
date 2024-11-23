@@ -17,7 +17,7 @@ export default defineConfig({
     },
     build: {
         outDir: 'public/build',  // Папка для выходных файлов
-	    manifest: true,
+        manifest: true,
         emptyOutDir: true,
     },
     server: {
