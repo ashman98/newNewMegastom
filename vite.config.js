@@ -31,6 +31,7 @@ export default defineConfig({
         port: 5173,
         strictPort: true,
         hmr: {
+            //91.205.196.253
             host: 'https://megastom.duckdns.org', // Ваш публичный IP
             protocol: 'wss',
         },
