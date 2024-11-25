@@ -173,12 +173,12 @@ const TreatmentIndex = ({ treatment }) => {
         } finally {
         }
     };
-
+    const slidesToShow = width>960? 3 : 2;
     const sliderSettings = {
         dots: true,
         infinite: true,
         speed: 500,
-        slidesToShow: width>960?3:2,
+        slidesToShow: slidesToShow ,
         slidesToScroll: 1,
         adaptiveHeight: true,
         spaceBetween: 20,  // Default spacing
