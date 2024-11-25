@@ -139,16 +139,17 @@ const PatientsTable = ({filter}) => {
                 )}
 
 
-                <div className="flex gap-3 items-center mr-2 ">
+                <div className="flex flex-wrap sm:flex-nowrap gap-2 items-center justify-center sm:justify-start mr-2">
                     <Button
                         type="submit"
                         color="gray"
-                        className="text-white font-semibold rounded-md flex gap-1 items-center"
-                        onClick={() => handlePageChange(1)} disabled={pagination.currentPage === 1}
+                        className="text-white font-semibold rounded-md flex gap-1 items-center text-sm px-3 py-1"
+                        onClick={() => handlePageChange(1)}
+                        disabled={pagination.currentPage === 1}
                         variant='gradient'
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                             className="size-5">
+                             className="size-4">
                             <path fillRule="evenodd"
                                   d="M10.72 11.47a.75.75 0 0 0 0 1.06l7.5 7.5a.75.75 0 1 0 1.06-1.06L12.31 12l6.97-6.97a.75.75 0 0 0-1.06-1.06l-7.5 7.5Z"
                                   clipRule="evenodd"/>
@@ -158,16 +159,17 @@ const PatientsTable = ({filter}) => {
                         </svg>
                         Առաջին
                     </Button>
+
                     <Button
                         type="submit"
                         color="gray"
-                        className="text-white font-semibold rounded-md flex gap-1 items-center"
+                        className="text-white font-semibold rounded-md flex gap-1 items-center text-sm px-3 py-1"
                         onClick={() => handlePageChange(pagination.currentPage - 1)}
                         disabled={pagination.currentPage === 1}
                         variant='gradient'
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                             className="size-5">
+                             className="size-4">
                             <path fillRule="evenodd"
                                   d="M7.72 12.53a.75.75 0 0 1 0-1.06l7.5-7.5a.75.75 0 1 1 1.06 1.06L9.31 12l6.97 6.97a.75.75 0 1 1-1.06 1.06l-7.5-7.5Z"
                                   clipRule="evenodd"/>
@@ -175,35 +177,38 @@ const PatientsTable = ({filter}) => {
                         Նախորդ
                     </Button>
 
-                    <span>Էջ {pagination.currentPage} - {pagination.lastPage}</span>
+                    <span className="text-sm text-center w-full sm:w-auto">
+    Էջ {pagination.currentPage} - {pagination.lastPage}
+  </span>
 
                     <Button
                         type="submit"
                         color="gray"
-                        className="text-white font-semibold rounded-md flex gap-1 items-center"
+                        className="text-white font-semibold rounded-md flex gap-1 items-center text-sm px-3 py-1"
                         onClick={() => handlePageChange(pagination.currentPage + 1)}
                         disabled={pagination.currentPage === pagination.lastPage}
                         variant='gradient'
                     >
                         Հաջորդ
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                             className="size-5">
+                             className="size-4">
                             <path fillRule="evenodd"
                                   d="M16.28 11.47a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 0 1 1.06-1.06l7.5 7.5Z"
                                   clipRule="evenodd"/>
                         </svg>
                     </Button>
+
                     <Button
                         type="submit"
                         color="gray"
-                        className="text-white font-semibold rounded-md flex gap-1 items-center"
+                        className="text-white font-semibold rounded-md flex gap-1 items-center text-sm px-3 py-1"
                         onClick={() => handlePageChange(pagination.lastPage)}
                         disabled={pagination.currentPage === pagination.lastPage}
                         variant='gradient'
                     >
-                        Վարջին
+                        Վերջին
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                             className="size-5">
+                             className="size-4">
                             <path fillRule="evenodd"
                                   d="M13.28 11.47a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06-1.06L11.69 12 4.72 5.03a.75.75 0 0 1 1.06-1.06l7.5 7.5Z"
                                   clipRule="evenodd"/>
@@ -211,9 +216,9 @@ const PatientsTable = ({filter}) => {
                                   d="M19.28 11.47a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 1 1-1.06-1.06L17.69 12l-6.97-6.97a.75.75 0 0 1 1.06-1.06l7.5 7.5Z"
                                   clipRule="evenodd"/>
                         </svg>
-
                     </Button>
                 </div>
+
 
                 {width < 960 && (
                     <div className="w-30 max-w-sm min-w-[20px] flex gap-3 items-center ml-2">

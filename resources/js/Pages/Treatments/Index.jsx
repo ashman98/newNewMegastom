@@ -333,105 +333,107 @@ const TreatmentIndex = ({ treatment }) => {
                             <Typography variant="h6" className="mb-4 text-blue-gray-700">
                                 Բուժման մանրամասներ
                             </Typography>
-                            <div className="mb-5">
-                                {!treatment.isOwner && (
-                                    <label className={!treatment.isOwner ? 'text-gray-400' : ''}
-                                           htmlFor="title">
-                                        Վերնագիր
-                                    </label>
-                                )}
-                                <Input
-                                    name="title"
-                                    className='text-center'
-                                    type="text"
-                                    label='Վերնագիր'
-                                    size="lg"
-                                    value={formData.title}
-                                    disabled={!treatment.isOwner} // Disable if not owner
-                                    error={errors.title}
-                                    onChange={(e) => {
-                                        e.preventDefault();
-                                        errors.title = '';
-                                        handleChange(e.target.name, e.target.value);
-                                    }}
-                                />
-                                {errors.title && <p className="error-message">{errors.title}</p>}
-
-                            </div>
-                            <div className="grid grid-cols-3 gap-6">
-                                <div>
+                            <div className="flex flex-col w-full">
+                                <div className="mb-5 w-full">
                                     {!treatment.isOwner && (
-                                        <label className={!treatment.isOwner ? 'text-gray-400' : ''}
-                                               htmlFor="treatment_plan_start_date">
-                                            Բուժման պլանի սկիզբ
+                                        <label className="text-gray-400" htmlFor="title">
+                                            Վերնագիր
                                         </label>
                                     )}
                                     <Input
-                                        id="treatment_plan_start_date"
-                                        name="treatment_plan_start_date"
-                                        type="datetime-local"
-                                        label='Բուժման պլանի սկիզբ'
-                                        size="lg"
-                                        value={formData.treatment_plan_start_date}
-                                        disabled={!treatment.isOwner} // Disable if not owner
+                                        name="title"
+                                        className="w-full text-center"
+                                        type="text"
+                                        label="Վերնագիր"
+                                        value={formData.title}
+                                        disabled={!treatment.isOwner}
+                                        error={errors.title}
                                         onChange={(e) => {
                                             e.preventDefault();
-                                            errors.treatment_plan_start_date = '';
-                                            handleChange(e.target.name, e.target.value)
+                                            errors.title = '';
+                                            handleChange(e.target.name, e.target.value);
                                         }}
-                                        error={errors.treatment_plan_start_date}
                                     />
-                                    {errors.treatment_plan_start_date &&
-                                        <p className="error-message">{errors.treatment_plan_start_date}</p>}
+                                    {errors.title && <p className="error-message">{errors.title}</p>}
                                 </div>
 
-                                <div>
-                                    {!treatment.isOwner && (
-                                        <label className={!treatment.isOwner ? 'text-gray-400' : ''}
-                                               htmlFor="treatment_plan_end_date">
-                                            Բուժման պլանի ավարտ
-                                        </label>
-                                    )}
-                                    <Input
-                                        id="treatment_plan_end_date"
-                                        name="treatment_plan_end_date"
-                                        type="datetime-local"
-                                        label='Բուժման պլանի ավարտ'
-                                        size="lg"
-                                        value={formData.treatment_plan_end_date}
-                                        disabled={!treatment.isOwner} // Disable if not owner
-                                        error={errors.treatment_plan_end_date}
-                                        onChange={(e) => {
-                                            e.preventDefault();
-                                            errors.treatment_plan_end_date = '';
-                                            handleChange(e.target.name, e.target.value)
-                                        }}
-                                        min={formData.treatment_plan_start_date}
-                                    />
-                                    {errors.treatment_plan_end_date &&
-                                        <p className="error-message">{errors.treatment_plan_end_date}</p>}
-                                </div>
+                                {/* Adjusted flex container */}
+                                <div className="flex flex-wrap gap-4 lg:flex-nowrap">
+                                    <div className="w-full lg:w-1/3">
+                                        {!treatment.isOwner && (
+                                            <label className="text-gray-400" htmlFor="treatment_plan_start_date">
+                                                Բուժման պլանի սկիզբ
+                                            </label>
+                                        )}
+                                        <Input
+                                            id="treatment_plan_start_date"
+                                            name="treatment_plan_start_date"
+                                            type="datetime-local"
+                                            label="Բուժման պլանի սկիզբ"
+                                            value={formData.treatment_plan_start_date}
+                                            disabled={!treatment.isOwner}
+                                            error={errors.treatment_plan_start_date}
+                                            onChange={(e) => {
+                                                e.preventDefault();
+                                                errors.treatment_plan_start_date = '';
+                                                handleChange(e.target.name, e.target.value);
+                                            }}
+                                        />
+                                        {errors.treatment_plan_start_date && (
+                                            <p className="error-message">{errors.treatment_plan_start_date}</p>
+                                        )}
+                                    </div>
 
-                                <div>
-                                    {!treatment.isOwner && (
-                                        <label className={!treatment.isOwner ? 'text-gray-400' : ''}
-                                               htmlFor="amount">
-                                            Գումար (֏)
-                                        </label>
-                                    )}
-                                    <Input
-                                        id="amount"
-                                        name="amount"
-                                        label="Գումար (֏)"
-                                        type="number"
-                                        size="lg"
-                                        value={formData.amount}
-                                        disabled={!treatment.isOwner} // Disable if not owner
-                                        onChange={(e) => handleChange(e.target.name, e.target.value)}
-                                    />
+                                    <div className="w-full lg:w-1/3">
+                                        {!treatment.isOwner && (
+                                            <label className="text-gray-400" htmlFor="treatment_plan_end_date">
+                                                Բուժման պլանի ավարտ
+                                            </label>
+                                        )}
+                                        <Input
+                                            id="treatment_plan_end_date"
+                                            name="treatment_plan_end_date"
+                                            type="datetime-local"
+                                            label="Բուժման պլանի ավարտ"
+                                            value={formData.treatment_plan_end_date}
+                                            disabled={!treatment.isOwner}
+                                            error={errors.treatment_plan_end_date}
+                                            onChange={(e) => {
+                                                e.preventDefault();
+                                                errors.treatment_plan_end_date = '';
+                                                handleChange(e.target.name, e.target.value);
+                                            }}
+                                            min={formData.treatment_plan_start_date}
+                                        />
+                                        {errors.treatment_plan_end_date && (
+                                            <p className="error-message">{errors.treatment_plan_end_date}</p>
+                                        )}
+                                    </div>
+
+                                    <div className="w-full lg:w-1/3">
+                                        {!treatment.isOwner && (
+                                            <label className="text-gray-400" htmlFor="amount">
+                                                Գումար (֏)
+                                            </label>
+                                        )}
+                                        <Input
+                                            id="amount"
+                                            name="amount"
+                                            label="Գումար (֏)"
+                                            type="number"
+                                            className="w-full"
+                                            value={formData.amount}
+                                            disabled={!treatment.isOwner}
+                                            onChange={(e) => handleChange(e.target.name, e.target.value)}
+                                        />
+                                    </div>
                                 </div>
                             </div>
                         </Card>
+
+
+
+
 
                         {/* Diagnosis and Treatment Plan Section */}
                         <div className={`grid ${+width>960?'grid-cols-2':'grid-cols-1'} gap-6`}>
@@ -471,7 +473,7 @@ const TreatmentIndex = ({ treatment }) => {
                     </CardBody>
                 </Card>
             </div>
-            <div className="container mx-auto px-4 w-full my-4" ref={bottomRef}>
+            <div className="mx-auto px-4 w-full my-4" ref={bottomRef}>
                 {teeth.length > 0 && (
                     <Card className="p-6 rounded-lg shadow-md my-4">
                         <div className='flex justify-start'>
