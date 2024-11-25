@@ -49,7 +49,6 @@ const TreatmentIndex = ({ treatment }) => {
     const [deleteLoading, setDeleteLoading] = useState(false);
 
 
-
     const [open, setOpen] = useState(false);
 
     const updateToothData = (updatedTooth) => {
@@ -179,7 +178,7 @@ const TreatmentIndex = ({ treatment }) => {
         dots: true,
         infinite: true,
         speed: 500,
-        slidesToShow: 3,
+        slidesToShow: width>960?3:2,
         slidesToScroll: 1,
         adaptiveHeight: true,
         spaceBetween: 20,  // Default spacing
@@ -435,7 +434,7 @@ const TreatmentIndex = ({ treatment }) => {
                         </Card>
 
                         {/* Diagnosis and Treatment Plan Section */}
-                        <div className="grid grid-cols-2 gap-6">
+                        <div className={`grid ${+width>960?'grid-cols-2':'grid-cols-1'} gap-6`}>
                             <Card className="p-4 shadow-md">
                                 <Typography variant="h6" color="gray" className="text-center mb-2">
                                     Ախտորոշում
