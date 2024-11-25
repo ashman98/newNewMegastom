@@ -8,6 +8,7 @@ import 'ag-grid-community/styles/ag-theme-material.css';
 import './PatientsTable.css';
 import { Inertia } from '@inertiajs/inertia';
 import {Button} from "@material-tailwind/react";
+import useWindowSize from "@/hooks/useWindowSize.js";
 
 const userLocaleText = {
     filterOoo: 'Փնտրել...',
@@ -29,6 +30,7 @@ const PatientsTable = ({filter}) => {
         lastPage: 1,
     });
     const [loading, setLoading] = useState(false);
+    const { width } = useWindowSize();
 
     const columnDefs = [
         { headerName: "№", valueGetter: "node.rowIndex + 1", sortable: true, filter: false, width: 70 },
@@ -66,7 +68,6 @@ const PatientsTable = ({filter}) => {
     );
 
     useEffect(() => {
-        debugger
         fetchPatients(pagination.currentPage, pagination.pageSize, filter);
     }, [pagination.currentPage, pagination.pageSize, fetchPatients ,filter]);
 
@@ -98,7 +99,7 @@ const PatientsTable = ({filter}) => {
     };
 
     return (
-        <div className="ag-theme-material" style={{ width: '100%', position: 'relative' }}>
+        <div className="ag-theme-material" style={{width: '100%', position: 'relative'}}>
             {loading && (
                 <div className="loading-overlay">
                     <div className="spinner"></div>
@@ -119,23 +120,26 @@ const PatientsTable = ({filter}) => {
                 overlayNoRowsTemplate={loading ? '<span>Загрузка...</span>' : userLocaleText.noRowsToShow}
                 suppressPaginationPanel={true}
             />
+            <div className={`custom-pagination-container ${width < 960? "justify-center gap-2 flex-col" : ""}`}>
 
-            <div className="custom-pagination-container">
-                <div className="w-30 max-w-sm min-w-[20px] flex gap-3 items-center ml-2">
-                    <label className="block mb-1 text-sm text-slate-800">Պացիետների քանակը էջի վրա:</label>
-                    <select
-                        className="w-15 bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow-md appearance-none cursor-pointer"
-                        onChange={(e) => handlePageSizeChange(parseInt(e.target.value, 10))}
-                        value={pagination.pageSize}
-                    >
-                        <option value={5}>5</option>
-                        <option value={10}>10</option>
-                        <option value={20}>20</option>
-                        <option value={50}>50</option>
-                    </select>
-                </div>
+                {width > 960 && (
+                    <div className="w-30 max-w-sm min-w-[20px] flex gap-3 items-center ml-2">
+                        <label className="block mb-1 text-sm text-slate-800">Պացիետների քանակը էջի վրա:</label>
+                        <select
+                            className="w-15 bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow-md appearance-none cursor-pointer"
+                            onChange={(e) => handlePageSizeChange(parseInt(e.target.value, 10))}
+                            value={pagination.pageSize}
+                        >
+                            <option value={5}>5</option>
+                            <option value={10}>10</option>
+                            <option value={20}>20</option>
+                            <option value={50}>50</option>
+                        </select>
+                    </div>
+                )}
 
-                <div className="flex gap-3 items-center mr-2">
+
+                <div className="flex gap-3 items-center mr-2 ">
                     <Button
                         type="submit"
                         color="gray"
@@ -210,6 +214,22 @@ const PatientsTable = ({filter}) => {
 
                     </Button>
                 </div>
+
+                {width < 960 && (
+                    <div className="w-30 max-w-sm min-w-[20px] flex gap-3 items-center ml-2">
+                        <label className="block mb-1 text-sm text-slate-800">Պացիետների քանակը էջի վրա:</label>
+                        <select
+                            className="w-15 bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow-md appearance-none cursor-pointer"
+                            onChange={(e) => handlePageSizeChange(parseInt(e.target.value, 10))}
+                            value={pagination.pageSize}
+                        >
+                            <option value={5}>5</option>
+                            <option value={10}>10</option>
+                            <option value={20}>20</option>
+                            <option value={50}>50</option>
+                        </select>
+                    </div>
+                )}
             </div>
         </div>
     );

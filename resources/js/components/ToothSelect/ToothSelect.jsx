@@ -11,7 +11,6 @@ const ToothSelect = ({isOwner, setToothNumber, toothNumber, errors}) => {
 
     useEffect(()=>{
         if(toothNumber){
-            debugger
             if(!toothImages.includes(toothNumber)){
                 setForChild(!forChild);
             }
@@ -35,7 +34,6 @@ const ToothSelect = ({isOwner, setToothNumber, toothNumber, errors}) => {
     }, [forChild]);
 
     useEffect(()=>{
-        debugger
         setToothNumber(+selectedToothNumber);
     }, [selectedToothNumber])
 

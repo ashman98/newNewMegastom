@@ -217,7 +217,6 @@ const TreatmentIndex = ({ treatment }) => {
             if (deleteType === 'delete_treatment'){
                 Inertia.get(`/patients/${treatment.patient.id}`);
             }else{
-                debugger
                 const updatedTeeth = teeth.filter((tooth) => tooth.id !== result.tooth_id);
                 setTeeth(updatedTeeth);
                 toggleDialogConfirm();
