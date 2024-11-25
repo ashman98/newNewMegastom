@@ -24,10 +24,8 @@ export default function AddPatientForm({toggleModal, diseases}) {
 
 
             const rendDis = diseases.map((disease)=> {
-                debugger
                 return({ value: disease.name, label:  disease.title });
             })
-            debugger
             setRendDiseases(rendDis);
         }
     }, diseases)
