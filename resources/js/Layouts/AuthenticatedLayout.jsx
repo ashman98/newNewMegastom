@@ -80,7 +80,7 @@ export default function AuthenticatedLayout({ header, children }) {
 
                 <div className={(showingNavigationDropdown ? 'block' : 'hidden') + ' sm:hidden'}>
                     <div className="space-y-1 pb-3 pt-2">
-                        <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>Dashboard</ResponsiveNavLink>
+                        <ResponsiveNavLink href={route('patients.index')} active={route().current('patients.index')}>Պացիենտներ</ResponsiveNavLink>
                     </div>
 
                     <div className="border-t border-gray-200 pb-1 pt-4">
@@ -90,8 +90,8 @@ export default function AuthenticatedLayout({ header, children }) {
                         </div>
 
                         <div className="mt-3 space-y-1">
-                            <ResponsiveNavLink href={route('profile.edit')}>Profile</ResponsiveNavLink>
-                            <ResponsiveNavLink method="post" href={route('logout')} as="button">Log Out</ResponsiveNavLink>
+                            <ResponsiveNavLink href={route('profile.edit')}>Անձնական էջ</ResponsiveNavLink>
+                            <ResponsiveNavLink method="post" href={route('logout')} as="button">Դուրս գալ</ResponsiveNavLink>
                         </div>
                     </div>
                 </div>

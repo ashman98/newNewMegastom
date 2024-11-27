@@ -325,7 +325,7 @@ export default function PatientShow({ patient }) {
                                                                 <Typography variant="small" color="gray"
                                                                             className="mb-2">
                                                                 <span
-                                                                    className="font-semibold text-blue-gray-500">Բուժման ավարտ:</span> {treatment.treatment_plan_end_date ? new Date(treatment.treatment_plan_end_date).toLocaleDateString() : 'Ongoing'}
+                                                                    className="font-semibold text-blue-gray-500">Բուժման ավարտ:</span> {treatment.treatment_plan_end_date ? new Date(treatment.treatment_plan_end_date).toLocaleDateString() : 'Ընդացքում է'}
                                                                 </Typography>
                                                                 {/*<Typography variant="small" color="gray" className="mb-2">*/}
                                                                 {/*    <span*/}

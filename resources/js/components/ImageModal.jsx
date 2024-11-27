@@ -74,13 +74,13 @@ export function ImageModal({src, open, onClose}) {
                 {/*        </Button>*/}
                 {/*    </div>*/}
                 {/*</DialogHeader>*/}
-                <DialogBody >
-                    <div className="max-h-[90vh] overflow-y-auto custom-scrollbar">
-                    <img
-                        alt="nature"
-                        className="h-[48rem] w-full rounded-lg object-cover object-center "
-                        src={src}
-                    />
+                <DialogBody>
+                    <div className="max-h-[90vh] flex justify-center items-center overflow-y-auto custom-scrollbar">
+                        <img
+                            alt="nature"
+                            className="max-h-full max-w-full rounded-lg object-contain"
+                            src={src}
+                        />
                     </div>
                 </DialogBody>
                 {/*<DialogFooter className="justify-between">*/}
