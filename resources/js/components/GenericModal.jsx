@@ -7,6 +7,7 @@ import {
     Typography,
     Button, DialogHeader, DialogBody, DialogFooter,
 } from "@material-tailwind/react";
+import useWindowSize from "@/hooks/useWindowSize.js";
 
 export function GenericModal({
                                  open,
@@ -34,13 +35,15 @@ export function GenericModal({
     //     };
     // }, [open]);
 
+    const {width, height} = useWindowSize();
+
     return (
         <>
         <Dialog
             open={open}
             size={size || "md"}
             handler={onClose}
-            className="max-h-[100vh] overflow-y-auto custom-scrollbar"
+            className={`${width < 536?"max-h-[90vh]" : "lg:max-h-[100vh] sm:max-h-[90vh]"}  overflow-y-auto custom-scrollbar`}
         >
             {header ? (
             <DialogHeader>

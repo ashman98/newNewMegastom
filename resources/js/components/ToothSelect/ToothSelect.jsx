@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import styles from './toothSelect.module.css';
-import {Spinner, Switch, Typography} from "@material-tailwind/react"; // Keep this if you have custom styles
+import {Spinner, Switch, Typography} from "@material-tailwind/react";
+import useWindowSize from "@/hooks/useWindowSize.js"; // Keep this if you have custom styles
 
 const ToothSelect = ({isOwner, setToothNumber, toothNumber, errors}) => {
     const [selectedTooths, setSelectedTooths] = useState([]);
@@ -48,6 +49,8 @@ const ToothSelect = ({isOwner, setToothNumber, toothNumber, errors}) => {
         return images;
     }, [toothImages]);
 
+    const {width} = useWindowSize();
+
     return (
         <div className={`${styles.toothContainer} p-4`}>
             {isLoading && (
@@ -78,7 +81,7 @@ const ToothSelect = ({isOwner, setToothNumber, toothNumber, errors}) => {
                 />
             </div>
             <div
-                className={`grid gap-1 ${forChild ? 'grid-cols-10' : 'grid-cols-16'} relative`}
+                className={`grid gap-1 ${forChild ? 'grid-cols-10' :width<960? width<420 ?'grid-cols-6' :'grid-cols-8' : 'grid-cols-16'} relative`}
                 // style={{width: forChild ? '480px' : '768px'}}
             >
                 {
