@@ -1,5 +1,6 @@
-.tooth{
-    width: 40px; height: 60px;
+.tooth {
+    width: 40px;
+    height: 60px;
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
@@ -10,27 +11,28 @@
     position: relative;
 }
 
-.errorTooth{
-    width: 40px; height: 60px;
+.errorTooth {
+    width: 40px;
+    height: 60px;
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
-    border: 1px solid rgb(244 67 54);
+    border: 1px solid rgb(244, 67, 54);
     border-radius: 4px;
     margin: 4px;
     transition: all 0.1s ease;
     position: relative;
 }
 
-.toothSelected{
+.toothSelected {
     border: 2px solid #0275d8;
     box-shadow: rgba(0, 0, 0, 0.35) 0px -50px 36px -28px inset;
 }
 
-.tooth:hover{
+.tooth:hover {
     cursor: pointer;
     transform: translateY(-2px) translateX(-3px);
-    box-shadow: 5px 5px 2px 1px rgba(0, 0, 255, .2);
+    box-shadow: 5px 5px 2px 1px rgba(0, 0, 255, 0.2);
 }
 
 .toothText {
@@ -41,7 +43,7 @@
     color: #333;
 }
 
-.toothContainer{
+.toothContainer {
     display: flex;
     flex-direction: column;
     justify-content: start;
@@ -53,10 +55,46 @@
     color: red;
 }
 
-.gridContainer{
+.gridContainer {
     width: 100%;
     display: flex;
     justify-content: center;
     padding-bottom: 15px;
 }
 
+/* Responsive Styles */
+
+/* For screens less than 600px wide */
+@media (max-width: 600px) {
+    .tooth, .errorTooth {
+        width: 30px;    /* Reduce tooth size */
+        height: 45px;
+        margin: 2px;
+    }
+    .gridContainer {
+        flex-direction: column;  /* Stack items vertically */
+    }
+    .toothText {
+        font-size: 8px;  /* Adjust font size for small screens */
+    }
+}
+
+/* For screens between 600px and 900px */
+@media (min-width: 600px) and (max-width: 900px) {
+    .tooth, .errorTooth {
+        width: 35px;
+        height: 50px;
+        margin: 3px;
+    }
+}
+
+/* For larger screens above 900px */
+@media (min-width: 900px) {
+    .tooth, .errorTooth {
+        width: 50px;  /* Increase size for large screens */
+        height: 70px;
+    }
+    .gridContainer {
+        max-width: 900px;  /* Constrain maximum width */
+    }
+}

@@ -8,7 +8,8 @@ import {
 } from "@material-tailwind/react";
 import alertify from 'alertifyjs';
 import ToothSelect from "@/components/ToothSelect/ToothSelect.jsx";
-import {ImageModal} from "@/components/ImageModal.jsx"; // Make sure to install alertifyjs
+import {ImageModal} from "@/components/ImageModal.jsx";
+import useWindowSize from "@/hooks/useWindowSize.js"; // Make sure to install alertifyjs
 
 export default function AddToothForm({setSelectedToothData,bottomRef, isOwner, addNewToothData, updateToothData, toggleModal, treatmentID, selectedToothData}) {
     alertify.set('notifier', 'position', 'top-right');
@@ -22,6 +23,7 @@ export default function AddToothForm({setSelectedToothData,bottomRef, isOwner, a
 
     const [open, setOpen] = useState(false);
     const [toothNumber, setToothNumber] = useState(false);
+    const {width, height} = useWindowSize();
 
     const formData={
         tooth_number: toothNumber,
@@ -232,12 +234,12 @@ export default function AddToothForm({setSelectedToothData,bottomRef, isOwner, a
             </div>
 
 
-            <div className='w-full flex justify-start gap-3 max-w overflow-auto'>
+            <div className={`w-full flex justify-center items-center gap-3 max-w overflow-auto ${width<720?"flex-col":""}`}>
                 {images.map((image, index) => (
-                    <div key={index} className="flex justify-center mt-8 w-full md:w-1/3" >
+                    <div key={index} className="flex justify-center mt-8 w-full sm:w-1/2 md:w-1/3" >
                         <div className="rounded-lg shadow-xl bg-gray-50 w-full max-w-xs">
                             <div className="m-4">
-                                <div className="flex items-center justify-center w-full">
+                                <div className={`flex items-center justify-center w-full `}>
                                     {!image ? (
                                     <label  style={{cursor:'pointer'}}
                                         className="flex flex-col w-full h-32 border-4 border-blue-200 border-dashed hover:bg-gray-100 hover:border-gray-300">

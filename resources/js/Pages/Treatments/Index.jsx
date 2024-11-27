@@ -173,7 +173,7 @@ const TreatmentIndex = ({ treatment }) => {
         } finally {
         }
     };
-    const slidesToShow = width>960? 3 : 2;
+    const slidesToShow = width>960? 3 : width>560 ? 2 : 1;
     const sliderSettings = {
         dots: true,
         infinite: true,
@@ -265,8 +265,8 @@ const TreatmentIndex = ({ treatment }) => {
                         className='flex rounded-md gap-2 items-center justify-center hover:shadow-md px-2 py-1 border-1'>
                         <IconButton>
                             <svg fill="#ffffff" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
-                                 xmlns:xlink="http://www.w3.org/1999/xlink" width="30px" height="30px"
-                                 viewBox="0 0 146.939 146.939" xml:space="preserve">
+                                 xmlnsXlink="http://www.w3.org/1999/xlink" width="30px" height="30px"
+                                 viewBox="0 0 146.939 146.939" xmlSpace="preserve">
 
                                 <g id="SVGRepo_bgCarrier" strokeWidth="0"/>
 
@@ -561,8 +561,8 @@ const TreatmentIndex = ({ treatment }) => {
                 confirm="Add Patient"
                 cancel="Cancel"
                 footer={false}
-                // header={false}
-                size='xl'
+                // header={false}<
+                size={`${width < 720 ? width< 520 ? 'sm' : 'md' : 'xl' }`}
             >
                 <AddToothForm isOwner={treatment.isOwner} addNewToothData={addNewToothData}
                               updateToothData={updateToothData} selectedToothData={selectedToothData}

@@ -18,6 +18,9 @@ export default withMT({
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
         },
+        screens: {
+            'vsm': '400px',
+        }
     },
 
     plugins: [forms],

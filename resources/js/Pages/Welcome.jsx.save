@@ -63,7 +63,7 @@ console.log(import.meta.env.VITE_APP_URL);
                                 >
                                     <img src={`${import.meta.env.VITE_APP_URL}logo.png`} alt="logo"
                                          style={{width: 300, cursor: 'pointer'}}/>
-{/*					<h1 style={{fontSize:50}}>hMrdo</h1> */}
+					<h1 style={{fontSize:50}}>Hello Mrdo</h1>
                                 </Link>
 
                             </div>

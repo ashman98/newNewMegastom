@@ -7,6 +7,7 @@ export default defineConfig({
         laravel({
             input: ['resources/css/app.css', 'resources/js/app.jsx'],
             refresh: true,
+	    buildDirectory: 'build',
         }),
         react(),
     ],
@@ -18,7 +19,12 @@ export default defineConfig({
     build: {
         outDir: 'public/build',  // Папка для выходных файлов
         manifest: true,
-        emptyOutDir: true,
+	emptyOutDir: true,
+        rollupOptions: {
+         output: {
+           	 assetFileNames: 'assets/[name]-[hash][extname]',
+       	 }
+    }
     },
     server: {
         host: '0.0.0.0', // Позволяет принимать подключения извне
