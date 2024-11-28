@@ -17,7 +17,7 @@
 
         <meta property="og:title" content="Megaastom" />
         <meta property="og:description" content="Стомотологическая клиника" />
-        <meta property="og:image" content="{{ asset('megastom.png')}}" />
+        <meta property="og:image" content="{{ asset('megastom.jpg')}}" />
         <meta property="og:url" content="{{ config('app.url') }}" />
         <meta property="og:type" content="website" />
         <meta property="og:locale" content="ru_RU" />
@@ -26,7 +26,7 @@
         <!-- Twitter Cards -->
         <meta name="twitter:title" content="Megaastom" />
         <meta name="twitter:description" content="Стомотологическая клиника" />
-        <meta name="twitter:image" content="{{ asset('megastom.png')}}" />
+        <meta name="twitter:image" content="{{ asset('megastom.jpg')}}" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@Megaastom" />
 
