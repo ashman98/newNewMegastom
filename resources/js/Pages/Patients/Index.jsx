@@ -27,12 +27,16 @@ const PatientIndex = ({ patients, diseases }) => {
     const [open, setOpen] = useState(false);
     const [filter, setFilter] = useState({});
     const [addPatientLoading, setAddPatientLoading] = useState(false);
+    const [onPatientAdd, setOnPatientAdd] = useState(false);
     const { width } = useWindowSize();
     const toggleModal = () => {
         if (!addPatientLoading){
             setOpen((cur) => !cur);
         }
     }
+
+    const toggleOnPatientAdd = () => setOnPatientAdd((cur) => !cur);
+
 
     useEffect(() => {
         console.log(diseases);
@@ -62,7 +66,7 @@ const PatientIndex = ({ patients, diseases }) => {
 
     return (
         <AuthenticatedLayout>
-            <Head title="Patients"/>
+            <Head title="Պացիենտներ"/>
 
 
             <div className="md:container md:mx-auto w-full max-w-10xl my-4">
@@ -77,7 +81,7 @@ const PatientIndex = ({ patients, diseases }) => {
                             </svg>
                             Նոր պացիենտ
                         </Button>
-                        <Typography className='font-bold'>{width}</Typography>
+                        {/*<Typography className='font-bold'>{width}</Typography>*/}
                         <PatientsFilter onFilterChange={setFilter} diseases={diseases}/>
                     </div>
 
@@ -87,13 +91,13 @@ const PatientIndex = ({ patients, diseases }) => {
                         title="Ավելացնել նոր պացիենտ"
                         footer={false}
                     >
-                        <AddPatientForm toggleModal={toggleModal} diseases={diseases}/>
+                        <AddPatientForm toggleOnPatientAdd={toggleOnPatientAdd} toggleModal={toggleModal} diseases={diseases}/>
                     </GenericModal>
                     {/*<button onClick={addNewProduct} className="add-product-button">*/}
                     {/*    Добавить продукт*/}
                     {/*</button>*/}
 
-                    <PatientsTable filter={filter} patients={patients}/>
+                    <PatientsTable filter={filter} patients={patients} onPatientAdd={onPatientAdd}/>
                 </div>
             </div>
         </AuthenticatedLayout>

@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import { Input } from "@material-tailwind/react";
 import DOMPurify from 'dompurify'; // Import DOMPurify for sanitization
 
 const TextEditor = ({ contentText, setExternalContent, readOnly }) => {
@@ -54,7 +53,7 @@ const TextEditor = ({ contentText, setExternalContent, readOnly }) => {
                 }}
                 formats={formats}
                 theme="snow"
-                className={`react-quill `}
+                className={"react-quill"}
             />
         </div>
     );

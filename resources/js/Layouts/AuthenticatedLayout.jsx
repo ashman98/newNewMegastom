@@ -6,8 +6,12 @@ import { Link, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 import Footer from '@/components/Footer';
 import SidebarWithBurgerMenu from "@/components/SidebarWithBurgerMenu.jsx"; // Import the Footer component
+import alertify from 'alertifyjs';
+import {Avatar} from "@material-tailwind/react"; // Make sure to install alertifyjs
 
 export default function AuthenticatedLayout({ header, children }) {
+    alertify.set('notifier', 'position', 'top-right');
+
     const user = usePage().props.auth.user;
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
 
@@ -23,6 +27,7 @@ export default function AuthenticatedLayout({ header, children }) {
                                     <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800" />
                                 </Link>
                             </div>
+
                             <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 {/*<NavLink href={route('dashboard')} active={route().current('dashboard')}>Dashboard</NavLink>*/}
                                 <NavLink href={route('patients.index')} active={route().current('patients.index')}>Պացիենտներ</NavLink>
@@ -32,23 +37,27 @@ export default function AuthenticatedLayout({ header, children }) {
                         </div>
 
                         <div className="hidden sm:ms-6 sm:flex sm:items-center">
-                            <div className="relative ms-3">
+                            <div className="relative ms-3 flex">
                                 <Dropdown>
                                     <Dropdown.Trigger>
                                         <span className="inline-flex rounded-md">
-                                            <button type="button" className="inline-flex items-center rounded-md border border-transparent bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:outline-none">
+                                            <button type="button" className="inline-flex items-center rounded-md border border-transparent bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition gap-2 duration-150 ease-in-out hover:text-gray-700 focus:outline-none">
                                                 {user.name}
                                                 <svg className="-me-0.5 ms-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                                     <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
                                                 </svg>
+                                                <Avatar src="https://docs.material-tailwind.com/img/face-2.jpg" size="sm" alt="avatar" />
                                             </button>
                                         </span>
                                     </Dropdown.Trigger>
+
+
                                     <Dropdown.Content>
-                                        <Dropdown.Link href={route('profile.edit')}>Profile</Dropdown.Link>
-                                        <Dropdown.Link href={route('logout')} method="post" as="button">Log Out</Dropdown.Link>
+                                        <Dropdown.Link href={route('profile.edit')}>Անձնական էջ</Dropdown.Link>
+                                        <Dropdown.Link href={route('logout')} method="post" as="button">Դուրս գալ</Dropdown.Link>
                                     </Dropdown.Content>
                                 </Dropdown>
+
                             </div>
                         </div>
 

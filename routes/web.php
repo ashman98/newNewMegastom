@@ -34,6 +34,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('/patients', [PatientController::class, 'index'])->middleware(['auth', 'verified'])->name('patients.index');
+    Route::put('/patients/{patient}', [PatientController::class, 'update'])->name('patients.update');
     Route::delete('/patients/{patient}', [PatientController::class, 'destroy'])->middleware(['auth', 'verified'])->name('patients.delete');
     Route::get('/patients/data', [PatientController::class, 'getPatients'])->middleware(['auth', 'verified'])->name('patients.data');
 

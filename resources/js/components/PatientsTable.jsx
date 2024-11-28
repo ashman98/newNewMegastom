@@ -21,7 +21,7 @@ const userLocaleText = {
     beginsWith: 'Սկսված'
 };
 
-const PatientsTable = ({filter}) => {
+const PatientsTable = ({filter, onPatientAdd}) => {
     const [patients, setPatients] = useState([]);
     const [pagination, setPagination] = useState({
         currentPage: 1,
@@ -69,7 +69,7 @@ const PatientsTable = ({filter}) => {
 
     useEffect(() => {
         fetchPatients(pagination.currentPage, pagination.pageSize, filter);
-    }, [pagination.currentPage, pagination.pageSize, fetchPatients ,filter]);
+    }, [pagination.currentPage, pagination.pageSize, fetchPatients ,filter,onPatientAdd]);
 
     // const onGridReady = (params) => {
     //     params.api.setPaginationPageSize(pagination.pageSize);

@@ -37,6 +37,7 @@ export default defineConfig({
         },
 	    proxy: {
             '/tooths': 'https://megastom.duckdns.org',  // Проксируем запросы на изображения
+              '/avatars': 'https://megastom.duckdns.org',  // Проксируем запросы на изображения
         },
     },
 });

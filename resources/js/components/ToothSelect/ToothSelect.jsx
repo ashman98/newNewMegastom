@@ -71,13 +71,12 @@ const ToothSelect = ({isOwner, setToothNumber, toothNumber, errors}) => {
                         </div>
                     }
                     color="gray"
-                    defaultChecked={forChild}
+                    checked={forChild}
                     onChange={(e) => {
                         setIsLoading(true);
                         setForChild(e.target.checked)
                         setIsLoading(false);
                     }}
-                    checked={forChild}
                 />
             </div>
             <div

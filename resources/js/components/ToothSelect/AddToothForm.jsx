@@ -182,7 +182,7 @@ export default function AddToothForm({setSelectedToothData,bottomRef, isOwner, a
         try {
             const t = await addEntity(entityData);
             selectedToothData.id ?  updateToothData(t.tooth) : addNewToothData(t.tooth);
-            alertify.success('Patient added successfully.');
+            alertify.success('Ռետնգենը հաջողությամբ ավելացվեց։');
 
             // Reset form data
             setToothNumber(false);
@@ -215,13 +215,13 @@ export default function AddToothForm({setSelectedToothData,bottomRef, isOwner, a
                             label="Վերնագիր"
                             size="lg"
                             name="title"
-                            value={title}
+                            value={title || ""}
                             onChange={(e) => {
                                 e.preventDefault();
                                 setTitle(e.target.value);
                                 errors.title = '';
                             }}
-                            error={errors.title}
+                            error={errors.title || false}
                             disabled={!isOwner}
                         />
                         {errors.title && <p className="error-message">{errors.title}</p>}

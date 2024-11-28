@@ -109,7 +109,7 @@ class ToothController extends Controller
 
             // Retrieve existing images and filter based on incoming URLs
             $existingImages = $tooth->xRayImages;
-            $baseUrl = Config::get('services.app.url');
+            $baseUrl = Config::get('services.app.url')."storage/";
             // Separate incoming images as files and URLs
             $fileImages = [];
             $urlImages = [];

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, {useState, useEffect, useCallback, useMemo} from 'react';
 import {
     Card,
     CardBody,
@@ -21,13 +21,25 @@ import useAddEntity from "@/hooks/useAddEntity.js";
 import alertify from "alertifyjs";
 import AddPatientForm from "@/components/Patients/AddPatientForm.jsx";
 
-export default function PatientShow({ patient, diseases }) {
+export default function PatientShow({ patient_data, diseases }) {
     const [open, setOpen] = useState(false);
     const [openDialogConfirm, setOpenDialogConfirm] = useState(false);
     const [confirmDelete, setConfirmDelete] = useState(false);
     const [entityUrl, setEntityUrl] = useState('');
     const [deleteType, setDeleteType] = useState('');
     const [editPatientModal, setEditPatientModal] = useState(false);
+    const [patient, setPatient] = useState(false);
+
+    useMemo(() => {
+        if (patient_data){
+            debugger
+            setPatient(patient_data)
+        }
+    }, [patient_data]);
+
+    const avatar = useMemo(() => {
+       return `${import.meta.env.VITE_APP_URL}avatars/${patient.gender}-${Math.floor(Math.random() * 6) + 1}.png`;
+    }, [patient.gender]);
 
     const toggleModal = () => setOpen((cur) => !cur);
     const toggleDialogConfirm = () => setOpenDialogConfirm((cur) => !cur);
@@ -80,7 +92,7 @@ export default function PatientShow({ patient, diseases }) {
         setDeleteLoading(true);
         try {
                 await deleteEntity();
-                alertify.success('Patient added successfully.');
+                alertify.success('Պացիենտը հաջողությամբ ։');
             if (deleteType === 'delete_patient'){
                 Inertia.get(`/patients`);
             }else{
@@ -134,9 +146,10 @@ export default function PatientShow({ patient, diseases }) {
         }
     };
 
+    console.log(avatar)
     return (
         <AuthenticatedLayout>
-            <Head title="Patients" />
+            <Head title="Պացիենտ" />
 
             <section className="bg-gray-100 py-8">
                 <div className="container mx-auto px-4">
@@ -145,10 +158,11 @@ export default function PatientShow({ patient, diseases }) {
                         <div className="w-full lg:w-1/3 px-4 mb-8 lg:mb-0">
                             <Card className="text-center py-5">
                                     <Avatar
-                                        src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
+                                        src={avatar}
                                         alt="avatar"
-                                        size="xl"
-                                        className="rounded-full mx-auto"
+                                        size="xxl"
+                                        className="rounded-full mx-auto "
+                                        style={{transform: "scale(-1, 1)"}}
                                     />
                                 <CardBody>
                                     <div className="my-4 flex gap-2 justify-center items-center" >
@@ -183,22 +197,23 @@ export default function PatientShow({ patient, diseases }) {
                         <div className="w-full lg:w-2/3 px-4">
                             <Card>
                                 <CardBody>
-                                    {[{label: 'Անուն Ազգանուն', value: `${patient.name} ${patient.surname}`},
+                                    {[
+                                        {label: 'Անուն Ազգանուն', value: `${patient.name} ${patient.surname}`},
                                         {label: 'Ծննդյան տարթիվ', value: patient.birthday || 'N/A'},
                                         {label: 'Հեռախոսահամր', value: patient.phone},
                                         {label: 'Քաղաք', value: patient.city},
                                         {label: 'Հացե', value: patient.address}
                                     ].map((item, index) => (
                                         <div key={index} className="flex justify-between items-center py-2 border-b">
-                                            <Typography variant="small" color="gray">{item.label}</Typography>
-                                            <Typography variant="small" color="gray">{item.value}</Typography>
+                                            <Typography variant="small" color="gray">{item.label || 'N/A'}</Typography>
+                                            <Typography variant="small" color="gray">{item.value || 'N/A'}</Typography>
                                         </div>
                                     ))}
                                     <div className="flex justify-between items-center py-2 border-b gap-12">
                                         <Typography variant="small" color="gray">{'Հիվանդություններ'}</Typography>
                                         <Typography variant="small" color="gray">
-                                            {patient.diseases.map((disease, index)=>{
-                                                return <span key={index}>{`${disease.title}${index!==patient.diseases.length-1?',':''} `}</span>
+                                            {patient && patient.diseases.map((disease, index)=>{
+                                                return <span key={disease.id}>{`${disease.title}${index!==patient.diseases.length-1?',':''} `}</span>
                                             })}
                                         </Typography>
                                     </div>
@@ -264,11 +279,12 @@ export default function PatientShow({ patient, diseases }) {
                             ) : (
                                 <div className="flex flex-wrap -mx-4 mt-8 ">
                                     {treatments && treatments.length > 0 ? (
-                                        treatments.map((treatment, idx) => (
+                                        treatments.map((treatment) => (
                                             <>
-                                                <div key={idx}
-                                                     className="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 2xl:w-1/4 px-4 mb-8 position-relative">
-
+                                                <div
+                                                    key={treatment.id}
+                                                    className="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 2xl:w-1/4 px-4 mb-8 position-relative"
+                                                >
                                                     <Card
                                                         className="shadow-lg hover:shadow-2xl transition-shadow duration-300 transform hover:scale-105">
 
@@ -276,10 +292,13 @@ export default function PatientShow({ patient, diseases }) {
                                                             className="rounded-lg border border-gray-200 p-6"
                                                         >
                                                             <div className='flex justify-between'>
-                                                                <Typography variant="h6" color="blue-gray-900"
-                                                                            className="mb-2 "
-                                                                            style={{cursor: 'pointer'}}
-                                                                            onClick={() => goToTreatmentPage(treatment.id)}>
+                                                                <Typography
+                                                                    variant="h6"
+                                                                    color="blue-gray"  // Updated color value
+                                                                    className="mb-2"
+                                                                    style={{cursor: 'pointer'}}
+                                                                    onClick={() => goToTreatmentPage(treatment.id)}
+                                                                >
                                                                     {treatment.title}
                                                                 </Typography>
                                                                 <IconButton
@@ -392,7 +411,7 @@ export default function PatientShow({ patient, diseases }) {
                 footer={false}
             >
                 {editPatientModal ?
-                    (<AddPatientForm toggleModal={toggleModal} patient={patient} diseases={diseases}/>)
+                    (<AddPatientForm toggleModal={toggleModal} patient={patient} diseases={diseases} setPatient={setPatient}/>)
                 :
                     ( <AddTreatmentForm toggleModal={toggleModal} patientID={patient.id}
                                         onNewTreatmentAdded={handleNewTreatmentAdded}/>)
