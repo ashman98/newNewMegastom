@@ -71,20 +71,20 @@ class PatientController extends Controller
             return $treatment;
         });
 
-        // Corrected disease query (filtered by del_status in the relationship itself)
-        $diseases = $patient->diseases; // Automatically applies the del_status filter
 
         // Transform the diseases collection
-        $diseases->transform(function ($disease) {
+        $patient->diseases->transform(function ($disease) {
             $disease->setAttribute('value', $disease->name);
             $disease->setAttribute('label', $disease->title);
             return $disease;
         });
 
+        $diseases = Disease::where('del_status', '=', 0)->get();
+
         return Inertia::render('Patients/Show', [
             'patient' => $patient,
             'treatments' => $treatments->items(),
-            'patient_diseases' => $diseases->toArray(),
+            'diseases' => $diseases->toArray(),
             'pagination' => [
                 'current_page' => $treatments->currentPage(),
                 'last_page' => $treatments->lastPage(),

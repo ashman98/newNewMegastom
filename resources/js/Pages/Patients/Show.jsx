@@ -21,18 +21,13 @@ import useAddEntity from "@/hooks/useAddEntity.js";
 import alertify from "alertifyjs";
 import AddPatientForm from "@/components/Patients/AddPatientForm.jsx";
 
-export default function PatientShow({ patient, patient_diseases }) {
+export default function PatientShow({ patient, diseases }) {
     const [open, setOpen] = useState(false);
     const [openDialogConfirm, setOpenDialogConfirm] = useState(false);
     const [confirmDelete, setConfirmDelete] = useState(false);
     const [entityUrl, setEntityUrl] = useState('');
     const [deleteType, setDeleteType] = useState('');
     const [editPatientModal, setEditPatientModal] = useState(false);
-
-    useEffect(()=>{
-        console.log(patient_diseases);
-    },[patient_diseases])
-
 
     const toggleModal = () => setOpen((cur) => !cur);
     const toggleDialogConfirm = () => setOpenDialogConfirm((cur) => !cur);
@@ -202,8 +197,8 @@ export default function PatientShow({ patient, patient_diseases }) {
                                     <div className="flex justify-between items-center py-2 border-b gap-12">
                                         <Typography variant="small" color="gray">{'Հիվանդություններ'}</Typography>
                                         <Typography variant="small" color="gray">
-                                            {patient_diseases.map((disease, index)=>{
-                                                return <span key={index}>{`${disease.title}${index!==patient_diseases.length-1?',':''} `}</span>
+                                            {patient.diseases.map((disease, index)=>{
+                                                return <span key={index}>{`${disease.title}${index!==patient.diseases.length-1?',':''} `}</span>
                                             })}
                                         </Typography>
                                     </div>
@@ -397,7 +392,7 @@ export default function PatientShow({ patient, patient_diseases }) {
                 footer={false}
             >
                 {editPatientModal ?
-                    (<AddPatientForm toggleModal={toggleModal} patient={patient}/>)
+                    (<AddPatientForm toggleModal={toggleModal} patient={patient} diseases={diseases}/>)
                 :
                     ( <AddTreatmentForm toggleModal={toggleModal} patientID={patient.id}
                                         onNewTreatmentAdded={handleNewTreatmentAdded}/>)

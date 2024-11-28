@@ -18,6 +18,8 @@ import Select from "react-select";
 export default function AddPatientForm({toggleModal, diseases, patient}) {
     alertify.set('notifier', 'position', 'top-right');
     const [rendDiseases, setRendDiseases] = useState([]);
+    const [selectedDiseases, setSelectedDiseases] = useState([]);
+
     const [formData, setFormData] = useState({
         name: '',
         surname: '',
@@ -31,8 +33,7 @@ export default function AddPatientForm({toggleModal, diseases, patient}) {
 
     useEffect(()=>{
         if (diseases && diseases.length > 0){
-
-
+            console.log(diseases)
             const rendDis = diseases.map((disease)=> {
                 return({ value: disease.name, label:  disease.title });
             })
@@ -40,9 +41,15 @@ export default function AddPatientForm({toggleModal, diseases, patient}) {
         }
     }, [diseases])
 
-    useMemo(()=>{
-        if (patient && patient.id){
-            setFormData({
+    useMemo(() => {
+        if (patient && patient.id) {
+            const patientDiseases = patient.diseases.map((disease) => ({
+                label: disease.label,
+                value: disease.value,
+            }));
+
+            setFormData((prevFormData) => ({
+                ...prevFormData,
                 name: patient.name,
                 surname: patient.surname,
                 phone: patient.phone,
@@ -50,14 +57,13 @@ export default function AddPatientForm({toggleModal, diseases, patient}) {
                 address: patient.address,
                 birthday: patient.birthday,
                 gender: patient.gender,
-            })
-
-            console.log(patient.diseases)
+                patient_diseases: patientDiseases,
+            }));
         }
-    }, [patient])
+    }, [patient]);
 
-    const [selectedDiseases, setSelectedDiseases] = useState([]);
     const handleChangeDiseases = (selectedOptions) => {
+        debugger
         setFormData({
             ...formData,
             ['patient_diseases']: selectedOptions,
