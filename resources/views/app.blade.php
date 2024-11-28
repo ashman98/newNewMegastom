@@ -17,8 +17,7 @@
 
         <meta property="og:title" content="Megastom" />
         <meta property="og:description" content="Стомотологическая клиника" />
-        <meta property="og:image" content="https://megastom.duckdns.org/proxy_image.php?url=https://megastom.duckdns.org/megastom.png" />
-
+        <meta property="og:image" content="{{ asset('megastom.jpg')}}" />
         <meta property="og:url" content="{{ config('app.url') }}" />
         <meta property="og:type" content="website" />
         <meta property="og:locale" content="ru_RU" />
