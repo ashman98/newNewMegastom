@@ -161,11 +161,11 @@ const TreatmentIndex = ({ treatment }) => {
         }
         try {
             await  updateEntity(formData)
-            alertify.success('Patient added successfully.');
+            alertify.success('Բուժումը հաջողությամբ պահպանվեց։');
         } catch (err) {
             console.error('Submission failed:', validationErrors);
             validationErrors.forEach((err)=>{
-                alertify.error(err.message);
+                // alertify.error(err.message);
                 console.log(`${err.key} ===  ${err.message}`);
             })
 
@@ -212,10 +212,12 @@ const TreatmentIndex = ({ treatment }) => {
         setDeleteLoading(true);
         try {
             const result = await deleteEntity();
-            alertify.success('Patient added successfully.');
+
             if (deleteType === 'delete_treatment'){
+                alertify.success('Բուժումը հաջողությամբ ջնջվեց։');
                 Inertia.get(`/patients/${treatment.patient.id}`);
             }else{
+                alertify.success('R հաջողությամբ ջնջվեց։');
                 const updatedTeeth = teeth.filter((tooth) => tooth.id !== result.tooth_id);
                 setTeeth(updatedTeeth);
                 toggleDialogConfirm();
@@ -258,6 +260,8 @@ const TreatmentIndex = ({ treatment }) => {
 
     return (
         <AuthenticatedLayout>
+            <Head title="Բուժում"/>
+
             {treatment.isOwner && (
                 <div
                     className={badgeStyles}>
@@ -291,8 +295,6 @@ const TreatmentIndex = ({ treatment }) => {
                 </div>
             )}
 
-
-            <Head title="Patients"/>
 
             <div className="md:container md:mx-auto w-full max-w-10xl my-4">
                 <Card className="p-4 shadow-md pt-10">
@@ -395,7 +397,7 @@ const TreatmentIndex = ({ treatment }) => {
                                             name="treatment_plan_end_date"
                                             type="datetime-local"
                                             label="Բուժման պլանի ավարտ"
-                                            value={formData.treatment_plan_end_date}
+                                            value={formData.treatment_plan_end_date || ""}
                                             disabled={!treatment.isOwner}
                                             error={errors.treatment_plan_end_date}
                                             onChange={(e) => {
@@ -422,7 +424,7 @@ const TreatmentIndex = ({ treatment }) => {
                                             label="Գումար (֏)"
                                             type="number"
                                             className="w-full"
-                                            value={formData.amount}
+                                            value={formData.amount || ""}
                                             disabled={!treatment.isOwner}
                                             onChange={(e) => handleChange(e.target.name, e.target.value)}
                                         />

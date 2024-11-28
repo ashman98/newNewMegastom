@@ -82,7 +82,7 @@ const PatientIndex = ({ disease }) => {
                 </div>
             </Drawer>
 
-            <Head title="Patients"/>
+            <Head title="Պացիենտներ"/>
 
             {/*<div className="container w-[60%] mx-auto my-4">*/}
                 <div className="md:container md:mx-auto w-full max-w-10xl my-4">

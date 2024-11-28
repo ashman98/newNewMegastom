@@ -82,7 +82,7 @@ class PatientController extends Controller
         $diseases = Disease::where('del_status', '=', 0)->get();
 
         return Inertia::render('Patients/Show', [
-            'patient' => $patient,
+            'patient_data' => $patient,
             'treatments' => $treatments->items(),
             'diseases' => $diseases->toArray(),
             'pagination' => [
@@ -290,7 +290,44 @@ class PatientController extends Controller
      */
     public function update(UpdatePatientRequest $request, Patient $patient)
     {
-        //
+        DB::beginTransaction();
+        try {
+            if ($patient->active == 1) {
+                // Redirect to the patients list page if the patient is inactive
+                return redirect()->route('patients.index')->with('error', 'Patient is inactive.');
+            }
+            // Обновляем данные пациента
+            $patient->update($request->validated());
+
+            // Обработка заболеваний (если они переданы в запросе)
+            if ($request->has('patient_diseases')) {
+                $diseaseValues = collect($request->input('patient_diseases'))
+                    ->pluck('value') // Извлекаем только значения (name)
+                    ->toArray();
+
+                // Получаем болезни по значениям из БД
+                $diseases = Disease::whereIn('name', $diseaseValues)->get();
+
+                // Обновляем привязку болезней к пациенту
+                $patient->diseases()->sync($diseases->pluck('id')); // Используем sync для обновления связи
+            }
+
+            DB::commit();
+            $patient->refresh();
+            $patient->load('diseases');
+            return response()->json([
+                'success' => true,
+                'message' => 'Пациент успешно обновлен!',
+                'patient' => $patient,
+            ]);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ]);
+        }
     }
 
     /**

@@ -88,7 +88,7 @@ export default function AddTreatmentForm({toggleModal, patientID, onNewTreatment
 
         try {
             const t = await addEntity(formData);
-            alertify.success('Treatment added successfully.');
+            alertify.success('Բուժումը հաջողությամբ ավելացվեց։');
             setFormData({
                 title: '',
                 diagnosis: '',

@@ -15,7 +15,7 @@ import axios from "axios";
 // import { Button as PrimeButton } from 'primereact/button';
 import Select from "react-select";
 
-export default function AddPatientForm({toggleModal, diseases, patient}) {
+export default function AddPatientForm({toggleModal, diseases, patient, setPatient, toggleOnPatientAdd}) {
     alertify.set('notifier', 'position', 'top-right');
     const [rendDiseases, setRendDiseases] = useState([]);
     const [selectedDiseases, setSelectedDiseases] = useState([]);
@@ -43,13 +43,14 @@ export default function AddPatientForm({toggleModal, diseases, patient}) {
 
     useMemo(() => {
         if (patient && patient.id) {
-            const patientDiseases = patient.diseases.map((disease) => ({
-                label: disease.label,
-                value: disease.value,
-            }));
+            const p = patient.diseases.map((disease) => {
+                return { label: disease.label, value: disease.value };
+            });
 
-            setFormData((prevFormData) => ({
-                ...prevFormData,
+            console.log("Patient Diseases:", patient.diseases);
+            console.log("Formatted Diseases:", p);
+
+            setFormData({
                 name: patient.name,
                 surname: patient.surname,
                 phone: patient.phone,
@@ -57,8 +58,9 @@ export default function AddPatientForm({toggleModal, diseases, patient}) {
                 address: patient.address,
                 birthday: patient.birthday,
                 gender: patient.gender,
-                patient_diseases: patientDiseases,
-            }));
+                patient_diseases: p,
+            });
+            setSelectedDiseases(p);
         }
     }, [patient]);
 
@@ -66,7 +68,7 @@ export default function AddPatientForm({toggleModal, diseases, patient}) {
         debugger
         setFormData({
             ...formData,
-            ['patient_diseases']: selectedOptions,
+            patient_diseases: selectedOptions,
         });
         setSelectedDiseases(selectedOptions);
     };
@@ -223,7 +225,7 @@ export default function AddPatientForm({toggleModal, diseases, patient}) {
         return val; // Return true if there are no errors
     };
 
-    const { addEntity, isLoading, validationErrors } = useAddEntity('patients');
+    const { addEntity, updateEntity,isLoading, validationErrors } = useAddEntity(`patients${patient && patient.id ? "/"+patient.id : ""}`);
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -234,8 +236,17 @@ export default function AddPatientForm({toggleModal, diseases, patient}) {
                 return;
             }
 
-            await addEntity(formData);
-            alertify.success('Patient added successfully.');
+            if (patient && patient.id){
+               const response =  await updateEntity(formData)
+                setPatient(response.patient)
+                console.log(patient)
+                console.log(response.patient)
+                // window.location.reload();
+            } else{
+                await addEntity(formData);
+                toggleOnPatientAdd();
+            }
+            alertify.success(`${patient && patient.id ? "Պացիենտը հաջողությամբ խմբագրվեց։" : "Պացիենտը հաջողությամբ ավելացվեց։"}`);
             setFormData({
                 name: '',
                 surname: '',
@@ -392,6 +403,7 @@ export default function AddPatientForm({toggleModal, diseases, patient}) {
                                 options={rendDiseases}
                                 className="basic-multi-select"
                                 classNamePrefix="select"
+                                value={selectedDiseases}
                                 placeholder="Ընտրել հիվանդություններ"
                                 onChange={handleChangeDiseases}
                             />
