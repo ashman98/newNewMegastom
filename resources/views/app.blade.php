@@ -15,20 +15,20 @@
         <link rel="manifest" href="{{ asset('site.webmanifest') }}" />
 
 
-        <meta property="og:title" content="Название вашего сайта или страницы" />
-        <meta property="og:description" content="Описание вашего сайта или страницы" />
-        <meta property="og:image" content="{{ asset('megastom.png')}}" />
+        <meta property="og:title" content="Megaastom" />
+        <meta property="og:description" content="Стомотологическая клиника" />
+        <meta property="og:image" content="{{ asset('megastom.jpg')}}" />
         <meta property="og:url" content="{{ config('app.url') }}" />
         <meta property="og:type" content="website" />
         <meta property="og:locale" content="ru_RU" />
-        <meta property="og:site_name" content="Название вашего сайта" />
+        <meta property="og:site_name" content="Megaastom" />
 
         <!-- Twitter Cards -->
-        <meta name="twitter:title" content="Название вашего сайта или страницы" />
-        <meta name="twitter:description" content="Описание вашего сайта или страницы" />
-        <meta name="twitter:image" content="{{ asset('megastom.png')}}" />
+        <meta name="twitter:title" content="Megaastom" />
+        <meta name="twitter:description" content="Стомотологическая клиника" />
+        <meta name="twitter:image" content="{{ asset('megastom.jpg')}}" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:site" content="@YourTwitterHandle" />
+        <meta name="twitter:site" content="@Megaastom" />
 
         <title inertia>{{ config('app.name', 'Laravel') }}</title>
         <meta name="csrf-token" content="{{ csrf_token() }}">
