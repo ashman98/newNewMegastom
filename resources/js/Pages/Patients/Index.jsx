@@ -23,7 +23,7 @@ const dentistInfo = {
     specialization: 'Стоматолог',
 };
 
-const PatientIndex = ({ patients }) => {
+const PatientIndex = ({ patients, diseases }) => {
     const [open, setOpen] = useState(false);
     const [filter, setFilter] = useState({});
     const [addPatientLoading, setAddPatientLoading] = useState(false);
@@ -34,27 +34,31 @@ const PatientIndex = ({ patients }) => {
         }
     }
 
-    const [diseases, setDiseases] = useState([]);
-    const getDiseases = async () => {
-        setAddPatientLoading(true);
-        try {
-            const response = await axios.get(`/diseases/data`);
-            if (response.data && Array.isArray(response.data)) {
-                setDiseases(response.data[0] || []);
-            } else {
-                setDiseases([]);  // Handle unexpected responses
-            }
-        } catch (error) {
-            console.error("Error fetching diseases:", error);
-            alertify.error("Failed to fetch diseases");
-        } finally {
-            setAddPatientLoading(false);
-        }
-    };
-
     useEffect(() => {
-        getDiseases();
-    }, []);
+        console.log(diseases);
+    }, [diseases]);
+
+    // const [diseases, setDiseases] = useState([]);
+    // const getDiseases = async () => {
+    //     setAddPatientLoading(true);
+    //     try {
+    //         const response = await axios.get(`/diseases/data`);
+    //         if (response.data && Array.isArray(response.data)) {
+    //             setDiseases(response.data[0] || []);
+    //         } else {
+    //             setDiseases([]);  // Handle unexpected responses
+    //         }
+    //     } catch (error) {
+    //         console.error("Error fetching diseases:", error);
+    //         alertify.error("Failed to fetch diseases");
+    //     } finally {
+    //         setAddPatientLoading(false);
+    //     }
+    // };
+    //
+    // useEffect(() => {
+    //     getDiseases();
+    // }, []);
 
     return (
         <AuthenticatedLayout>

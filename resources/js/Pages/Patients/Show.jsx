@@ -19,6 +19,7 @@ import AddTreatmentForm from "@/components/Patients/AddTreatmentForm.jsx";
 import {ConfirmDialog} from "@/components/ConfirmDialog.jsx";
 import useAddEntity from "@/hooks/useAddEntity.js";
 import alertify from "alertifyjs";
+import AddPatientForm from "@/components/Patients/AddPatientForm.jsx";
 
 export default function PatientShow({ patient, patient_diseases }) {
     const [open, setOpen] = useState(false);
@@ -26,6 +27,7 @@ export default function PatientShow({ patient, patient_diseases }) {
     const [confirmDelete, setConfirmDelete] = useState(false);
     const [entityUrl, setEntityUrl] = useState('');
     const [deleteType, setDeleteType] = useState('');
+    const [editPatientModal, setEditPatientModal] = useState(false);
 
     useEffect(()=>{
         console.log(patient_diseases);
@@ -154,8 +156,10 @@ export default function PatientShow({ patient, patient_diseases }) {
                                         className="rounded-full mx-auto"
                                     />
                                 <CardBody>
-                                    <div className="my-4 flex gap-2 justify-center items-center">
-                                        <Button variant="gradient" color="gray" size="md" className='flex items-center gap-3'>
+                                    <div className="my-4 flex gap-2 justify-center items-center" >
+                                        <Button variant="gradient" color="gray"
+                                                onClick={(e) => {setEditPatientModal(true);toggleModal()}}
+                                                size="md" className='flex items-center gap-3'>
                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                                  fill="currentColor" className="size-5">
                                                 <path
@@ -216,7 +220,7 @@ export default function PatientShow({ patient, patient_diseases }) {
                         <CardHeader className='px-3 mt-0'>
 
                             <div className='py-4'>
-                                <Button onClick={toggleModal} variant="gradient" color="gray" size="md" className='flex gap-2 items-center'>
+                                <Button onClick={(e) => {setEditPatientModal(false);toggleModal()}} variant="gradient" color="gray" size="md" className='flex gap-2 items-center'>
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                          className="size-5">
                                         <path fillRule="evenodd"
@@ -387,13 +391,18 @@ export default function PatientShow({ patient, patient_diseases }) {
             <GenericModal
                 open={open}
                 onClose={toggleModal}
-                title="Ավելացնել բուժում"
+                title={editPatientModal ? "Խմբագրել պացիենտի տվյալները" :"Ավելացնել բուժում"}
                 confirm="Add Treatment"
                 cancel="Cancel"
                 footer={false}
             >
-                <AddTreatmentForm toggleModal={toggleModal} patientID={patient.id}
-                                  onNewTreatmentAdded={handleNewTreatmentAdded}/>
+                {editPatientModal ?
+                    (<AddPatientForm toggleModal={toggleModal} patient={patient}/>)
+                :
+                    ( <AddTreatmentForm toggleModal={toggleModal} patientID={patient.id}
+                                        onNewTreatmentAdded={handleNewTreatmentAdded}/>)
+                }
+
             </GenericModal>
             <ConfirmDialog
                 open={openDialogConfirm}

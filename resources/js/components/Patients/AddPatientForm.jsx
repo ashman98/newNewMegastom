@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import useAddEntity from '../../hooks/useAddEntity.js'; // Specify the correct path to the hook
 import './AddPatinetForm.css';
 
@@ -15,21 +15,9 @@ import axios from "axios";
 // import { Button as PrimeButton } from 'primereact/button';
 import Select from "react-select";
 
-export default function AddPatientForm({toggleModal, diseases}) {
+export default function AddPatientForm({toggleModal, diseases, patient}) {
     alertify.set('notifier', 'position', 'top-right');
     const [rendDiseases, setRendDiseases] = useState([]);
-
-    useEffect(()=>{
-        if (diseases.length > 0){
-
-
-            const rendDis = diseases.map((disease)=> {
-                return({ value: disease.name, label:  disease.title });
-            })
-            setRendDiseases(rendDis);
-        }
-    }, diseases)
-
     const [formData, setFormData] = useState({
         name: '',
         surname: '',
@@ -41,6 +29,32 @@ export default function AddPatientForm({toggleModal, diseases}) {
         patient_diseases: [],
     });
 
+    useEffect(()=>{
+        if (diseases && diseases.length > 0){
+
+
+            const rendDis = diseases.map((disease)=> {
+                return({ value: disease.name, label:  disease.title });
+            })
+            setRendDiseases(rendDis);
+        }
+    }, [diseases])
+
+    useMemo(()=>{
+        if (patient && patient.id){
+            setFormData({
+                name: patient.name,
+                surname: patient.surname,
+                phone: patient.phone,
+                city: patient.city,
+                address: patient.address,
+                birthday: patient.birthday,
+                gender: patient.gender,
+            })
+
+            console.log(patient.diseases)
+        }
+    }, [patient])
 
     const [selectedDiseases, setSelectedDiseases] = useState([]);
     const handleChangeDiseases = (selectedOptions) => {
@@ -241,7 +255,6 @@ export default function AddPatientForm({toggleModal, diseases}) {
             ) : (
             <form className=" mb-2 w-80 max-w-screen-lg sm:w-96" onSubmit={handleSubmit}>
                 <div className=" flex flex-col gap-3">
-                    <div className="flex flex-row gap-3">
                         <div>
                             <Input
                                 label="Անուն"
@@ -268,7 +281,6 @@ export default function AddPatientForm({toggleModal, diseases}) {
                             />
                             {errors.surname && <p className="error-message">{errors.surname}</p>}
                         </div>
-                    </div>
                     <div>
                         <Input
                             label="Հեռխոսահամար"

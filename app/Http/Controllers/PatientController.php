@@ -22,9 +22,13 @@ class PatientController extends Controller
      */
     public function index(Request $request, PatientsDataTable $dataTable): \Inertia\Response
     {
-        $patients = Patient::query()->paginate(10); // Properly paginate the query results
+        $patients = Patient::query()->paginate(10);
+        $diseases = Disease::where('del_status', '=', 0)->get();// Properly paginate the query results
+//        throw new \RuntimeException(json_encode($diseases->toArray()));
+
         return Inertia::render('Patients/Index', [
             'patients' => $patients->items(),
+            'diseases' => $diseases->toArray(),
         ]);
     }
 
