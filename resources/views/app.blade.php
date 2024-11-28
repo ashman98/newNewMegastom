@@ -7,11 +7,12 @@
         <meta name="keywords" content="ключевые слова, React, пример" />
         <meta name="author" content="Ваше имя" />
 
-        <link rel="icon" type="image/png" href="{{ config('app.url') }}favicon.ico/favicon-96x96.png" sizes="96x96" />
-        <link rel="icon" type="image/svg+xml" href="{{ config('app.url') }}favicon.ico/favicon.svg" />
-        <link rel="shortcut icon" href="{{ config('app.url') }}favicon.ico/favicon.ico" />
-        <link rel="apple-touch-icon" sizes="180x180" href="{{ config('app.url') }}favicon.ico/apple-touch-icon.png" />
-        <link rel="manifest" href="{{ config('app.url') }}favicon.ico/site.webmanifest" />
+        <link rel="icon" type="image/png" href="{{ asset('favicon-96x96.png') }}" sizes="96x96" />
+{{--        <link rel="icon" type="image/png" href="{{ config('app.url') }}favicon.ico/favicon-96x96.png" sizes="96x96" />--}}
+        <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}" />
+        <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
+        <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}" />
+        <link rel="manifest" href="{{ asset('site.webmanifest') }}" />
 
         <title inertia>{{ config('app.name', 'Laravel') }}</title>
         <meta name="csrf-token" content="{{ csrf_token() }}">
