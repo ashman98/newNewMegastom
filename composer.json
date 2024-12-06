@@ -11,6 +11,8 @@
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
         "laravel/ui": "^4.5",
+        "predis/predis": "^2.3",
+        "spatie/laravel-backup": "^9.1",
         "spatie/laravel-permission": "^6.9.0",
         "tightenco/ziggy": "^2.3",
         "yajra/laravel-datatables-buttons": "^11.2",
