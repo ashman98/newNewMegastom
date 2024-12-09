@@ -7,5 +7,5 @@ return [
     Yajra\DataTables\ButtonsServiceProvider::class,
     Yajra\DataTables\ExportServiceProvider::class,
     Yajra\DataTables\HtmlServiceProvider::class,
-
+    Spatie\Permission\PermissionServiceProvider::class,
 ];

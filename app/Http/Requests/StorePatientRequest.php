@@ -39,17 +39,16 @@ class StorePatientRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required' => 'Имя обязательно для заполнения.',
-            'surname.required' => 'Фамилия обязательна для заполнения.',
-            'phone.required' => 'Телефон обязателен для заполнения.',
-            'phone.unique' => 'Этот телефон уже зарегистрирован.',
-            'birthday.required' => 'Дата рождения обязательна для заполнения.',
-            'city.required' => 'Город обязателен для заполнения.',
-            'address.required' => 'Адрес обязателен для заполнения.',
-            'patient_diseases.array' => 'Поле заболеваний должно быть массивом.',
-            'patient_diseases.*.label.required' => 'Каждое заболевание должно иметь название (label).',
-            'patient_diseases.*.value.required' => 'Каждое заболевание должно иметь значение (value).',
-
+            'name.required' => 'Անունը պարտադիր է լրացման համար։',
+            'surname.required' => 'Ազգանունը պարտադիր է լրացման համար։',
+            'phone.required' => 'Հեռախոսահամարը պարտադիր է լրացման համար։',
+            'phone.unique' => 'Այս հեռախոսահամարը արդեն գրանցված է։',
+            'birthday.required' => 'Ծննդյան ամսաթիվը պարտադիր է լրացման համար։',
+            'city.required' => 'Քաղաքը պարտադիր է լրացման համար։',
+            'address.required' => 'Հասցեն պարտադիր է լրացման համար։',
+            'patient_diseases.array' => 'Հիվանդությունների դաշտը պետք է լինի զանգված։',
+            'patient_diseases.*.label.required' => 'Յուրաքանչյուր հիվանդություն պետք է ունենա անուն (label)։',
+            'patient_diseases.*.value.required' => 'Յուրաքանչյուր հիվանդություն պետք է ունենա արժեք (value)։',
         ];
     }
 }

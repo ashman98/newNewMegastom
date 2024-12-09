@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('phone', 20)->unique(); // Phone column (adjust length as needed)
             $table->string('city', 100); // City column (adjust length as needed)
             $table->string('address', 255); // Address column
-            $table->string('region');
+            $table->string('region')->nullable();
             $table->tinyInteger('active')->default('0');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();

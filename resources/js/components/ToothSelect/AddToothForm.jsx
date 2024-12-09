@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import useAddEntity from '../../hooks/useAddEntity.js'; // Specify the correct path to the hook
 // import './AddPatinetForm.css';
 
@@ -9,7 +9,10 @@ import {
 import alertify from 'alertifyjs';
 import ToothSelect from "@/components/ToothSelect/ToothSelect.jsx";
 import {ImageModal} from "@/components/ImageModal.jsx";
-import useWindowSize from "@/hooks/useWindowSize.js"; // Make sure to install alertifyjs
+import useWindowSize from "@/hooks/useWindowSize.js";
+import axios from "axios"; // Make sure to install alertifyjs
+import { debounce } from 'lodash';
+
 
 export default function AddToothForm({setSelectedToothData,bottomRef, isOwner, addNewToothData, updateToothData, toggleModal, treatmentID, selectedToothData}) {
     alertify.set('notifier', 'position', 'top-right');
@@ -36,21 +39,60 @@ export default function AddToothForm({setSelectedToothData,bottomRef, isOwner, a
         console.log(xRayImages);
     }, [xRayImages]);
 
+    const [dd,setdd] = useState([]);
+    const debouncedFetchFreeSpace = useCallback(
+        debounce(async (filenames) => {
+            // setLoading(true);
+            try {
+                const response = await axios.get(`/xrays/base64`, {
+                    params: {filenames}
+                });
+                debugger
+                setdd(response.data);
+            } catch (error) {
+                console.error("Error fetching treatments:", error);
+            } finally {
+                // setLoading(false);
+            }
+        }, 500),
+        [] // Dependencies: empty array, so it only re-creates the function on mount
+    );
+
+    useEffect(() => {
+        if (dd.length > 0) {
+            debugger
+            let v = dd.map((iill)=>{
+                return iill.data
+            })
+
+            setImages(v);
+            setXRayImages(v);
+        }
+
+    },[dd])
+
     useEffect(() => {
         if (selectedToothData){
             setToothNumber(selectedToothData.tooth_number);
             setTitle(selectedToothData.title);
-            if (selectedToothData.x_ray_images){
+            if (selectedToothData.x_ray_images && selectedToothData.x_ray_images.length > 0){
 
                 const updatedImages = [...images];
                 const updatedXrayImages = [...xRayImages];
-
+                let im = [];
                 selectedToothData.x_ray_images.forEach((img, index)=>{
+                    im.push(img.path);
                     updatedImages[index] = ( `${import.meta.env.VITE_APP_URL}storage/${img.path}`);
                     updatedXrayImages[index] = ( `${import.meta.env.VITE_APP_URL}storage/${img.path}`);
                 })
-                setImages(updatedImages);
-                setXRayImages(updatedXrayImages);
+
+
+
+                debouncedFetchFreeSpace(im);
+
+
+                // setImages(v);
+                // setXRayImages(v);
 
                 // selectedToothData.x_ray_images.forEach((img, index)=>{
                 //     const updatedImages = [...images];

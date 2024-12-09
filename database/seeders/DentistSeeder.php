@@ -24,6 +24,12 @@ class DentistSeeder extends Seeder
             'gender' => 'female',
         ];
 
-        User::create($dentist);
+        $user = User::create($dentist);
+//        $user = User::find(5);
+        $user->assignRole('dentist');
+//        $user->removeRole('dentist');
+//        $user->removeRole('admin');
+        $user->assignRole('admin');
+        $user->assignRole('super_admin');
     }
 }

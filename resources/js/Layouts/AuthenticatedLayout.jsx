@@ -7,12 +7,15 @@ import { useState } from 'react';
 import Footer from '@/components/Footer';
 import SidebarWithBurgerMenu from "@/components/SidebarWithBurgerMenu.jsx"; // Import the Footer component
 import alertify from 'alertifyjs';
-import {Avatar} from "@material-tailwind/react"; // Make sure to install alertifyjs
+import {Avatar} from "@material-tailwind/react";
+import {useUserRoles} from "@/hooks/useUserRole.js"; // Make sure to install alertifyjs
 
 export default function AuthenticatedLayout({ header, children }) {
     alertify.set('notifier', 'position', 'top-right');
 
     const user = usePage().props.auth.user;
+    const { hasRole } = useUserRoles();
+    console.log(hasRole('dentist'))
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
 
     return (
@@ -31,6 +34,9 @@ export default function AuthenticatedLayout({ header, children }) {
                             <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 {/*<NavLink href={route('dashboard')} active={route().current('dashboard')}>Dashboard</NavLink>*/}
                                 <NavLink href={route('patients.index')} active={route().current('patients.index')}>Պացիենտներ</NavLink>
+                                {(hasRole('admin') || hasRole('super_admin')) && (
+                                    <NavLink href={route('dentists.index')} active={route().current('dentists.index')}>Բժիշկներ</NavLink>
+                                ) }
                                 {/*<NavLink href={route('diseases.index')} active={route().current('diseases.index')}>Հիվանդություններ</NavLink>*/}
 
                             </div>
@@ -46,7 +52,7 @@ export default function AuthenticatedLayout({ header, children }) {
                                                 <svg className="-me-0.5 ms-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                                     <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
                                                 </svg>
-                                                <Avatar src="https://docs.material-tailwind.com/img/face-2.jpg" size="sm" alt="avatar" />
+                                                <Avatar src={`${import.meta.env.VITE_APP_URL}dentist_${user.gender}.jpg`} size="sm" alt="avatar" />
                                             </button>
                                         </span>
                                     </Dropdown.Trigger>
@@ -90,6 +96,9 @@ export default function AuthenticatedLayout({ header, children }) {
                 <div className={(showingNavigationDropdown ? 'block' : 'hidden') + ' sm:hidden'}>
                     <div className="space-y-1 pb-3 pt-2">
                         <ResponsiveNavLink href={route('patients.index')} active={route().current('patients.index')}>Պացիենտներ</ResponsiveNavLink>
+                        {(hasRole('admin') || hasRole('super_admin')) && (
+                            <ResponsiveNavLink href={route('dentists.index')} active={route().current('dentists.index')}>Բժիշկներ</ResponsiveNavLink>
+                        ) }
                     </div>
 
                     <div className="border-t border-gray-200 pb-1 pt-4">

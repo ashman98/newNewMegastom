@@ -80,7 +80,7 @@ const ToothSelect = ({isOwner, setToothNumber, toothNumber, errors}) => {
                 />
             </div>
             <div
-                className={`grid gap-1 ${forChild ? 'grid-cols-10' :width<960? width<420 ?'grid-cols-6' :'grid-cols-8' : 'grid-cols-16'} relative`}
+                className={`grid gap-1 ${forChild ? width<480 ? 'grid-cols-6' : 'grid-cols-10' :width<960? width<420 ?'grid-cols-6' :'grid-cols-8' : 'grid-cols-16'} relative`}
                 // style={{width: forChild ? '480px' : '768px'}}
             >
                 {

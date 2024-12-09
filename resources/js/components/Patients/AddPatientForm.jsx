@@ -226,6 +226,18 @@ export default function AddPatientForm({toggleModal, diseases, patient, setPatie
     };
 
     const { addEntity, updateEntity,isLoading, validationErrors } = useAddEntity(`patients${patient && patient.id ? "/"+patient.id : ""}`);
+    useEffect(() => {
+        if (validationErrors.length > 0){
+            validationErrors.forEach((err)=>{
+                setErrors(prevErrors => ({
+                    ...prevErrors,
+                    [err.key]: err.message,  // Reset any existing error for the field
+                }));
+            })
+
+        }
+    }, [validationErrors]);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {

@@ -10,8 +10,6 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 
-
-
 const appName = import.meta.env.VITE_APP_NAME || 'Megastom';
 
 createInertiaApp({

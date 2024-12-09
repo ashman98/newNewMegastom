@@ -38,7 +38,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at',
         'remember_token',
         'remember_token_expires_at',
-        'gender'
+        'gender',
+        'birthday'
     ];
 
     /**
@@ -50,15 +51,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'password',
         'email_verified_code',
         'email_verification_expires_at',
-        'name',
-        'email',
-        'password',
-        'surname',
-        'phone',
-        'region',
-        'city',
-        'address',
-        'zip',
         'email_verified_at',
     ];
 

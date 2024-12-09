@@ -48,7 +48,7 @@ class ToothController extends Controller
             $imagesData = [];
             if ($request->has('images')) {
                 foreach ($request->file('images') as $image) {
-                    $path = Storage::disk('public')->put(XRayImage::getPathOfImage($data['treatment_id']), $image);
+                    $path = Storage::disk('local')->put(XRayImage::getPathOfImage($data['treatment_id']), $image);
                     $imagesData[] = [
                         'path' => $path,
                         'name' => 'X-ray image',

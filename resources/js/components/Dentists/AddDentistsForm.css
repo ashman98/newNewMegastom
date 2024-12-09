@@ -1,0 +1,22 @@
+.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: transparent !important;
+}
+
+.select__control--is-focused {
+    @apply border-black shadow-md;  /* Применяем Tailwind классы */
+}
+
+.select__control--is-focused {
+    border-color: black !important;  /* Меняем цвет границы на черный */
+    box-shadow: 0 0 0 1px black !important;
+}
+
+/* Дополнительный стиль для состояния hover */
+.select__control:hover {
+    /*border-color: black !important;*/
+    cursor: pointer;
+}
+
+.birthday{
+    cursor: pointer;
+}
