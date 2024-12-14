@@ -177,7 +177,7 @@ export default function AddToothForm({setSelectedToothData,bottomRef, isOwner, a
         if (!title) {
             newErrors.title = "Պարտադիր է։";
         } else if (title.length > 20) {
-            newErrors.title = "Պետք է պարունակի առնվազն 20 տառ։";
+            newErrors.title = "Վերնագիրը  պետք է պարունակի առավելագույնը 20 տառ։";
         }
 
         if (!toothNumber) {

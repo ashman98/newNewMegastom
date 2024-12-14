@@ -9,6 +9,7 @@ import './PatientsTable.css';
 import { Inertia } from '@inertiajs/inertia';
 import {Button} from "@material-tailwind/react";
 import useWindowSize from "@/hooks/useWindowSize.js";
+import ScrollHint from "@/components/ScrollHint.jsx";
 
 const userLocaleText = {
     filterOoo: 'Փնտրել...',
@@ -40,7 +41,7 @@ const PatientsTable = ({filter, onPatientAdd}) => {
         { headerName: "Հեռախոսահամար", field: "phone", sortable: true, filter: false, width: 180 },
         { headerName: "Քաղաք", field: "city", sortable: true, filter: false, width: 140 },
         { headerName: "Հասե", field: "address", sortable: true, filter: false, flex: 1 },
-        { headerName: "Ծննդյան տարեթիվ", field: "birthday", sortable: true, filter: false, width: 120, headerClass: 'wrap-header' },
+        { headerName: "Ծննդյան ամսաթիվ", field: "birthday", sortable: true, filter: false, width: 120, headerClass: 'wrap-header' },
         { headerName: "Սեռ", field: "gender", sortable: true, filter: false, width: 100 }
     ];
 
@@ -106,7 +107,7 @@ const PatientsTable = ({filter, onPatientAdd}) => {
                     {/*<span>Загрузка данных...</span>*/}
                 </div>
             )}
-
+            {/*<ScrollHint />*/}
 
             <AgGridReact
                 rowData={patients}
@@ -124,7 +125,7 @@ const PatientsTable = ({filter, onPatientAdd}) => {
 
                 {width > 960 && (
                     <div className="w-30 max-w-sm min-w-[20px] flex gap-3 items-center ml-2">
-                        <label className="block mb-1 text-sm text-slate-800">Պացիետների քանակը էջի վրա:</label>
+                        <label className="block mb-1 text-sm text-slate-800">Պացիենտների քանակը էջի վրա:</label>
                         <select
                             className="w-15 bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow-md appearance-none cursor-pointer"
                             onChange={(e) => handlePageSizeChange(parseInt(e.target.value, 10))}
@@ -222,7 +223,7 @@ const PatientsTable = ({filter, onPatientAdd}) => {
 
                 {width < 960 && (
                     <div className="w-30 max-w-sm min-w-[20px] flex gap-3 items-center ml-2">
-                        <label className="block mb-1 text-sm text-slate-800">Պացիետների քանակը էջի վրա:</label>
+                        <label className="block mb-1 text-sm text-slate-800">Պացիենտների քանակը էջի վրա:</label>
                         <select
                             className="w-15 bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow-md appearance-none cursor-pointer"
                             onChange={(e) => handlePageSizeChange(parseInt(e.target.value, 10))}

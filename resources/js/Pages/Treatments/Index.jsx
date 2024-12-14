@@ -300,21 +300,21 @@ const TreatmentIndex = ({ treatment }) => {
             <div className="md:container md:mx-auto w-full max-w-10xl my-4">
                 <Card className="p-4 shadow-md pt-10">
                     <CardHeader className="bg-gray-100 rounded-lg shadow-md py-2 px-4 mb-4">
-                        <div className='flex justify-between'>
+                        <div className={`flex justify-between ${width<500 ? "flex-col" : "flex-row" }`}>
                             <Typography
                                 variant="h5"
                                 className="
                                 text-blue-gray-800 font-semibold cursor-pointer
                                 hover:text-gray-900 hover:shadow-md hover:bg-gray-300
                                 transition-all duration-200 transform hover:scale-105
-                                px-3 py-2 rounded-md inline-block
+                                px-3 py-2 rounded-md inline-block text-center
                             "
                                 onClick={() => goToPatientPage(treatment.patient.id)}
                             >
                                 {`${treatment.patient.name} ${treatment.patient.surname}`}
                             </Typography>
 
-                            <Button variant='outlined' color="red" className='flex items-center gap-2'
+                            <Button variant='outlined' color="red" className='flex items-center gap-2 justify-center'
                                     onClick={(e) => handleConfirm(e, 'delete_treatment', treatment.id)}>
                                 <svg xmlns="http://www.w3.org/2000/svg"
                                      viewBox="0 0 24 24" fill="currentColor"
@@ -561,7 +561,7 @@ const TreatmentIndex = ({ treatment }) => {
             <GenericModal
                 open={open}
                 onClose={!loading ? closeModal: false}
-                title={selectedToothData.id?"Խմբագրել ռենտգենը":"Ավլեացնել ռենտգեն"}
+                title={selectedToothData.id?"Խմբագրել ռենտգենը":"Ավելացնել ռենտգեն"}
                 confirm="Add Patient"
                 cancel="Cancel"
                 footer={false}
@@ -580,7 +580,7 @@ const TreatmentIndex = ({ treatment }) => {
                 title={deleteType === 'delete_tooth' ? 'Հեռացնել ռենտգենը' : 'Հեռացնել բուժումը'}
             >
                 <Typography className='text-center' style={{fontSize: 18}}>
-                    {deleteType === 'delete_tooth' ? ' Ցանկանում ե՞ք հեռացնել ռենտգենը։' : ' Ցանկանում ե՞ք հեռացնել բուժումը:'}
+                    {deleteType === 'delete_tooth' ? ' Ցանկան՞ում եք հեռացնել ռենտգենը։' : ' Ցանկանում ե՞ք հեռացնել բուժումը:'}
 
                 </Typography>
             </ConfirmDialog>

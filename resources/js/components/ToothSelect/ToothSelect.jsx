@@ -113,7 +113,7 @@ const ToothSelect = ({isOwner, setToothNumber, toothNumber, errors}) => {
                     })
                 }
             </div>
-            {errors.tooth_number && <p className="error-message">{errors.title}</p>}
+            {errors.tooth_number && <p className="error-message">{errors.tooth_number}</p>}
             {/*<MultiImageUploader defaultImages={xRayImages}/> */}
         </div>
     );

@@ -101,7 +101,7 @@ export default function AddPatientForm({toggleModal}) {
             if (value.length > 12) {
                 setErrors(prevErrors => ({
                     ...prevErrors,
-                    [name]: "Հեռախոսհամարը շատ երկար է:",  // Reset any existing error for the field
+                    [name]: "Հեռախոսահամարը շատ երկար է:",  // Reset any existing error for the field
                 }));
                 return false;
             }
@@ -131,7 +131,7 @@ export default function AddPatientForm({toggleModal}) {
         }
 
         if (!formData.phone) {
-            newErrors.phone = "Հեռախոսհամար դաշտը պարտադիր է:";
+            newErrors.phone = "Հեռախոսահամար դաշտը պարտադիր է:";
         }
 
         if (!formData.city) {
@@ -143,12 +143,12 @@ export default function AddPatientForm({toggleModal}) {
         }
 
         if (!formData.birthday) {
-            newErrors.birthday = "Ծննդյան տարեթիվ դաշտը պարտադիր է:";
+            newErrors.birthday = "Ծննդյան ամսաթիվ դաշտը պարտադիր է:";
         } else {
             const birthday = new Date(formData.birthday);
 
             if (birthday > today) {
-                newErrors.birthday = "Ծննդյան տարեթիվը սխալ է:";
+                newErrors.birthday = "Ծննդյան ամսաթիվը սխալ է:";
             }
         }
 
@@ -276,7 +276,7 @@ export default function AddPatientForm({toggleModal}) {
                     <div>
                         <Input
                             type="date"
-                            label="Ծննդյան տարեթիվ"
+                            label="Ծննդյան ամսաթիվ"
                             size="lg"
                             name="birthday"
                             value={formData.birthday}

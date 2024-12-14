@@ -1,0 +1,39 @@
+/* Вставьте это в ваш CSS файл или стилизованный компонент */
+
+/* Анимация для пальца */
+@keyframes bounce {
+    0% {
+        transform: translate(-50%, -50%) translateY(0);
+    }
+    50% {
+        transform: translate(-50%, -50%) translateY(-10px);
+    }
+    100% {
+        transform: translate(-50%, -50%) translateY(0);
+    }
+}
+
+.scroll-container {
+    width: 100%;
+    overflow: hidden; /* Убираем полосу прокрутки */
+}
+
+.scrollable-content {
+    display: flex;
+    gap: 20px; /* Добавляем промежутки между элементами */
+}
+
+.scroll-hint {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 50px;
+    color: rgba(0, 0, 0, 0.7);
+    animation: bounce 1s infinite;
+    cursor: pointer; /* Добавляем курсор для интерактивности */
+}
+
+.scroll-hint:hover {
+    color: #ff6347; /* Изменяем цвет при наведении */
+}

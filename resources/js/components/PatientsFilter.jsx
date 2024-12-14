@@ -231,7 +231,7 @@ const PatientsFilter = ({ onFilterChange, diseases }) => {
                             />
                             {/* Gender */}
                             <MtSelect
-                                label="Ընտրեք սեռը"
+                                label="Ընտրել սեռը"
                                 value={filters.gender}
                                 onChange={(value) =>
                                     setFilters((prev) => ({...prev, gender: value}))
@@ -261,7 +261,7 @@ const PatientsFilter = ({ onFilterChange, diseases }) => {
 
                             <Checkbox
                                 name="isOwnPatient"
-                                label="Ցուցադրել միայն իմ հիվանդները"
+                                label="Ցուցադրել միայն իմ հիվանդներին"
                                 id="isOwnPatient"
                                 onChange={(e)=>
                                 {

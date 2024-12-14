@@ -131,7 +131,7 @@ export default function AddDentistsForm({toggleModal, dentist, setDentist, toggl
             if (value.length > 12) {
                 setErrors(prevErrors => ({
                     ...prevErrors,
-                    [name]: "Հեռախոսհամարը շատ երկար է:",  // Reset any existing error for the field
+                    [name]: "Հեռախոսահամարը շատ երկար է:",  // Reset any existing error for the field
                 }));
                 return false;
             }

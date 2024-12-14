@@ -59,7 +59,7 @@ export default function AddTreatmentForm({toggleModal, patientID, onNewTreatment
         if (!formData.title) {
             newErrors.title = "Պարտադիր է";
         } else if (formData.title.length > 40) {
-            newErrors.title = "Վերնագրը չի կարող պարունակել 20-ից ավել տառ։";
+            newErrors.title = "Վերնագիրը  պետք է պարունակի առավելագույնը 20 տառ։";
         }
 
         if (!formData.treatment_plan_start_date) {

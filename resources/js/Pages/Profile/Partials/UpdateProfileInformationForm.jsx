@@ -41,7 +41,7 @@ export default function UpdateProfileInformation({
                 </h2>
 
                 <p className="mt-1 text-sm text-gray-600">
-                   Կարող էք խմաբգրել ձեր անձնական տվյալնները
+                   Կարող եք խմբագրել ձեր անձնական տվյալնները
                 </p>
             </header>
 

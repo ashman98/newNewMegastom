@@ -182,9 +182,9 @@ export default function PatientShow({ patient }) {
                                 <CardBody>
                                     {[{label: 'Անուն Ազգանուն', value: `${patient.name} ${patient.surname}`},
                                         {label: 'Ծննդյան տարթիվ', value: patient.birthday || 'N/A'},
-                                        {label: 'Հեռախոսահամր', value: patient.phone},
+                                        {label: 'Հեռախոսահամար', value: patient.phone},
                                         {label: 'Քաղաք', value: patient.city},
-                                        {label: 'Հացե', value: patient.address}
+                                        {label: 'Հասցե', value: patient.address}
                                     ].map((item, index) => (
                                         <div key={index} className="flex justify-between items-center py-2 border-b">
                                             <Typography variant="small" color="gray">{item.label}</Typography>
@@ -325,7 +325,7 @@ export default function PatientShow({ patient }) {
                                                                 <Typography variant="small" color="gray"
                                                                             className="mb-2">
                                                                 <span
-                                                                    className="font-semibold text-blue-gray-500">Բուժման ավարտ:</span> {treatment.treatment_plan_end_date ? new Date(treatment.treatment_plan_end_date).toLocaleDateString() : 'Ընդացքում է'}
+                                                                    className="font-semibold text-blue-gray-500">Բուժման ավարտ:</span> {treatment.treatment_plan_end_date ? new Date(treatment.treatment_plan_end_date).toLocaleDateString() : 'Ընթացքում է'}
                                                                 </Typography>
                                                                 {/*<Typography variant="small" color="gray" className="mb-2">*/}
                                                                 {/*    <span*/}
@@ -395,7 +395,7 @@ export default function PatientShow({ patient }) {
                 title={deleteType === 'delete_patient' ? 'Հեռացնել պացիենտին' : 'Հեռացնել բուժումը'}
             >
                 <Typography className='text-center' style={{fontSize: 18}}>
-                    {deleteType === 'delete_patient' ? ' Ցանկանում ե՞ք հեռացնել պացիենտին։' : ' Ցանկանում ե՞ք հեռացնել բուժումը:'}
+                    {deleteType === 'delete_patient' ? ' Ցանկան՞ում եք հեռացնել պացիենտին։' : ' Ցանկանում ե՞ք հեռացնել բուժումը:'}
 
                 </Typography>
             </ConfirmDialog>

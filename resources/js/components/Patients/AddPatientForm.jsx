@@ -125,28 +125,28 @@ export default function AddPatientForm({toggleModal, diseases, patient, setPatie
         if (name === 'name' && value.length > 50) {
             setErrors(prevErrors => ({
                 ...prevErrors,
-                [name]: "Անունը չի կարող լինել այսքան երկար:",  // Reset any existing error for the field
+                [name]: "Անունը պետք է պարունակի առավելագույնը 50 տառ։",  // Reset any existing error for the field
             }));
             return false; // Do not update formData if the name exceeds 255 characters
         }
         if (name === 'surname' && value.length > 50) {
             setErrors(prevErrors => ({
                 ...prevErrors,
-                [name]: "Ազգանունը չի կարող լինել այսքան երկար:",  // Reset any existing error for the field
+                [name]: "Ազգանունը պետք է պարունակի առավելագույնը 50 տառ։",  // Reset any existing error for the field
             }));
             return false;  // Do not update formData if the name exceeds 255 characters
         }
         if (name === 'city' && value.length > 50) {
             setErrors(prevErrors => ({
                 ...prevErrors,
-                [name]: "Քաղաքի անվանումը չի կարող լինել այսքան երկար:",  // Reset any existing error for the field
+                [name]: "Քաղաքի պետք է պարունակի առավելագույնը 50 տառ։",  // Reset any existing error for the field
             }));
             return false;  // Do not update formData if the name exceeds 255 characters
         }
         if (name === 'address' && value.length > 255) {
             setErrors(prevErrors => ({
                 ...prevErrors,
-                [name]: "Հասցեն չի կարող լինել այսքան երկար:",  // Reset any existing error for the field
+                [name]: "Հասցեն պետք է պարունակի առավելագույնը 255 տառ։",  // Reset any existing error for the field
             }));
             return false;  // Do not update formData if the name exceeds 255 characters
         }
@@ -154,7 +154,7 @@ export default function AddPatientForm({toggleModal, diseases, patient, setPatie
             if (value.length > 12) {
                 setErrors(prevErrors => ({
                     ...prevErrors,
-                    [name]: "Հեռախոսհամարը շատ երկար է:",  // Reset any existing error for the field
+                    [name]: "Հեռախոսահամարը պետք է պարունակի առավելագույնը 12 թիվ։",  // Reset any existing error for the field
                 }));
                 return false;
             }
@@ -172,7 +172,7 @@ export default function AddPatientForm({toggleModal, diseases, patient, setPatie
     };
 
     const validateForm = () => {
-        const newErrors = {};
+        const newErrors = errors;
 
 
         if (!formData.name) {
@@ -201,7 +201,7 @@ export default function AddPatientForm({toggleModal, diseases, patient, setPatie
             const birthday = new Date(formData.birthday);
 
             if (birthday > today) {
-                newErrors.birthday = "Ծննդյան տարեթիվը սխալ է:";
+                newErrors.birthday = "Ծննդյան ամսաթիվ սխալ է:";
             }
         }
 
@@ -216,7 +216,7 @@ export default function AddPatientForm({toggleModal, diseases, patient, setPatie
 
         let val = true;
         Object.keys(errors).forEach((key) => {
-            if (errors[key]) {
+            if (errors[key] !== false) {
                 val = false;
             }
         });
@@ -351,7 +351,7 @@ export default function AddPatientForm({toggleModal, diseases, patient, setPatie
                     <div>
                         <Input
                             type="date"
-                            label="Ծննդյան տարեթիվ"
+                            label="Ծննդյան ամսաթիվ"
                             size="lg"
                             name="birthday"
                             className='birthday'

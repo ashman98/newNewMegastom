@@ -49,17 +49,17 @@ export default function DeleteUserForm({ className = '' }) {
         <section className={`space-y-6 ${className}`}>
             <header>
                 <h2 className="text-lg font-medium text-gray-900">
-                    Ջնջել ակաունտը
+                    Ջնջել հաշիվը
                 </h2>
 
                 <p className="mt-1 text-sm text-gray-600">
-                    Ձեր ակաունտը ջնջելուց հետո նրա բոլոր ռեսուրսներն ու տվյալները անշրջելիորեն կջնջվեն:
-                    Նախքան ձեր ակաունտը ջնջելը, խնդրում ենք ներբեռնել բոլոր այն տվյալները կամ տեղեկատվությունը, որոնք ցանկանում եք պահել։
+                    Ձեր հաշիվը ջնջելուց հետո նրա բոլոր ռեսուրսներն ու տվյալները անշրջելիորեն կջնջվեն:
+                    Նախքան ձեր հաշիվը ջնջելը, խնդրում ենք ներբեռնել բոլոր այն տվյալները կամ տեղեկատվությունը, որոնք ցանկանում եք պահել։
                 </p>
             </header>
 
             <DangerButton onClick={confirmUserDeletion}>
-                Ջնջել ակաունտը
+                Ջնջել հաշիվը
             </DangerButton>
 
             <Modal show={confirmingUserDeletion} onClose={closeModal}>
@@ -69,8 +69,8 @@ export default function DeleteUserForm({ className = '' }) {
                     </h2>
 
                     <p className="mt-1 text-sm text-gray-600">
-                        Ձեր ակաունտը ջնջելուց հետո նրա բոլոր ռեսուրսներն ու տվյալները անշրջելիորեն կջնջվեն:
-                        Նախքան ձեր ակաունտը ջնջելը, խնդրում ենք ներբեռնել բոլոր այն տվյալները կամ տեղեկատվությունը, որոնք ցանկանում եք պահել։
+                        Ձեր հաշիվը ջնջելուց հետո նրա բոլոր ռեսուրսներն ու տվյալները անշրջելիորեն կջնջվեն:
+                        Նախքան ձեր հաշիվը ջնջելը, խնդրում ենք ներբեռնել բոլոր այն տվյալները կամ տեղեկատվությունը, որոնք ցանկանում եք պահպանել։
                     </p>
 
                     <div className="mt-6">
@@ -106,7 +106,7 @@ export default function DeleteUserForm({ className = '' }) {
                         </SecondaryButton>
 
                         <DangerButton className="ms-3" disabled={processing}>
-                            Ջնջել ակաունտը
+                            Ջնջել հաշիվը
                         </DangerButton>
                     </div>
                 </form>
