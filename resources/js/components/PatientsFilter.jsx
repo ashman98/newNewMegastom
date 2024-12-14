@@ -133,10 +133,10 @@ const PatientsFilter = ({ onFilterChange, diseases }) => {
 
             {/* Drawer */}
             <Drawer
-                placement={width < 476 ? "top" : "right"}
+                placement={"right"}
                 open={openTop}
                 onClose={closeDrawerTop}
-                className="p-6 bg-white shadow-lg rounded-lg custom-scrollbar"
+                className="p-6 bg-white shadow-lg rounded-lg overflow-x-auto "
                 size={width < 476 ? 1000 : 500}
             >
                 <div className="max-w-4xl mx-auto mt-4">
@@ -151,9 +151,9 @@ const PatientsFilter = ({ onFilterChange, diseases }) => {
 
                     <form onSubmit={handleSubmit} className="space-y-6">
                         {/*<div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4">*/}
-                        <div className='flex flex-col gap-3'>
+                        <div className={`flex flex-col gap-3`}>
                             {/* Name */}
-                            <div className='flex w-full justify-start gap-2'>
+                            <div className={`flex w-full gap-3 ${width < 476 ? "flex-col" : "flex-row"} justify-start`}>
                                 <Input
                                     label="Անուն"
                                     variant="outlined"
@@ -174,7 +174,7 @@ const PatientsFilter = ({ onFilterChange, diseases }) => {
                             </div>
 
                             {/* Phone */}
-                            <div className='flex flex-row gap-2'>
+                            <div className={`flex w-full gap-3 ${width < 476 ? "flex-col" : "flex-row"} justify-start`}>
                                 <Input
                                     label="Հեռախոսահամար"
                                     variant="outlined"
@@ -198,7 +198,7 @@ const PatientsFilter = ({ onFilterChange, diseases }) => {
                             {/* Address */}
 
 
-                            <div className='flex flex-row gap-2'>
+                            <div className={`flex w-full gap-3 ${width < 476 ? "flex-col" : "flex-row"} justify-start`}>
                                 {/* Birthday Range - From */}
                                 <Input
                                     label="Ծննդյան ամսաթիվից"
@@ -241,21 +241,23 @@ const PatientsFilter = ({ onFilterChange, diseases }) => {
                                 <Option value="male">Արական</Option>
                                 <Option value="female">Իգական</Option>
                             </MtSelect>
+
+                            {Array.isArray(rendDiseases) && rendDiseases.length > 0 && (
+                                <div className="w-full">
+                                    <Select
+                                        isMulti
+                                        name="patient_diseases"
+                                        options={rendDiseases}
+                                        className="basic-multi-select"
+                                        classNamePrefix="select"
+                                        placeholder="Ընտրել հիվանդություններ"
+                                        onChange={handleChangeDiseases}
+                                    />
+                                </div>
+                            )}
                         </div>
 
-                        {Array.isArray(rendDiseases) && rendDiseases.length > 0 && (
-                            <div className="w-full">
-                                <Select
-                                    isMulti
-                                    name="patient_diseases"
-                                    options={rendDiseases}
-                                    className="basic-multi-select"
-                                    classNamePrefix="select"
-                                    placeholder="Ընտրել հիվանդություններ"
-                                    onChange={handleChangeDiseases}
-                                />
-                            </div>
-                        )}
+
 
                             <Checkbox
                                 name="isOwnPatient"
