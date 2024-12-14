@@ -32,7 +32,6 @@ export default function PatientShow({ patient_data, diseases }) {
 
     useMemo(() => {
         if (patient_data){
-            debugger
             setPatient(patient_data)
         }
     }, [patient_data]);
@@ -138,7 +137,7 @@ export default function PatientShow({ patient_data, diseases }) {
 
     const goToTreatmentPage = (id) => {
         // const patientId = event.data.id; // Access the patient ID
-        console.log("Double-clicked Patient ID:", id); // Debugging
+        // console.log("Double-clicked Patient ID:", id); // Debugging
         if (id) {
             Inertia.get(`/treatments/${id}`);
         } else {

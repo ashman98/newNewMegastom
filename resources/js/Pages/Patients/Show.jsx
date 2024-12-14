@@ -32,7 +32,6 @@ export default function PatientShow({ patient_data, diseases }) {
 
     useMemo(() => {
         if (patient_data){
-            debugger
             setPatient(patient_data)
         }
     }, [patient_data]);

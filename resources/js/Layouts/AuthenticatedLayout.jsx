@@ -15,7 +15,7 @@ export default function AuthenticatedLayout({ header, children }) {
 
     const user = usePage().props.auth.user;
     const { hasRole } = useUserRoles();
-    console.log(hasRole('dentist'))
+    // console.log(hasRole('dentist'))
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
 
     return (

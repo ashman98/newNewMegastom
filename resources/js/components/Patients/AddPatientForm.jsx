@@ -65,7 +65,6 @@ export default function AddPatientForm({toggleModal, diseases, patient, setPatie
     }, [patient]);
 
     const handleChangeDiseases = (selectedOptions) => {
-        debugger
         setFormData({
             ...formData,
             patient_diseases: selectedOptions,
@@ -312,7 +311,7 @@ export default function AddPatientForm({toggleModal, diseases, patient, setPatie
                         </div>
                     <div>
                         <Input
-                            label="Հեռխոսահամար"
+                            label="Հեռախոսահամար"
                             size="lg"
                             name="phone"
                             value={formData.phone}

@@ -30,8 +30,8 @@ class XRayImage extends Model
      * @param string|null $tooth_id
      * @return string
      */
-    public static function getPathOfImage(string $tooth_id = null): string
+    public static function getPathOfImage(mixed $treatment_id, mixed $tooth_id = null): string
     {
-        return 'uploads/teeth_images/' . $tooth_id;
+        return 'uploads/teeth_images/' . $treatment_id . "/" . $tooth_id;
     }
 }

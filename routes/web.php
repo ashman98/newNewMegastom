@@ -96,28 +96,30 @@ Route::middleware('auth')->group(function () {
         ->name('teeth.edit');
 
     Route::get('/xrays/base64', function (Request $request) {
-        $filenames = $request->query('filenames'); // Ожидаем массив имен файлов
+        $paths = $request->query('paths'); // Ожидаем массив имен файлов
 
-        if (!is_array($filenames) || empty($filenames)) {
+        if (!is_array($paths) || empty($paths)) {
             return response()->json(['error' => 'Файлы не указаны'], 400);
         }
 
         $images = [];
 
-        foreach ($filenames as $filename) {
-            $path = storage_path("app/private/{$filename}");
-
-            if (file_exists($path)) {
-                $fileContent = file_get_contents($path);
-                $mimeType = mime_content_type($path);
+        foreach ($paths as $path) {
+            $existPath = storage_path("app/private/{$path}");
+            $normalizedPath = str_replace('\\', '/', $existPath);
+            $relativePath = preg_replace('/^.*?uploads\//', 'uploads/', $normalizedPath);
+            if (file_exists($existPath)) {
+                $fileContent = file_get_contents($existPath);
+                $mimeType = mime_content_type($existPath);
                 $images[] = [
-                    'filename' => $filename,
+                    'path' => $relativePath,
                     'data' => 'data:' . $mimeType . ';base64,' . base64_encode($fileContent)
                 ];
             } else {
                 $images[] = [
-                    'filename' => $filename,
+                    'path' => $relativePath,
                     'error' => 'Файл не найден'
+
                 ];
             }
         }
@@ -144,6 +146,8 @@ Route::middleware('auth')->group(function () {
         $freeSpaceInGB = round($freeSpace / (1024 * 1024 * 1024), 2);
         $usedSpaceInGB = round($usedSpace / (1024 * 1024 * 1024), 2);
 
+        $usedPercentage = round(($usedSpace / $totalSpace) * 100, 2);
+
 //        return "Общее место на диске '{$path}': {$totalSpaceInGB} ГБ
 //            Свободное место: {$freeSpaceInGB} ГБ
 //            Занятое место: {$usedSpaceInGB} ГБ";
@@ -151,6 +155,7 @@ Route::middleware('auth')->group(function () {
             "totalSpaceInGB" => $totalSpaceInGB,
             "freeSpaceInGB" => $freeSpaceInGB,
             "usedSpaceInGB" => $usedSpaceInGB,
+            "usedPercentage" => $usedPercentage,
             "path" => $path,
         ]);
     });

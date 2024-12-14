@@ -236,7 +236,7 @@ export default function AddPatientForm({toggleModal}) {
                     </div>
                     <div>
                         <Input
-                            label="Հեռխոսահամար"
+                            label="Հեռախոսահամար"
                             size="lg"
                             name="phone"
                             value={formData.phone}

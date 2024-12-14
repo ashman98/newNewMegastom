@@ -28,6 +28,8 @@ const PatientsFilter = ({ onFilterChange, diseases }) => {
 
     });
 
+    const {width} = useWindowSize();
+
     const [selectedDiseases, setSelectedDiseases] = useState([]);
     const handleChangeDiseases = (selectedOptions) => {
         setFilters({
@@ -77,6 +79,7 @@ const PatientsFilter = ({ onFilterChange, diseases }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         onFilterChange(filters);
+        setOpenTop(false);
     };
 
     const handleReset = () => {
@@ -106,6 +109,8 @@ const PatientsFilter = ({ onFilterChange, diseases }) => {
             isOwnPatient: false,
 
         });
+
+        setOpenTop(false);
     };
 
     return (
@@ -128,11 +133,11 @@ const PatientsFilter = ({ onFilterChange, diseases }) => {
 
             {/* Drawer */}
             <Drawer
-                placement="right"
+                placement={width < 476 ? "top" : "right"}
                 open={openTop}
                 onClose={closeDrawerTop}
-                className="p-6 bg-white shadow-lg rounded-lg"
-                size={500}
+                className="p-6 bg-white shadow-lg rounded-lg custom-scrollbar"
+                size={width < 476 ? 1000 : 500}
             >
                 <div className="max-w-4xl mx-auto mt-4">
                     <div className="flex justify-between items-center mb-6">

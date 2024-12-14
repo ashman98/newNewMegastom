@@ -125,27 +125,27 @@ const TreatmentIndex = ({ treatment }) => {
 
     const { updateEntity, isLoading, validationErrors, error } = useAddEntity(`treatments/${treatment.id}`);
 
-    useEffect(()=>{
-        setLoading(isLoading);
-    },[isLoading])
+    // useEffect(()=>{
+    //     setLoading(isLoading);
+    // },[isLoading])
 
     const validateForm = () => {
         const newErrors = {};
 
         // Title validation
         if (!formData.title) {
-            newErrors.title = "Title is required.";
+            newErrors.title = "Պարտադիր է։";
         } else if (formData.title.length > 40) {
-            newErrors.title = "Title cannot exceed 40 characters.";
+            newErrors.title = "Վերնագիրը պետք է պարունակի առավելագույնը 40 տառ։";
         }
 
         // Start date validation
         if (!formData.treatment_plan_start_date) {
-            newErrors.treatment_plan_start_date = "Start date is required.";
+            newErrors.treatment_plan_start_date = "Պարտադիր է։";
         }
 
         if (formData.treatment_plan_end_date && new Date(formData.treatment_plan_end_date) < new Date(formData.treatment_plan_start_date)) {
-            newErrors.treatment_plan_end_date = "End date cannot be earlier than start date.";
+            newErrors.treatment_plan_end_date = "Բուժման պլանը ավարտը չի կաորղ լինել փոքր սկզբից։";
         }
 
         setErrors(newErrors);
@@ -204,6 +204,7 @@ const TreatmentIndex = ({ treatment }) => {
     };
 
     useEffect(()=>{
+        // debugger
         setTeeth(treatment.teeth)
     },[treatment])
 
@@ -217,7 +218,7 @@ const TreatmentIndex = ({ treatment }) => {
                 alertify.success('Բուժումը հաջողությամբ ջնջվեց։');
                 Inertia.get(`/patients/${treatment.patient.id}`);
             }else{
-                alertify.success('R հաջողությամբ ջնջվեց։');
+                alertify.success('Ռենտգենը հաջողությամբ ջնջվեց։');
                 const updatedTeeth = teeth.filter((tooth) => tooth.id !== result.tooth_id);
                 setTeeth(updatedTeeth);
                 toggleDialogConfirm();
@@ -510,10 +511,11 @@ const TreatmentIndex = ({ treatment }) => {
                                             </IconButton>
                                             <figure className="relative h-60 w-full" onClick={(e) => {
                                                 setSelectedToothData(tooth);
+                                                // setLoading(true);
                                                 toggleModal();
                                             }}>
                                                 <img
-                                                    src={tooth.x_ray_images?.[0]?.path ? `${import.meta.env.VITE_APP_URL}storage/${tooth.x_ray_images[0].path}` : ''}
+                                                    src={tooth.x_ray_images?.[0]?.base64 ? tooth.x_ray_images[0].base64 : ''}
                                                     alt={`X-ray ${index + 1}`}
                                                     className="w-full h-full object-cover rounded-lg"
                                                 />
@@ -558,7 +560,7 @@ const TreatmentIndex = ({ treatment }) => {
 
             <GenericModal
                 open={open}
-                onClose={closeModal}
+                onClose={!loading ? closeModal: false}
                 title={selectedToothData.id?"Խմբագրել ռենտգենը":"Ավլեացնել ռենտգեն"}
                 confirm="Add Patient"
                 cancel="Cancel"
@@ -568,7 +570,7 @@ const TreatmentIndex = ({ treatment }) => {
             >
                 <AddToothForm isOwner={treatment.isOwner} addNewToothData={addNewToothData}
                               updateToothData={updateToothData} selectedToothData={selectedToothData}
-                              toggleModal={toggleModal} treatmentID={treatment.id} bottomRef={bottomRef}/>
+                              toggleModal={toggleModal} treatmentID={treatment.id} bottomRef={bottomRef} loading={loading} onLoading={setLoading}/>
             </GenericModal>
             <ConfirmDialog
                 open={openDialogConfirm}

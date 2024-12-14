@@ -58,3 +58,22 @@
 .filter-button:hover {
     background-color: #0056b3;
 }
+
+
+.custom-scrollbar::-webkit-scrollbar {
+    width: 8px !important;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: #e0e0e0 !important;
+    border-radius: 8px !important;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #888 !important;
+    border-radius: 8px !important;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #555 !important;
+}

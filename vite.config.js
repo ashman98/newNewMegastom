@@ -19,25 +19,26 @@ export default defineConfig({
     build: {
         outDir: 'public/build',  // Папка для выходных файлов
         manifest: true,
-	emptyOutDir: true,
+        emptyOutDir: true,
         rollupOptions: {
-        output: {
-           	 assetFileNames: 'assets/[name]-[hash][extname]',
-       	}
-      }
+            output: {
+             assetFileNames: 'assets/[name]-[hash][extname]',
+            }
+        },
+        minify: 'esbuild',
     },
-     server: {
-         host: '0.0.0.0', // Позволяет принимать подключения извне
-         port: 5173,
-         strictPort: true,
-         hmr: {
-             //91.205.196.253
-             host: 'https://megastom.duckdns.org', // Ваш публичный IP
-             protocol: 'wss',
-         },
-	 proxy: {
-             '/tooths': 'https://megastom.duckdns.org',  // Проксируем запросы на изображения
-               '/avatars': 'https://megastom.duckdns.org',  // Проксируем запросы на изображения
-         },
-     },
+    // server: {
+    //     host: '0.0.0.0', // Позволяет принимать подключения извне
+    //     port: 5173,
+    //     strictPort: true,
+    //     hmr: {
+    //      //91.205.196.253
+    //      host: 'https://megastom.duckdns.org', // Ваш публичный IP
+    //      protocol: 'wss',
+    //     },
+    //     proxy: {
+    //      '/tooths': 'https://megastom.duckdns.org',  // Проксируем запросы на изображения
+    //      '/avatars': 'https://megastom.duckdns.org',  // Проксируем запросы на изображения
+    //     },
+    // },
 });

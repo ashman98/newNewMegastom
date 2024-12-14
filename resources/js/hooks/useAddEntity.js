@@ -33,7 +33,6 @@ const useEntity = (entityUrl) => {
     };
 
     const addEntity = async (entityData) => {
-        debugger
         setIsLoading(true);
         setError(null);
         setValidationErrors({});

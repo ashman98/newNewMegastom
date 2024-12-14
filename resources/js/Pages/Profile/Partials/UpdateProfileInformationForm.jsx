@@ -4,6 +4,7 @@ import PrimaryButton from '@/components/PrimaryButton';
 import TextInput from '@/components/TextInput';
 import { Transition } from '@headlessui/react';
 import { Link, useForm, usePage } from '@inertiajs/react';
+import {useEffect} from "react";
 
 export default function UpdateProfileInformation({
     mustVerifyEmail,
@@ -15,8 +16,16 @@ export default function UpdateProfileInformation({
     const { data, setData, patch, errors, processing, recentlySuccessful } =
         useForm({
             name: user.name,
+            surname: user.surname,
             email: user.email,
+            phone: user.phone,
+            city: user.city,
+            address: user.address
         });
+
+    useEffect(() => {
+        console.log(errors)
+    }, [errors]);
 
     const submit = (e) => {
         e.preventDefault();
@@ -28,17 +37,17 @@ export default function UpdateProfileInformation({
         <section className={className}>
             <header>
                 <h2 className="text-lg font-medium text-gray-900">
-                    Profile Information
+                   Անձնական տվյալներ
                 </h2>
 
                 <p className="mt-1 text-sm text-gray-600">
-                    Update your account's profile information and email address.
+                   Կարող էք խմաբգրել ձեր անձնական տվյալնները
                 </p>
             </header>
 
             <form onSubmit={submit} className="mt-6 space-y-6">
                 <div>
-                    <InputLabel htmlFor="name" value="Name" />
+                    <InputLabel htmlFor="name" value="Անուն"/>
 
                     <TextInput
                         id="name"
@@ -50,11 +59,70 @@ export default function UpdateProfileInformation({
                         autoComplete="name"
                     />
 
-                    <InputError className="mt-2" message={errors.name} />
+                    <InputError className="mt-2" message={errors.name}/>
                 </div>
-
                 <div>
-                    <InputLabel htmlFor="email" value="Email" />
+                    <InputLabel htmlFor="surname" value="Ազգանուն"/>
+
+                    <TextInput
+                        id="name"
+                        className="mt-1 block w-full"
+                        value={data.surname}
+                        onChange={(e) => setData('surname', e.target.value)}
+                        required
+                        isFocused
+                        autoComplete="surname"
+                    />
+
+                    <InputError className="mt-2" message={errors.surname}/>
+                </div>
+                <div>
+                    <InputLabel htmlFor="surname" value="Հեռախոսահամար"/>
+
+                    <TextInput
+                        id="phone"
+                        className="mt-1 block w-full"
+                        value={data.phone}
+                        onChange={(e) => setData('phone', e.target.value)}
+                        required
+                        isFocused
+                        autoComplete="phone"
+                    />
+
+                    <InputError className="mt-2" message={errors.phone}/>
+                </div>
+                <div>
+                    <InputLabel htmlFor="address" value="Հասցե"/>
+
+                    <TextInput
+                        id="address"
+                        className="mt-1 block w-full"
+                        value={data.address}
+                        onChange={(e) => setData('address', e.target.value)}
+                        required
+                        isFocused
+                        autoComplete="address"
+                    />
+
+                    <InputError className="mt-2" message={errors.address}/>
+                </div>
+                <div>
+                <InputLabel htmlFor="city" value="Քաղաք"/>
+
+                    <TextInput
+                        id="city"
+                        className="mt-1 block w-full"
+                        value={data.city}
+                        onChange={(e) => setData('city', e.target.value)}
+                        required
+                        isFocused
+                        autoComplete="city"
+                    />
+
+                    <InputError className="mt-2" message={errors.city}/>
+                </div>
+                <div>
+                    <InputLabel htmlFor="email" value="Էլ․ հասցե"/>
 
                     <TextInput
                         id="email"
@@ -66,7 +134,7 @@ export default function UpdateProfileInformation({
                         autoComplete="username"
                     />
 
-                    <InputError className="mt-2" message={errors.email} />
+                    <InputError className="mt-2" message={errors.email}/>
                 </div>
 
                 {mustVerifyEmail && user.email_verified_at === null && (
@@ -93,7 +161,7 @@ export default function UpdateProfileInformation({
                 )}
 
                 <div className="flex items-center gap-4">
-                    <PrimaryButton disabled={processing}>Save</PrimaryButton>
+                    <PrimaryButton disabled={processing}>Պահպանել</PrimaryButton>
 
                     <Transition
                         show={recentlySuccessful}
@@ -103,7 +171,7 @@ export default function UpdateProfileInformation({
                         leaveTo="opacity-0"
                     >
                         <p className="text-sm text-gray-600">
-                            Saved.
+                            Հաջողվեց։
                         </p>
                     </Transition>
                 </div>

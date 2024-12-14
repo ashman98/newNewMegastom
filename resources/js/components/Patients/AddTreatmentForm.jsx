@@ -57,20 +57,21 @@ export default function AddTreatmentForm({toggleModal, patientID, onNewTreatment
         const newErrors = {};
 
         if (!formData.title) {
-            newErrors.title = "Title is required.";
+            newErrors.title = "Պարտադիր է";
         } else if (formData.title.length > 40) {
-            newErrors.title = "Title cannot exceed 40 characters.";
+            newErrors.title = "Վերնագրը չի կարող պարունակել 20-ից ավել տառ։";
         }
 
         if (!formData.treatment_plan_start_date) {
-            newErrors.treatment_plan_start_date = "Treatment plan start date is required.";
-        } else {
-            const startDate = new Date(formData.treatment_plan_start_date);
-
-            if (startDate < today) {
-                newErrors.treatment_plan_start_date = "Treatment plan start date cannot be in the past.";
-            }
+            newErrors.treatment_plan_start_date = "Պարտադիր է։";
         }
+        // else {
+        //     const startDate = new Date(formData.treatment_plan_start_date);
+        //
+        //     if (startDate < today) {
+        //         newErrors.treatment_plan_start_date = "Treatment plan start date cannot be in the past.";
+        //     }
+        // }
 
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0; // Return true if there are no errors

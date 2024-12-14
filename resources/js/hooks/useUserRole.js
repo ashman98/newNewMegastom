@@ -7,7 +7,6 @@ export const useUserRoles = () => {
 
     // Функция для проверки наличия одной или нескольких ролей
     const hasRole = (rolesToCheck) => {
-        debugger
         if (!user || !user.roles) return false;
 
         // Поддержка как строки, так и массива ролей

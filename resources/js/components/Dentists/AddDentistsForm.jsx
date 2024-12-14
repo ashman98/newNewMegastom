@@ -296,7 +296,7 @@ export default function AddDentistsForm({toggleModal, dentist, setDentist, toggl
                     </div>
                     <div>
                         <Input
-                            label="Հեռխոսահամար"
+                            label="Հեռախոսահամար"
                             size="lg"
                             name="phone"
                             value={formData.phone}

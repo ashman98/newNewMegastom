@@ -12,6 +12,17 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Megastom';
 
+const originalConsoleWarn = console.warn;
+console.warn = function(message) {
+    if (message.includes('findDOMNode is deprecated')) {
+        return; // Игнорировать это предупреждение
+    }
+    originalConsoleWarn.apply(console, arguments); // Для остальных предупреждений
+};
+
+console.warn = () => {};
+console.error = () => {};
+
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
     resolve: (name) =>

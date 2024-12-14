@@ -72,15 +72,28 @@ class TreatmentController extends Controller
 
         $treatment->load('user');
         $treatment->load('patient');
-
         $treatment->load(['teeth' => function ($query) {
             $query->where('del_status', 0) // Only load teeth where del status is 0
-            ->with('xRayImages');
+            ->with(['xRayImages' => function ($imageQuery) {
+                $imageQuery->orderBy('name', 'asc'); // Order xRayImages by name in ascending order
+            }]);
         }]);
         $treatment->isOwner = $treatment->user->id === $authUser->id;
         if (!$treatment->isOwner){
             $treatment->setAttribute('amount', '00.00');//hide amount if is not owner user
         }
+
+        $treatment->teeth->each(function ($tooth) {
+            $tooth->xRayImages = $tooth->xRayImages->map(function ($image)
+            {
+                $existPath = storage_path("app/private/{$image->path}");
+                $fileContent = file_get_contents($existPath);
+                $mimeType = mime_content_type($existPath);
+
+                $image->setAttribute('base64','data:' . $mimeType . ';base64,' . base64_encode($fileContent) );
+                return $image;
+            });
+        });
 
         return Inertia::render('Treatments/Index', [
             'treatment' => $treatment,

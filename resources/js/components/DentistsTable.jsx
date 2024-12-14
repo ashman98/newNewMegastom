@@ -89,7 +89,6 @@ const DentistsTable = ({ filter,onDentistAdd }) => {
             const response = await axios.get(`/dentists/data`, {
                 params: { page, pageSize, ...patientFilter },
             });
-            debugger
             setDentists(response.data.dentists);
             setPagination(prev => ({
                 ...prev,
