@@ -1,5 +1,6 @@
 import { Head, Link } from '@inertiajs/react';
 import useWindowSize from "@/hooks/useWindowSize.js";
+import {Typography} from "@material-tailwind/react";
 
 export default function Welcome({ auth, laravelVersion, phpVersion }) {
     const {width} = useWindowSize();
@@ -61,9 +62,13 @@ console.log(import.meta.env.VITE_APP_URL);
                                     href={route('patients.index')}
                                     className="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
                                 >
-                                    <img src={`${import.meta.env.VITE_APP_URL}logo.png`} alt="logo"
-                                         style={{width: 300, cursor: 'pointer'}}/>
-{/*					<h1 style={{fontSize:50}}>hMrdo</h1> */}
+                                    <div className="flex flex-row items-center gap-2">
+                                        <img src={`${import.meta.env.VITE_APP_URL}logo.png`} alt="logo"
+                                             style={{width: 64, cursor: 'pointer'}}/>
+                                        <Typography variant="h3" className="fw-bolder">32 Dent</Typography>
+                                    </div>
+
+                                    {/*					<h1 style={{fontSize:50}}>hMrdo</h1> */}
                                 </Link>
 
                             </div>

@@ -12,16 +12,16 @@ class DentistSeeder extends Seeder
     public function run()
     {
         $dentist = [
-            'name' => 'Մետ',
-            'surname' => 'Մարգարյան',
+            'name' => 'Գևորգ',
+            'surname' => 'Գևորգ',
             'phone' => '088776655',
-            'city' => 'Արզական',
+            'city' => 'Հրազդան',
             'address' => '712/5',
             'region' => 'Կոտայք',
-            'email' => 'metmargaryan@gmail.com',
-            'password' => 'Met.123',
+            'email' => 'gevorg@gmail.com',
+            'password' => 'Gevorg.123',
             'email_verified_at' => Carbon::now(),
-            'gender' => 'female',
+            'gender' => 'male',
         ];
 
         $user = User::create($dentist);

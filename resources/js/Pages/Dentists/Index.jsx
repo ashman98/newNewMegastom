@@ -64,7 +64,7 @@ const DentistsIndex = ({ dentists}) => {
 
     return (
         <AuthenticatedLayout>
-            <Head title="Պացիենտներ"/>
+            <Head title="Բուժառուներ"/>
 
 
             <div className="md:container md:mx-auto w-full max-w-10xl my-4">

@@ -257,7 +257,7 @@ export default function AddPatientForm({toggleModal, diseases, patient, setPatie
                 await addEntity(formData);
                 toggleOnPatientAdd();
             }
-            alertify.success(`${patient && patient.id ? "Պացիենտը հաջողությամբ խմբագրվեց։" : "Պացիենտը հաջողությամբ ավելացվեց։"}`);
+            alertify.success(`${patient && patient.id ? "Բուժառուն հաջողությամբ խմբագրվեց։" : "Բուժառուն հաջողությամբ ավելացվեց։"}`);
             setFormData({
                 name: '',
                 surname: '',

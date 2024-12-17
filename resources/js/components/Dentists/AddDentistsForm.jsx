@@ -201,10 +201,11 @@ export default function AddDentistsForm({toggleModal, dentist, setDentist, toggl
 
         let val = true;
         Object.keys(errors).forEach((key) => {
-            if (errors[key]) {
+            if (errors[key] !== false) {
                 val = false;
             }
         });
+
 
         return val; // Return true if there are no errors
     };
@@ -419,6 +420,49 @@ export default function AddDentistsForm({toggleModal, dentist, setDentist, toggl
                         />
                         {errors.password && <p className="error-message">{errors.password}</p>}
                     </div>
+
+                    {/*<MatSelect size="md" label="Դեր" animate={{*/}
+                    {/*    mount: {y: 0},*/}
+                    {/*    unmount: {y: 25},*/}
+                    {/*}}*/}
+                    {/*           value={formData.role}*/}
+                    {/*           name='role'*/}
+                    {/*           onChange={(val) => {*/}
+                    {/*               handleChange('role', val)*/}
+                    {/*           }}*/}
+                    {/*>*/}
+                    {/*    <Option value={'dentist'}>*/}
+                    {/*        <div className='flex flex-row items-center gap-3'>*/}
+                    {/*            <svg width="20px" height="20px" viewBox="0 0 1024 1024"*/}
+                    {/*                 xmlns="http://www.w3.org/2000/svg">*/}
+                    {/*                <path fill="#000000"*/}
+                    {/*                      d="M512 640a256 256 0 1 0 0-512 256 256 0 0 0 0 512zm0 64a320 320 0 1 1 0-640 320 320 0 0 1 0 640z"/>*/}
+                    {/*                <path fill="#000000"*/}
+                    {/*                      d="M512 640q32 0 32 32v256q0 32-32 32t-32-32V672q0-32 32-32z"/>*/}
+                    {/*                <path fill="#000000" d="M352 800h320q32 0 32 32t-32 32H352q-32 0-32-32t32-32z"/>*/}
+                    {/*            </svg>*/}
+                    {/*            <Typography className='' color='gray'>*/}
+                    {/*                Ատամնաբույժ*/}
+                    {/*            </Typography>*/}
+                    {/*        </div>*/}
+                    {/*    </Option>*/}
+                    {/*    <Option value='admin'>*/}
+                    {/*        <div className='flex flex-row items-center gap-3'>*/}
+                    {/*            <svg width="20px" height="20px" viewBox="0 0 1024 1024"*/}
+                    {/*                 xmlns="http://www.w3.org/2000/svg">*/}
+                    {/*                <path fill="#000000"*/}
+                    {/*                      d="M399.5 849.5a225 225 0 1 0 0-450 225 225 0 0 0 0 450zm0 56.25a281.25 281.25 0 1 1 0-562.5 281.25 281.25 0 0 1 0 562.5zm253.125-787.5h225q28.125 0 28.125 28.125T877.625 174.5h-225q-28.125 0-28.125-28.125t28.125-28.125z"/>*/}
+                    {/*                <path fill="#000000"*/}
+                    {/*                      d="M877.625 118.25q28.125 0 28.125 28.125v225q0 28.125-28.125 28.125T849.5 371.375v-225q0-28.125 28.125-28.125z"/>*/}
+                    {/*                <path fill="#000000"*/}
+                    {/*                      d="M604.813 458.9 565.1 419.131l292.613-292.668 39.825 39.824z"/>*/}
+                    {/*            </svg>*/}
+                    {/*            <Typography className='' color='gray'>*/}
+                    {/*                Ադմինիստռատոր*/}
+                    {/*            </Typography>*/}
+                    {/*        </div>*/}
+                    {/*    </Option>*/}
+                    {/*</MatSelect>*/}
                 </div>
                 <Button type="submit" className="mt-6" fullWidth loading={isLoading}>
                     Ավելացնել
