@@ -7,7 +7,7 @@ import { useState } from 'react';
 import Footer from '@/components/Footer';
 import SidebarWithBurgerMenu from "@/components/SidebarWithBurgerMenu.jsx"; // Import the Footer component
 import alertify from 'alertifyjs';
-import {Avatar} from "@material-tailwind/react";
+import {Avatar, Typography} from "@material-tailwind/react";
 import {useUserRoles} from "@/hooks/useUserRole.js"; // Make sure to install alertifyjs
 
 export default function AuthenticatedLayout({ header, children }) {
@@ -26,14 +26,15 @@ export default function AuthenticatedLayout({ header, children }) {
                         <div className="flex">
                             <div className="flex shrink-0 items-center">
                                 {/*<SidebarWithBurgerMenu />*/}
-                                <Link href="/">
+                                <Link href="/" className="flex flex-row items-center gap-1">
                                     <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800" />
+                                    <Typography variant="h4" className="fw-bolder">32 Dent</Typography>
                                 </Link>
                             </div>
 
                             <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 {/*<NavLink href={route('dashboard')} active={route().current('dashboard')}>Dashboard</NavLink>*/}
-                                <NavLink href={route('patients.index')} active={route().current('patients.index')}>Պացիենտներ</NavLink>
+                                <NavLink href={route('patients.index')} active={route().current('patients.index')}>Բուժառուներ</NavLink>
                                 {(hasRole('admin') || hasRole('super_admin')) && (
                                     <NavLink href={route('dentists.index')} active={route().current('dentists.index')}>Բժիշկներ</NavLink>
                                 ) }
@@ -95,7 +96,7 @@ export default function AuthenticatedLayout({ header, children }) {
 
                 <div className={(showingNavigationDropdown ? 'block' : 'hidden') + ' sm:hidden'}>
                     <div className="space-y-1 pb-3 pt-2">
-                        <ResponsiveNavLink href={route('patients.index')} active={route().current('patients.index')}>Պացիենտներ</ResponsiveNavLink>
+                        <ResponsiveNavLink href={route('patients.index')} active={route().current('patients.index')}>Բուժառուներ</ResponsiveNavLink>
                         {(hasRole('admin') || hasRole('super_admin')) && (
                             <ResponsiveNavLink href={route('dentists.index')} active={route().current('dentists.index')}>Բժիշկներ</ResponsiveNavLink>
                         ) }

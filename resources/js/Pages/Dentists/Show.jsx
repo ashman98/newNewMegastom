@@ -91,7 +91,7 @@ export default function PatientShow({ patient_data, diseases }) {
         setDeleteLoading(true);
         try {
                 await deleteEntity();
-                alertify.success('Պացիենտը հաջողությամբ ։');
+                alertify.success('Բուժառուն հաջողությամբ ջնջված է։');
             if (deleteType === 'delete_patient'){
                 Inertia.get(`/patients`);
             }else{
@@ -148,7 +148,7 @@ export default function PatientShow({ patient_data, diseases }) {
     console.log(avatar)
     return (
         <AuthenticatedLayout>
-            <Head title="Պացիենտ" />
+            <Head title="Բուժառու" />
 
             <section className="bg-gray-100 py-8">
                 <div className="container mx-auto px-4">
@@ -408,7 +408,7 @@ export default function PatientShow({ patient_data, diseases }) {
             <GenericModal
                 open={open}
                 onClose={toggleModal}
-                title={editPatientModal ? "Խմբագրել պացիենտի տվյալները" :"Ավելացնել բուժում"}
+                title={editPatientModal ? "Խմբագրել բուժառուի տվյալները" :"Ավելացնել բուժում"}
                 confirm="Add Treatment"
                 cancel="Cancel"
                 footer={false}
@@ -426,10 +426,10 @@ export default function PatientShow({ patient_data, diseases }) {
                 onClose={toggleDialogConfirm}
                 onConfirm={setConfirmDelete}
                 isLoading={deleteLoading}
-                title={deleteType === 'delete_patient' ? 'Հեռացնել պացիենտին' : 'Հեռացնել բուժումը'}
+                title={deleteType === 'delete_patient' ? 'Հեռացնել բուժառուին' : 'Հեռացնել բուժումը'}
             >
                 <Typography className='text-center' style={{fontSize: 18}}>
-                    {deleteType === 'delete_patient' ? ' Ցանկան՞ում եք հեռացնել պացիենտին։' : ' Ցանկանում ե՞ք հեռացնել բուժումը:'}
+                    {deleteType === 'delete_patient' ? ' Ցանկան՞ում եք հեռացնել բուժառուին։' : ' Ցանկանում ե՞ք հեռացնել բուժումը:'}
 
                 </Typography>
             </ConfirmDialog>
