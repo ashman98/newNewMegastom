@@ -28,7 +28,7 @@ export default function AuthenticatedLayout({ header, children }) {
                                 {/*<SidebarWithBurgerMenu />*/}
                                 <Link href="/" className="flex flex-row items-center gap-1">
                                     <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800" />
-                                    <Typography variant="h4" className="fw-bolder">32 Dent</Typography>
+                                    <Typography variant="h4" className="fw-bolder">{import.meta.env.VITE_APP_NAME}</Typography>
                                 </Link>
                             </div>
 

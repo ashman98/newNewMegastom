@@ -65,7 +65,9 @@ console.log(import.meta.env.VITE_APP_URL);
                                     <div className="flex flex-row items-center gap-2">
                                         <img src={`${import.meta.env.VITE_APP_URL}logo.png`} alt="logo"
                                              style={{width: 64, cursor: 'pointer'}}/>
-                                        <Typography variant="h3" className="fw-bolder">32 Dent</Typography>
+                                        <Typography variant="h3" className="fw-bolder">
+                                            {import.meta.env.VITE_APP_NAME}
+                                        </Typography>
                                     </div>
 
                                     {/*					<h1 style={{fontSize:50}}>hMrdo</h1> */}
