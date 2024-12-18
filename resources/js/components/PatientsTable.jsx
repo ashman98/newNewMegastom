@@ -22,7 +22,7 @@ const userLocaleText = {
     beginsWith: 'Սկսված'
 };
 
-const PatientsTable = ({filter, onPatientAdd}) => {
+const PatientsTable = ({filter, onPatientAdd,useGat}) => {
     const [patients, setPatients] = useState([]);
     const [pagination, setPagination] = useState({
         currentPage: 1,
@@ -46,11 +46,11 @@ const PatientsTable = ({filter, onPatientAdd}) => {
     ];
 
     const fetchPatients = useCallback(
-        async (page, pageSize, patinetFilter) => {
+        async (page, pageSize, patinetFilter,useGat) => {
             setLoading(true); // Start loading
             try {
                 const response = await axios.get(`/patients/data`, {
-                    params: { page, pageSize, ...patinetFilter },
+                    params: { page, pageSize, ...patinetFilter, useGat },
                 });
                 setPatients(response.data.patients);
                 setPagination(prev => ({

@@ -13,7 +13,7 @@ import useWindowSize from "@/hooks/useWindowSize.js";
 import Select from "react-select";
 
 
-const PatientsFilter = ({ onFilterChange, diseases }) => {
+const PatientsFilter = ({ onFilterChange, diseases, setUseGat}) => {
     const [filters, setFilters] = useState({
         name: '',
         surname: '',
@@ -78,6 +78,7 @@ const PatientsFilter = ({ onFilterChange, diseases }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setUseGat(true);
         onFilterChange(filters);
         setOpenTop(false);
     };
@@ -109,7 +110,7 @@ const PatientsFilter = ({ onFilterChange, diseases }) => {
             isOwnPatient: false,
 
         });
-
+        setUseGat(false);
         setOpenTop(false);
     };
 

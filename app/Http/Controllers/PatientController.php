@@ -184,51 +184,63 @@ class PatientController extends Controller
             $query->where('birthday', '<=', $birthdayTo);
         }
 
-        if ($request->input('isOwnPatient') === 'true'){
+        // Filter by own patients
+        if ($request->input('isOwnPatient') === 'true') {
             $query->whereHas('treatments', function ($query) {
-                $query->where('dentist_id', auth()->id()); // Only show treatments where dentist_id matches the logged-in user
+                $query->where('dentist_id', auth()->id());
             });
         }
 
-
+        // Filter by patient diseases
         $patientDiseases = $request->input('patient_diseases');
         if (!empty($patientDiseases) && is_array($patientDiseases)) {
             foreach ($patientDiseases as $disease) {
-                $diseaseName = $disease['value']; // Access each disease name
-
-                // Apply filter for each disease name
+                $diseaseName = $disease['value'];
                 $query->whereHas('diseases', function ($query) use ($diseaseName) {
-                    $query->where('name', '=',$diseaseName);
+                    $query->where('name', '=', $diseaseName);
                 });
             }
         }
 
-        // Set default page size if not specified
-        $pageSize = (int) $request->input('pageSize', 10);
+        // Determine whether to use get() or paginate()
+        $useGet = $request->input('useGet', false); // Example condition, can be adjusted as needed
 
-        // Paginate the filtered query
-        $patients = $query->orderBy('id', 'desc')->paginate($pageSize);
+        if ($useGet) {
+            $patients = $query->get();
+        } else {
+            // Set default page size if not specified
+            $pageSize = (int) $request->input('pageSize', 10);
+            $patients = $query->orderBy('id', 'desc')->paginate($pageSize);
+        }
 
-        $patients->getCollection()->transform(function ($patient) {
+        // Transform gender attribute
+        $patients->transform(function ($patient) {
             if ($patient->gender === 'male') {
-                $patient->setAttribute('gender', "Արական");
-            }elseif ($patient->gender === 'female') {
+                $patient->setAttribute('gender', 'Արական');
+            } elseif ($patient->gender === 'female') {
                 $patient->setAttribute('gender', 'Իգական');
             }
             return $patient;
         });
 
         // Structure response with pagination details
-        return response()->json([
-            'patients' => $patients->items(),
-            'pagination' => [
-                'current_page' => $patients->currentPage(),
-                'last_page' => $patients->lastPage(),
-                'total' => $patients->total(),
-                'per_page' => $patients->perPage()
-            ]
-        ]);
+        if ($useGet) {
+            return response()->json([
+                'patients' => $patients
+            ]);
+        } else {
+            return response()->json([
+                'patients' => $patients->items(),
+                'pagination' => [
+                    'current_page' => $patients->currentPage(),
+                    'last_page' => $patients->lastPage(),
+                    'total' => $patients->total(),
+                    'per_page' => $patients->perPage()
+                ]
+            ]);
+        }
     }
+
 
 
 

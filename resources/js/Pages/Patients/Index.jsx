@@ -28,6 +28,7 @@ const PatientIndex = ({ patients, diseases }) => {
     const [filter, setFilter] = useState({});
     const [addPatientLoading, setAddPatientLoading] = useState(false);
     const [onPatientAdd, setOnPatientAdd] = useState(false);
+    const [useGat, setUseGat] = useState(false);
     const { width } = useWindowSize();
     const toggleModal = () => {
         if (!addPatientLoading){
@@ -82,7 +83,7 @@ const PatientIndex = ({ patients, diseases }) => {
                             Նոր բուժառու
                         </Button>
                         {/*<Typography className='font-bold'>{width}</Typography>*/}
-                        <PatientsFilter onFilterChange={setFilter} diseases={diseases}/>
+                        <PatientsFilter onFilterChange={setFilter} diseases={diseases} setUseGat={setUseGat}/>
                     </div>
 
                     <GenericModal
@@ -97,7 +98,7 @@ const PatientIndex = ({ patients, diseases }) => {
                     {/*    Добавить продукт*/}
                     {/*</button>*/}
 
-                    <PatientsTable filter={filter} patients={patients} onPatientAdd={onPatientAdd}/>
+                    <PatientsTable filter={filter} patients={patients} onPatientAdd={onPatientAdd} useGat={useGat}/>
                 </div>
             </div>
         </AuthenticatedLayout>
