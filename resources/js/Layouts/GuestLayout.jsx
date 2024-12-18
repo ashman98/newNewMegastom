@@ -1,5 +1,6 @@
 import ApplicationLogo from '@/components/ApplicationLogo';
 import { Link } from '@inertiajs/react';
+import {Typography} from "@material-tailwind/react";
 
 export default function GuestLayout({ children }) {
     return (
@@ -7,6 +8,7 @@ export default function GuestLayout({ children }) {
             <div>
                 <Link href="/">
                     <ApplicationLogo className="h-20 w-20 fill-current text-gray-500" />
+                    <Typography variant="h4" className="fw-bolder">{import.meta.env.VITE_APP_NAME}</Typography>
                 </Link>
             </div>
 
