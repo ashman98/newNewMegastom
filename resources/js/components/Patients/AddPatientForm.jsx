@@ -44,7 +44,7 @@ export default function AddPatientForm({toggleModal, diseases, patient, setPatie
     useMemo(() => {
         if (patient && patient.id) {
             const p = patient.diseases.map((disease) => {
-                return { label: disease.label, value: disease.value };
+                return { label: disease.title, value: disease.name };
             });
 
             console.log("Patient Diseases:", patient.diseases);
