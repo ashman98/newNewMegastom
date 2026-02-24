@@ -12,14 +12,14 @@ class DentistSeeder extends Seeder
     public function run()
     {
         $dentist = [
-            'name' => 'Գևորգ',
-            'surname' => 'Գևորգ',
-            'phone' => '088776655',
+            'name' => 'Ադմին',
+            'surname' => 'Ադմինյան',
+            'phone' => '098776655',
             'city' => 'Հրազդան',
-            'address' => '712/5',
+            'address' => 'Հասցե',
             'region' => 'Կոտայք',
-            'email' => 'gevorg@gmail.com',
-            'password' => 'Gevorg.123',
+            'email' => 'admin@admin.com',
+            'password' => 'Super11',
             'email_verified_at' => Carbon::now(),
             'gender' => 'male',
         ];

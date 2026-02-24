@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Disease;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -9,6 +10,7 @@ class DiseaseSeeder extends Seeder
 {
     public function run()
     {
+//        Disease::truncate();
         $diseases = [
             ['title' => 'Սիրտանոթային հիվանդություններ', 'name' => 'cardiovascular_diseases'],
             ['title' => 'Անեմիա կամ արյան որևէ հիվանդություն', 'name' => 'anemia_or_other_blood_disorders'],
@@ -21,6 +23,7 @@ class DiseaseSeeder extends Seeder
             ['title' => 'Ուռուցք կամ նորագոյացություններ', 'name' => 'tumors_or_neoplasms'],
             ['title' => 'Վեներական հիվանդություններ', 'name' => 'venereal_diseases'],
             ['title' => 'Ալերգիկ հիվանդություններ', 'name' => 'allergic_diseases'],
+            ['title' => 'Չի նշել', 'name' => 'none_select'],
         ];
 
         // Вставка данных в таблицу diseases

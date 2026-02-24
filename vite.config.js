@@ -7,7 +7,6 @@ export default defineConfig({
         laravel({
             input: ['resources/css/app.css', 'resources/js/app.jsx'],
             refresh: true,
-	    buildDirectory: 'build',
         }),
         react(),
     ],
@@ -16,29 +15,20 @@ export default defineConfig({
             '@': '/resources/js',  // Добавление алиаса для удобных импортов
         },
     },
-    build: {
-        outDir: 'public/build',  // Папка для выходных файлов
-        manifest: true,
-        emptyOutDir: true,
-        rollupOptions: {
-            output: {
-             assetFileNames: 'assets/[name]-[hash][extname]',
-            }
+    server: {
+        host: '0.0.0.0', // Позволяет принимать подключения извне
+        port: 5173,
+        strictPort: true,
+        hmr: {
+            //91.205.196.253
+            host: 'https://newnewmegastom.test', // Ваш публичный IP
+            protocol: 'wss',
         },
-        minify: 'esbuild',
+        proxy: {
+            '/tooths': 'https://newnewmegastom.test',  // Проксируем запросы на изображения
+            '/avatars': 'https://newnewmegastom.test',  // Проксируем запросы на изображения
+        },
     },
-     // server: {
-     //     host: '0.0.0.0', // Позволяет принимать подключения извне
-     //     port: 5173,
-     //     strictPort: true,
-     //     hmr: {
-     //      //91.205.196.253
-     //      host: 'https://megastom.duckdns.org', // Ваш публичный IP
-     //      protocol: 'wss',
-     //     },
-     //     proxy: {
-     //      '/tooths': 'https://megastom.duckdns.org',  // Проксируем запросы на изображения
-     //      '/avatars': 'https://megastom.duckdns.org',  // Проксируем запросы на изображения
-     //     },
-     // },
 });
+
+
