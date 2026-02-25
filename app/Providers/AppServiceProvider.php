@@ -21,9 +21,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(UrlGenerator $url): void
     {
-        if (env('APP_ENV') == 'production') {
-            $url->forceScheme('https');
+        if (config('app.env') === 'production' || str_contains(request()->header('host'), 'sharedwithexpose.com')) {
+            \Illuminate\Support\Facades\URL::forceScheme('https');
+            request()->server->set('HTTPS', true); // Добавьте это
         }
+
         Vite::prefetch(concurrency: 3);
 
     }
