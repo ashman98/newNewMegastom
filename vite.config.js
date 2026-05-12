@@ -21,12 +21,12 @@ export default defineConfig({
         strictPort: true,
         hmr: {
             //91.205.196.253
-            host: 'https://slefcwftt4.sharedwithexpose.com', // Ваш публичный IP
+            host: 'https://newnewmegastom.test', // Ваш публичный IP
             protocol: 'wss',
         },
         proxy: {
-            '/tooths': 'https://slefcwftt4.sharedwithexpose.com',  // Проксируем запросы на изображения
-            '/avatars': 'https://slefcwftt4.sharedwithexpose.com',  // Проксируем запросы на изображения
+            '/tooths': 'https://newnewmegastom.test',  // Проксируем запросы на изображения
+            '/avatars':'https://newnewmegastom.test',  // Проксируем запросы на изображения
         },
     },
 });
