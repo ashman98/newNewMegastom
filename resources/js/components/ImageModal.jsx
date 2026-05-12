@@ -75,10 +75,11 @@ export function ImageModal({src, open, onClose}) {
                 {/*    </div>*/}
                 {/*</DialogHeader>*/}
                 <DialogBody>
-                    <div className="max-h-[90vh] flex justify-center items-center overflow-y-auto custom-scrollbar">
+                    <div className="flex justify-center items-center p-0">
                         <img
-                            alt="nature"
-                            className="max-h-full max-w-full rounded-lg object-contain"
+                            alt="X-ray content"
+                            className="h-auto max-h-[85vh] w-auto max-w-full rounded-lg shadow-xl"
+                            style={{ objectFit: 'contain' }} // Explicitly ensures the whole image is visible
                             src={src}
                         />
                     </div>

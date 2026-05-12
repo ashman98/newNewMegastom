@@ -30,7 +30,7 @@ class UpdatePatientRequest extends FormRequest
                 'required',
                 'string',
                 'max:20',
-                new UniquePhoneNumber($this->route('patient'))// Exclude current patient by ID
+//                new UniquePhoneNumber($this->route('patient'))// Exclude current patient by ID
             ],
             'birthday' => 'required|date', // Дата рождения
             'city' => 'required|string|max:100',

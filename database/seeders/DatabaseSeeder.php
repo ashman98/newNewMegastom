@@ -40,5 +40,10 @@ class DatabaseSeeder extends Seeder
 //        ]);
 //
 //        $user->assignRole(['Admin']);
+        $this->call([
+            RoleSe::class,
+            DentistSeeder::class,
+            DiseaseSeeder::class,
+        ]);
     }
 }

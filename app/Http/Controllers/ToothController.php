@@ -11,6 +11,11 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
+use Intervention\Image\Format;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver as GdDriver;
+
+
 class ToothController extends Controller
 {
     /**
@@ -48,10 +53,16 @@ class ToothController extends Controller
             $imagesData = [];
             if ($request->has('images')) {
                 foreach ($request->file('images') as $key => $image) {
-                    $newImageName = $key . '.' . $image->getClientOriginalExtension();
-                    $relativePath = XRayImage::getPathOfImage($request->treatment_id ,$tooth->id);
-                    Storage::disk('local')->makeDirectory($relativePath);
-                    $path = Storage::disk('local')->putFileAs($relativePath, $image, $newImageName);
+                    $relativePath = XRayImage::getPathOfImage(
+                        $request->treatment_id,
+                        $tooth->id
+                    );
+
+                    $path = $this->saveAsWebp(
+                        $image,
+                        $relativePath,
+                        $key
+                    );
                     $imagesData[] = [
                         'path' => $path,
                         'name' => $key.'-X-ray image',
@@ -164,10 +175,16 @@ class ToothController extends Controller
             if ($request->has('images') && !empty($request->file('images'))) {
                 $imagesData = [];
                 foreach ($request->file('images') as $key => $file) {
-                    $newImageName = $key . '.' . $file->getClientOriginalExtension();
-                    $relativePath = XRayImage::getPathOfImage($request->treatment_id ,$tooth->id);
-                    Storage::disk('local')->makeDirectory($relativePath);
-                    $path = Storage::disk('local')->putFileAs($relativePath, $file, $newImageName);
+                    $relativePath = XRayImage::getPathOfImage(
+                        $request->treatment_id,
+                        $tooth->id
+                    );
+
+                    $path = $this->saveAsWebp(
+                        $file,
+                        $relativePath,
+                        $key
+                    );
 
 //                    $path = Storage::disk('public')->put(XRayImage::getPathOfImage($data['treatment_id']), $file);
 
@@ -282,5 +299,25 @@ class ToothController extends Controller
                 'message' => $e->getMessage(),
             ]);
         }
+    }
+
+    private function saveAsWebp($file, $relativePath, $fileName)
+    {
+        $manager = ImageManager::usingDriver(GdDriver::class);
+
+        // Создаем директорию
+        Storage::disk('local')->makeDirectory($relativePath);
+
+        // Полный путь
+        $fullPath = storage_path("app/private/{$relativePath}/{$fileName}.webp");
+
+        // Конвертация в webp
+        $image = $manager->decodePath($file);
+
+// encode to PNG format
+        $webp = $image->encodeUsingFormat(Format::WEBP);
+        $webp->save($fullPath);
+
+        return "{$relativePath}/{$fileName}.webp";
     }
 }
