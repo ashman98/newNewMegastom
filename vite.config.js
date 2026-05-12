@@ -16,17 +16,22 @@ export default defineConfig({
         },
     },
     server: {
-        host: '0.0.0.0', // Позволяет принимать подключения извне
-        port: 5173,
-        strictPort: true,
+        // port: 5173,
+        // strictPort: true,
         hmr: {
             //91.205.196.253
-            host: 'https://newnewmegastom.test', // Ваш публичный IP
-            protocol: 'wss',
+            host: 'newnewmegastom.test', // Ваш публичный IP
+            // protocol: 'wss',
         },
+        host: 'newnewmegastom.test',
+        // hmr: {
+        //     host: 'newnewmegastom.test',
+        // },
+        // If you are using Valet with SSL, you need this:
+        https: true,
         proxy: {
-            '/tooths': 'https://newnewmegastom.test',  // Проксируем запросы на изображения
-            '/avatars':'https://newnewmegastom.test',  // Проксируем запросы на изображения
+            '/tooths': 'newnewmegastom.test',  // Проксируем запросы на изображения
+            '/avatars':'newnewmegastom.test',  // Проксируем запросы на изображения
         },
     },
 });
