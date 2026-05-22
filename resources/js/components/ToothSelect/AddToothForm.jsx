@@ -11,6 +11,7 @@ import ToothSelect from "@/components/ToothSelect/ToothSelect.jsx";
 import {ImageModal} from "@/components/ImageModal.jsx";
 import useWindowSize from "@/hooks/useWindowSize.js";
 import axios from "axios"; // Make sure to install alertifyjs
+import { normalizeImage, isHeic } from "@/utils/convertHeic";
 import { debounce } from 'lodash';
 import {iconSetQuartzLight} from "ag-grid-community";
 
@@ -20,7 +21,7 @@ export default function AddToothForm({setSelectedToothData,bottomRef, isOwner, a
 
     const [images, setImages] = useState([null, null, null]);
     const [title, setTitle] = useState('');
-
+    const [converting, setConverting] = useState({});
     const [xRayImages, setXRayImages] = useState([null, null, null]);
 
     const [imageModalSrc, setImageModalSrc] = useState('');
@@ -124,19 +125,60 @@ export default function AddToothForm({setSelectedToothData,bottomRef, isOwner, a
 
 
     // Function to handle image file selection
-    const handleImageChange = (e, index) => {
-        const file = e.target.files[0];
-        const updatedImages = [...images];
-        const updatedXrayImages = [...xRayImages];
-        if (file) {
-            updatedXrayImages[index] = file;
-            updatedImages[index] = URL.createObjectURL(file);
-        } else {
+    const handleImageChange = async (e, index) => {
+        const file = e.target.files?.[0];
+        e.target.value = "";
+
+        if (!file) {
+            const updatedImages = [...images];
+            const updatedXrayImages = [...xRayImages];
+            updatedImages[index] = null;
             updatedXrayImages[index] = null;
-            updatedImages[index] =  null; // Reset preview if no file is selected
+            setImages(updatedImages);
+            setXRayImages(updatedXrayImages);
+            return;
         }
-        setXRayImages(updatedXrayImages);
-        setImages(updatedImages);
+
+        const needsConversion = isHeic(file);
+        if (needsConversion) {
+            setConverting((s) => ({ ...s, [index]: true }));
+        }
+
+        try {
+            const { file: normalized, converted, unsupported } = await normalizeImage(file);
+
+            const updatedImages = [...images];
+            const updatedXrayImages = [...xRayImages];
+
+            if (updatedImages[index] && typeof updatedImages[index] === "string" && updatedImages[index].startsWith("blob:")) {
+                URL.revokeObjectURL(updatedImages[index]);
+            }
+
+            updatedXrayImages[index] = normalized;
+
+            if (unsupported) {
+                // не удалось сконвертить — превью-заглушка, оригинал уйдёт на сервер
+                updatedImages[index] = "__heic_placeholder__";
+                alertify.warning("HEIC ֆայլը կուղարկվի սերվեր մշակման");
+            } else {
+                updatedImages[index] = URL.createObjectURL(normalized);
+                if (converted) {
+                    // опционально: alertify.success("HEIC ֆայլը հաջողությամբ փոխարկվեց");
+                }
+            }
+
+            setXRayImages(updatedXrayImages);
+            setImages(updatedImages);
+        } catch (err) {
+            console.error("Image processing failed", err);
+            alertify.error(`Չհաջողվեց բացել ֆայլը: ${err?.message || ""}`);
+        } finally {
+            setConverting((s) => {
+                const next = { ...s };
+                delete next[index];
+                return next;
+            });
+        }
     };
 
     const getFormData = () => {
@@ -254,18 +296,11 @@ export default function AddToothForm({setSelectedToothData,bottomRef, isOwner, a
 
     return (
         <div className='w-full'>
-            {/*{loading && (*/}
-            {/*    <div className="loading-overlay">*/}
-            {/*        <div className="spinner"></div>*/}
-            {/*        /!*<span>Загрузка данных...</span>*!/*/}
-            {/*    </div>*/}
-            {/*)}*/}
             <div className="items-center w-full">
                 <form className="mb-2 w-full" onSubmit={handleSubmit}>
                     <div>
                         {!isOwner && (
-                            <label className={isOwner ? 'text-gray-400' : ''}
-                                   htmlFor="title">
+                            <label className={isOwner ? 'text-gray-400' : ''} htmlFor="title">
                                 Վերնագիր
                             </label>
                         )}
@@ -289,108 +324,183 @@ export default function AddToothForm({setSelectedToothData,bottomRef, isOwner, a
             </div>
 
             <div className='w-full'>
-                <ToothSelect isOwner={isOwner} errors={errors} toothNumber={toothNumber} setToothNumber={setToothNumber} />
+                <ToothSelect
+                    isOwner={isOwner}
+                    errors={errors}
+                    toothNumber={toothNumber}
+                    setToothNumber={setToothNumber}
+                />
             </div>
 
+            <div className={`w-full flex justify-center items-center gap-3 max-w overflow-auto ${width < 720 ? "flex-col" : ""}`}>
+                {images.map((image, index) => {
+                    const isConverting = !!converting[index];
+                    const isPlaceholder = image === "__heic_placeholder__";
+                    const isBusy = loading || isConverting;
+                    const hasImage = !!image;
 
-                <div
-                className={`w-full flex justify-center items-center gap-3 max-w overflow-auto ${width < 720 ? "flex-col" : ""}`}>
-                {images.map((image, index) => (
-                    <div key={index} className="flex justify-center mt-8 w-full sm:w-1/2 md:w-1/3">
-                        <div className="rounded-lg shadow-xl bg-gray-50 w-full max-w-xs">
-                            <div className="m-4">
-                                <div className={`flex items-center justify-center w-full `}>
-                                    {!image ? (
-                                        <label style={{cursor: 'pointer'}}
-                                               className={`flex flex-col w-full h-32 ${!loading?"border-4 border-blue-200 border-dashed hover:bg-gray-100 hover:border-gray-300":""}`}>
-                                            <div className={`flex flex-col items-center justify-center pt-7 ${loading ?" animate-pulse": "" }`}>
-                                                {!loading ? (
-                                                    <div className="flex flex-col items-center justify-center">
-                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                             className="w-8 h-8 text-gray-400 group-hover:text-gray-600"
-                                                             fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                            <path strokeLinecap="round" strokeLinejoin="round"
-                                                                  strokeWidth="2"
-                                                                  d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                    return (
+                        <div key={index} className="flex justify-center mt-8 w-full sm:w-1/2 md:w-1/3">
+                            <div className="rounded-lg shadow-xl bg-gray-50 w-full max-w-xs">
+                                <div className="m-4">
+                                    <div className="flex items-center justify-center w-full">
+
+                                        {/* ─── СЛОТ ПУСТОЙ ─── */}
+                                        {!hasImage && (
+                                            <label
+                                                style={{ cursor: isBusy ? 'wait' : 'pointer' }}
+                                                className={`relative flex flex-col w-full h-32 ${
+                                                    !isBusy
+                                                        ? "border-4 border-blue-200 border-dashed hover:bg-gray-100 hover:border-gray-300"
+                                                        : "border-4 border-blue-300 border-dashed bg-blue-50/40"
+                                                }`}
+                                            >
+                                                {/* конвертация HEIC — приоритетнее общего loading */}
+                                                {isConverting ? (
+                                                    <div className="flex flex-col items-center justify-center pt-5 gap-2">
+                                                        <svg
+                                                            className="animate-spin h-8 w-8 text-blue-500"
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            fill="none"
+                                                            viewBox="0 0 24 24"
+                                                        >
+                                                            <circle
+                                                                className="opacity-25"
+                                                                cx="12" cy="12" r="10"
+                                                                stroke="currentColor" strokeWidth="4"
+                                                            />
+                                                            <path
+                                                                className="opacity-75"
+                                                                fill="currentColor"
+                                                                d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                                                            />
+                                                        </svg>
+                                                        <p className="text-xs font-medium text-blue-600">
+                                                            HEIC → JPEG
+                                                        </p>
+                                                        <p className="text-[10px] text-gray-500">
+                                                            Մշակվում է...
+                                                        </p>
+                                                    </div>
+                                                ) : loading ? (
+                                                    <div className="flex flex-col items-center justify-center pt-7 animate-pulse">
+                                                        <svg
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            fill="none"
+                                                            viewBox="0 0 24 24"
+                                                            strokeWidth={2}
+                                                            stroke="currentColor"
+                                                            className="h-12 w-full text-gray-500"
+                                                        >
+                                                            <path
+                                                                strokeLinecap="round"
+                                                                strokeLinejoin="round"
+                                                                d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
+                                                            />
+                                                        </svg>
+                                                    </div>
+                                                ) : (
+                                                    <div className="flex flex-col items-center justify-center pt-7">
+                                                        <svg
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            className="w-8 h-8 text-gray-400 group-hover:text-gray-600"
+                                                            fill="none"
+                                                            viewBox="0 0 24 24"
+                                                            stroke="currentColor"
+                                                        >
+                                                            <path
+                                                                strokeLinecap="round"
+                                                                strokeLinejoin="round"
+                                                                strokeWidth="2"
+                                                                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                                                            />
                                                         </svg>
                                                         <p className="pt-1 text-sm tracking-wider text-gray-400 group-hover:text-gray-600">
-                                                            Վերբեռնել նկարը</p>
+                                                            Վերբեռնել նկարը
+                                                        </p>
                                                     </div>
-                                                ): (
-                                                    <svg
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        fill="none"
-                                                        viewBox="0 0 24 24"
-                                                        strokeWidth={2}
-                                                        stroke="currentColor"
-                                                        className="h-12 w-full text-gray-500"
+                                                )}
+
+                                                <input
+                                                    type="file"
+                                                    disabled={isBusy}
+                                                    accept="image/*,.heic,.heif,image/heic,image/heif"
+                                                    onChange={(e) => isOwner && handleImageChange(e, index)}
+                                                    className="cursor-pointer border border-gray-300 p-2 rounded opacity-0"
+                                                />
+                                            </label>
+                                        )}
+
+                                        {/* ─── СЛОТ С КАРТИНКОЙ ИЛИ HEIC-ЗАГЛУШКОЙ ─── */}
+                                        {hasImage && (
+                                            <div
+                                                className="relative w-full h-32 overflow-hidden"
+                                                style={{ cursor: isPlaceholder ? 'default' : 'pointer' }}
+                                            >
+                                                {isPlaceholder ? (
+                                                    <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-gray-100 to-gray-200 rounded flex flex-col items-center justify-center text-gray-600 border border-gray-300">
+                                                        <svg
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            fill="none"
+                                                            viewBox="0 0 24 24"
+                                                            strokeWidth={1.5}
+                                                            stroke="currentColor"
+                                                            className="w-10 h-10 mb-1"
+                                                        >
+                                                            <path
+                                                                strokeLinecap="round"
+                                                                strokeLinejoin="round"
+                                                                d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3 19.5h18M3 19.5a1.5 1.5 0 01-1.5-1.5V6a1.5 1.5 0 011.5-1.5h18A1.5 1.5 0 0122.5 6v12a1.5 1.5 0 01-1.5 1.5"
+                                                            />
+                                                        </svg>
+                                                        <span className="text-xs font-semibold">HEIC</span>
+                                                        <span className="text-[10px] text-gray-500 px-2 text-center">
+                                                        Կմշակվի սերվերում
+                                                    </span>
+                                                    </div>
+                                                ) : (
+                                                    <img
+                                                        src={image}
+                                                        alt={`Preview ${index}`}
+                                                        className="absolute top-0 left-0 w-full h-full object-cover rounded"
+                                                        onClick={() => toggleImageModal(image)}
+                                                    />
+                                                )}
+
+                                                {isOwner && (
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => handleDeleteImage(index)}
+                                                        className="absolute top-1 right-1 bg-red-600 text-white rounded-full p-1 hover:bg-red-700 z-10"
+                                                        style={{ width: '34px' }}
                                                     >
-                                                        <path
-                                                            strokeLinecap="round"
-                                                            strokeLinejoin="round"
-                                                            d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
-                                                        />
-                                                    </svg>
+                                                        ✕
+                                                    </button>
                                                 )}
                                             </div>
-                                            <input type="file"
-                                                   disabled={loading}
-                                                   accept="image/*"
-                                                   onChange={(e) => isOwner && handleImageChange(e, index)}
-                                                   className="cursor-pointer border border-gray-300 p-2 rounded opacity-0"/>
-                                        </label>) : (
-                                        <div className="relative w-full h-32 overflow-hidden"
-                                             style={{cursor: 'pointer'}}>
-                                            <img
-                                                src={image}
-                                                alt={`Preview ${index}`}
-                                                className="absolute top-0 left-0 w-full h-full object-cover rounded"
-                                                onClick={(e) => toggleImageModal(image)}
-                                            />
-                                            {isOwner && (
-                                                // <Button
-                                                //     size='sm'
-                                                //     color='red'
-                                                //     variant="outlined"
-                                                //     // className="rounded-full z-10"
-                                                //     // style={{position: 'absolute', top: 8, right: 8}}
-                                                //     className="absolute top-1 right-1 bg-red-600 text-white rounded-full p-1 hover:bg-red-700"
-                                                // >
-                                                //     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                //          viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"
-                                                //          className="size-6">
-                                                //         <path strokeLinecap="round" strokeLinejoin="round"
-                                                //               d="M6 18 18 6M6 6l12 12"/>
-                                                //     </svg>
-                                                //
-                                                // </Button>
-                                                <button
-                                                    onClick={() => handleDeleteImage(index)}
-                                                    className="absolute top-1 right-1 bg-red-600 text-white rounded-full p-1 hover:bg-red-700"
-                                                    style={{width: '34px'}}
-                                                >
-                                                    ✕
-                                                </button>
-                                            )}
-                                        </div>
-                                    )}
+                                        )}
+
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                ))}
+                    );
+                })}
             </div>
 
             {isOwner && (
-                <Button onClick={(e) => handleSubmit(e)} type="submit" className="mt-6 w-full" loading={isLoading || loading}>
+                <Button
+                    onClick={(e) => handleSubmit(e)}
+                    type="submit"
+                    className="mt-6 w-full"
+                    loading={isLoading || loading}
+                    disabled={Object.keys(converting).length > 0}
+                >
                     {selectedToothData.id ? 'Խմբագրել' : 'Ավելացնել'}
                 </Button>
             )}
 
-
-            <ImageModal src={imageModalSrc} open={open} onClose={toggleImageModal}/>
+            <ImageModal src={imageModalSrc} open={open} onClose={toggleImageModal} />
         </div>
-
-
     );
 }
